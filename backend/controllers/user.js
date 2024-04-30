@@ -4,44 +4,59 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 config()
 
-export async function handlesignin(req, res) {
+export async function handlesignin(req,res) {
 
   const {username,email,password} = req.body;
-  console.log(req.body)
+
   let result ;
+  const alreadyin = await User.findOne({email:email})
+  if(alreadyin){
+    return res.json({Alreadysignedup:username})
+  }
 
   const saltRounds = 10;
 
-    await bcrpty.hash(password, saltRounds).then(response=>result=response).catch(error=>console.log(error))
+    await bcrpty.hash(password, saltRounds).then(response=>result=response).catch(error=>{return res.json({Error:error})})
 try{      
     await   User.create({
           username,
           email,
           password:result, 
-        }).then(r=>res.json({created:username}) ).catch(error=>console.log(error))}
-        catch(error){
-            console.log(error)
-            return res.json({errorcreating:error})
+        })
+        .then( (r)=>{
+          console.log(r)
+       const token =  jwt.sign(
+       { email: email, password: password ,id:r._id },
+        process.env.SECRET_KEY)
+       return res.json({created:username,token:token})
+    })
+        .catch(error=>{return res.json({Error:error})})}
+        catch(err){
+          
+            return res.json({Error:err})
         }
    
  }
 
 export async function handlelogin(req,res) {
   const {email,password} = req.body;
-  
+ try{ 
   const user = await User.findOne({ email });
   if (!user) {
-    return res.json({ task: "signinplease" });
+    return res.json({ Notfound: 'User not found' });
   } else {
     const result = await bcrpty.compare(password, user.password);
 
-    if (result===true) {
+    if (result) {
       const token = jwt.sign(
         { email: email, password: user.password ,id:user._id },
         process.env.SECRET_KEY,);
       return res.json({"token": token});
     }
     else{
-    return res.json({ task: "incorrectpassword" }).end();}
+    return res.json({ password: "Incorrect password" }).end();}
+  }}
+  catch(err){
+    return res.json({Error:err})
   }
 }

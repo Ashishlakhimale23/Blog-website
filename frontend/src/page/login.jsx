@@ -1,41 +1,65 @@
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toaster,toast } from "react-hot-toast";
+import Joi from "joi";
+import { Authcontext } from "../context/context";
+
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {logged,setLogged} = useContext(Authcontext)
+  const schema = Joi.object({
+    email:Joi.string().email({minDomainSegments:2,tlds:{allow:["com","net"]}}),
+    password:Joi.string().pattern(new RegExp('^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{3,30}$')),
+  })
 
-
- const triggersubmit = useCallback(async () => {
-
-  try {
-    const res = await axios.post("http://localhost:8000/user/login", {email,password });
-    if(Object.values(res.data).includes("incomplete") || Object.values(res.data).includes("inpassword") ){
-      alert("signin please")
-      navigate("/signin")
-    }
-    else{    const token = res.data.token;
-    setEmail("");
-    setPassword("");
-    localStorage.setItem("authtoken", token);
-   
-    navigate("/home");}
-  } catch (error) {
-    
-    console.log(error);
-   
-    setEmail("");
-    setPassword("");
-  }
-}, [email, password, navigate]);
-
-const handelsubmit = useCallback((e) => {
+ const handelsubmit = useCallback(async (e) => {
   e.preventDefault();
-  triggersubmit();
-}, [triggersubmit]);
+  const userInput = {
+    email:email,
+    password:password
+   }
+  const result =  schema.validate(userInput,{abortEarly:false})
+  console.log(result)
+if(Object.keys(result).includes("error")){
+      return toast.error("Validation error")
+    }
+  if(!email.length){
+    return toast.error("Enter the email")
+  }
+  if(!password.length){
+    return toast.error("Enter the password")
+  }
+
+  await axios.post("http://localhost:8000/user/login",userInput)
+  .then((response)=>{
+    if(Object.keys(response.data).includes("Notfound")){
+      return toast.error(response.data.Notfound)
+    }
+    if(Object.keys(response.data).includes("password")){
+      return toast.error(response.data.password)
+    }
+    if(Object.keys(response.data).includes("token")){
+      localStorage.setItem("authtoken",response.data.token)
+      setLogged(true)
+    }
+    if(Object.keys(response.data).includes("Error")){
+      return toast.error("An Error occured")
+    }
+  })
+
+
+
+}, [email,password]);
  
+useEffect(()=>{
+  if(logged){
+    navigate("/home")
+  }
+},[logged])
   return (
     <>
     <div className="min-h-screen flex flex-col justify-center">
@@ -44,16 +68,16 @@ const handelsubmit = useCallback((e) => {
         className=" relative sm:w-96 mx-auto text-center"
         onSubmit={handelsubmit}
       >
-        <label className="text-2xl font-light">Login to your account</label>
+        <label className="text-4xl font-bold block">Welcome back.</label>
+        <label htmlFor="">Dont have an account ? <a href="/signin" className="underline hover:text-purple-400 ">Sign up</a></label>
         <div className="mt-4 bg-white shadow-md rounded-lg">
-          <div className="h-2 bg-indigo-500 rounded-t-md"></div>
           <div className="px-3 py-4">
             <label className="block font-semibold text-left">
                Email
             </label>
             <input
               type="email"
-              placeholder="Username or password"
+              placeholder="Email"
               className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5"
               value={email}
               onChange={(e) => {
@@ -86,6 +110,7 @@ const handelsubmit = useCallback((e) => {
         </div>
       </form>
     </div>
+    <Toaster/>
       </>
   );
 }

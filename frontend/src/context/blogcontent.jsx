@@ -2,9 +2,9 @@ import { useState } from "react";
 import {UseContext} from "./context.js"
 function BlogProvider({children}){
     const blogstructure = {
+        content:[ ],
         title :"",
-        blogtags:[],
-        content:[]
+        
         }
     const [blog,setBlog] =useState(blogstructure) 
     const [texteditor,setTexteditor]=useState({isReady:false})

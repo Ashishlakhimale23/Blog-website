@@ -5,10 +5,6 @@ const blogs = new mongoose.Schema({
         type:String,
         required:true
     },
-    tags:{
-        type:[],
-        required:true
-    },
     content:{
         type:[],
         required:true
@@ -16,6 +12,10 @@ const blogs = new mongoose.Schema({
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
+    },
+    Published:{
+        type:Boolean,
+        required:true
     },
     activities:{
         total_read:{

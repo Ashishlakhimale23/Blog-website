@@ -5,7 +5,7 @@ import Header from "@editorjs/header"
 import Image from "@editorjs/image"
 import Inlinecode from "@editorjs/inline-code"
 import Quote from "@editorjs/quote"
-import axios from "axios"
+
 
 const uploadByURL =async (e)=>{
     const link = new Promise((resolve,reject)=>{
@@ -25,22 +25,34 @@ const uploadByURL =async (e)=>{
  
 }
 
-const uploadImageByFile = async (e) =>{
-    console.log(e)
+const uploadImageByFile = async (file) => {
     const formData = new FormData();
-         formData.append("file", e);
-         formData.append("upload_preset", "coursefiles"); 
-         formData.append("api_key", "993344952783557"); 
-         
-        return await axios.post(`https://api.cloudinary.com/v1_1/ddweepkue/image/upload`,formData).then(response =>{if(response){
-            const url = response.data.secure_url;
-            return{
-            success:1,
-            file:{url}
+    formData.append("file", file);
+    formData.append("upload_preset", "coursefiles");
+    formData.append("api_key", "993344952783557");
 
-            }
-         } })
+    try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/ddweepkue/image/upload', {
+            method: 'POST',
+            body: formData
+        });
 
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                success: 1,
+                file: { url: data.secure_url }
+            };
+        } else {
+            throw new Error('Failed to upload image');
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        return {
+            success: 0,
+            file: { url: '' }
+        };
+    }
 }
 const tool = {
     embed:Embed,

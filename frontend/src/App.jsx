@@ -6,6 +6,7 @@ import BlogProvider from './context/blogcontent'
 import Signin from './page/signin'
 import Login from './page/login'
 import UserContext from './context/usercontext'
+import { Toaster } from 'react-hot-toast'
 
 
 
@@ -22,7 +23,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/home' element={<Home/>}/>    
       <Route path='/createpost' element={<CreatePost/>}/>
-
+     
     </Routes>
   </Router>
 </BlogProvider>

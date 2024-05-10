@@ -27,6 +27,10 @@ const user = new mongoose.Schema({
       default:0
     }
   }, 
+  draft:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Blog"
+  }],
   blogs:[
    {
     type:mongoose.Schema.Types.ObjectId,

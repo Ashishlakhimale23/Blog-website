@@ -1,7 +1,7 @@
 import  {useState} from 'react';
 import { useNavigate} from 'react-router-dom';
 import  { Authcontext } from "../context/context.js";
-import { useContext,useEffect } from "react";
+import { useContext} from "react";
 function Header() {
   
 const {logged,setLogged} = useContext(Authcontext);

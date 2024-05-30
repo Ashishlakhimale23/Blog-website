@@ -98,7 +98,10 @@ function CreatePost() {
     let str = state.toString();
     let result = str === "published";
     
-    
+    if (!banner.length){
+      return toast.error("upload the blog banner...")
+
+    }
     if (!title.length) {
       return toast.error("upload the blog title...")
     }
@@ -111,7 +114,7 @@ function CreatePost() {
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await axios.post("http://localhost:8000/user/createblog", { title, content: savedData.blocks,result})
+          await axios.post("http://localhost:8000/user/createblog", { title, content: savedData.blocks,result,banner})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
            
               setTimeout(() => {
@@ -150,11 +153,21 @@ function CreatePost() {
           </div>
 
           <div className="space-x-2 lg:space-x-10 lg:pr-28 flex md:pr-10 pr-2 md:space-x-10">
-            <button id="published" className=" md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2" onClick={handlepublish} disabled={loading}>
-             Publish
+            <button
+              id="published"
+              className=" md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2"
+              onClick={handlepublish}
+              disabled={loading}
+            >
+              Publish
             </button>
-           <button id="draft" className=" md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2" onClick={handlepublish} disabled={loading}>
-             Save draft 
+            <button
+              id="draft"
+              className=" md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2"
+              onClick={handlepublish}
+              disabled={loading}
+            >
+              Save draft
             </button>
             <img
               src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
@@ -168,14 +181,26 @@ function CreatePost() {
           onSubmit={handleSubmit}
           className="w-full lg:px-20  lg:py-10 mt-1 md:px-10 md:py-5 px-5"
         >
-          <div className="lg:flex lg:justify-center">
-          <div className="hover:opacity-80 aspect-video lg:h-[575px]  bg-white border-4 border-grey">
-            <label htmlFor="uploadbanner" >
-            <img src={deafultbanner } ref={BlogbannerRef} alt="" className="z-20 w-full h-full"/>
-            <input id="uploadbanner" type="file" accept=".png , .jpg , .jpeg"  hidden className="h-full w-full" onChange={handlebannerinput}/>
-            </label>
-            
-          </div></div>
+          <div className="lg:flex lg:justify-center mb-3">
+            <div className="hover:opacity-80 aspect-video lg:h-[575px]  bg-white border-4 border-grey">
+              <label htmlFor="uploadbanner">
+                <img
+                  src={deafultbanner}
+                  ref={BlogbannerRef}
+                  alt=""
+                  className="z-20 w-full h-full"
+                />
+                <input
+                  id="uploadbanner"
+                  type="file"
+                  accept=".png , .jpg , .jpeg"
+                  hidden
+                  className="h-full w-full"
+                  onChange={handlebannerinput}
+                />
+              </label>
+            </div>
+          </div>
           <div className="lg:px-10">
             <textarea
               type="text"
@@ -193,7 +218,6 @@ function CreatePost() {
       </div>
       <Toaster />
     </>
-
   );
 }
 

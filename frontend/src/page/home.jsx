@@ -3,6 +3,7 @@ import Header from "../component/header";
 import { Authcontext } from "../context/context";
 import axios from "axios";
 import Card from "../component/card";
+import { Sidebarhome } from "../component/sidebarhome";
 
 
 function Home () {
@@ -25,9 +26,9 @@ function Home () {
     return (
       <>
         <Header />
-        <div className="flex flex-row w-full px-80">
+        <div className="flex justify-center h-screen p-8 xl:justify-normal xl:py-10 xl:px-28 gap-8">
           <Card></Card>
-          <div>hello</div>
+          <Sidebarhome></Sidebarhome> 
         </div>
       </>
     );

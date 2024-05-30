@@ -4,9 +4,12 @@ import User from "../model/user.js";
 export const handlecreateblog=(req,res)=>{
     const autherid = req.user;
     console.log(autherid)
-    const {title,content,result} = req.body;
+    const {title,content,result,banner} = req.body;
 
     console.log(req.body)
+    if(!banner.length){
+        return res.status(403).json({error:'You must add banner to the blog'})
+    }
     if(!title.length){
         return res.status(403).json({error:'You must add title to the blog'})
     }
@@ -15,9 +18,8 @@ export const handlecreateblog=(req,res)=>{
     } 
     
 
-
     let blog = new Blog({
-        title,content,author:autherid,Published:result
+        title,content,banner,author:autherid,Published:result
     })
     blog.save().then((blogs)=>{
         if(result){

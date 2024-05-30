@@ -9,6 +9,10 @@ const blogs = new mongoose.Schema({
         type:[],
         required:true
     },
+    banner:{
+        type:String,
+        required:true
+    },
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
@@ -22,9 +26,11 @@ const blogs = new mongoose.Schema({
             type:Number,
             default:0
         }
-    }
-    
+    },
+        
 
-})
+},{timestamps:{
+    createdAt:"publishedOn",
+}})
 const Blog = mongoose.model("Blog",blogs)
 export default Blog

@@ -1,21 +1,23 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs"
 import tool from "../utils/tools"
 import { UseContext } from "../context/context.js";
 import { Toaster, toast } from "react-hot-toast"
 import {useNavigate,useLocation} from "react-router-dom"
 import axios from "axios";
-
+import deafultbanner from "../img/blog banner.png"
 
 
 function CreatePost() {
 
   const { blog, setBlog, texteditor, setTexteditor } = useContext(UseContext);
-  const { title, content } = blog;
+  const { title, content,banner } = blog;
   
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const BlogbannerRef = useRef();
   
 
   const handleBeforeUnload = async(e) =>{
@@ -48,12 +50,39 @@ function CreatePost() {
 
   const handletitlechange = (e) => {
     setBlog({ ...blog, title: e.target.value })
+  
     const textarea = e.target;
     textarea.style.height = "auto"
     const scrollheight = textarea.scrollHeight
     textarea.style.height = `${scrollheight}px`
   };
 
+  const handlebannerinput = async (e) => {
+    const filename = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", filename);
+    formData.append("upload_preset", "coursefiles");
+    formData.append("api_key", "993344952783557");
+ 
+   const response = await fetch(
+            "https://api.cloudinary.com/v1_1/ddweepkue/image/upload",
+            {
+                method: "POST",
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                },
+            }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            setBlog((prevBlog) => ({ ...prevBlog, banner: data.secure_url }));
+            BlogbannerRef.current.src = data.secure_url;
+        } else {
+            throw new Error("Failed to upload image");
+        }
+  };
   const handletitlekeydown = (e) => {
     if (e.keyCode == 13) {
       e.preventDefault()
@@ -139,6 +168,14 @@ function CreatePost() {
           onSubmit={handleSubmit}
           className="w-full lg:px-20  lg:py-10 mt-1 md:px-10 md:py-5 px-5"
         >
+          <div className="lg:flex lg:justify-center">
+          <div className="hover:opacity-80 aspect-video lg:h-[575px]  bg-white border-4 border-grey">
+            <label htmlFor="uploadbanner" >
+            <img src={deafultbanner } ref={BlogbannerRef} alt="" className="z-20 w-full h-full"/>
+            <input id="uploadbanner" type="file" accept=".png , .jpg , .jpeg"  hidden className="h-full w-full" onChange={handlebannerinput}/>
+            </label>
+            
+          </div></div>
           <div className="lg:px-10">
             <textarea
               type="text"

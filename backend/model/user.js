@@ -6,7 +6,6 @@ const user = new mongoose.Schema({
     required: true,
     unique: true,
   },
-
   email: {
     type: String,
     required: true,
@@ -16,6 +15,10 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+  },
+  image:{
+    type:String,
+    default:"https://res.cloudinary.com/ddweepkue/image/upload/v1715528905/w7st3gwuluylghsal3ob.jpg"
   },
   accountinfo:{
     total_reads:{

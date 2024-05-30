@@ -1,12 +1,11 @@
 import './App.css'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
-import Home from './component/home'
+import Home from "./page/home" 
 import CreatePost from './page/createpost'
 import BlogProvider from './context/blogcontent'
 import Signin from './page/signin'
 import Login from './page/login'
 import UserContext from './context/usercontext'
-import { Toaster } from 'react-hot-toast'
 
 
 

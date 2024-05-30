@@ -4,9 +4,9 @@ function BlogProvider({children}){
     const blogstructure = {
         content:[ ],
         title :"",
-        
+        banner:" "
         }
-    const [blog,setBlog] =useState(blogstructure) 
+    const [blog,setBlog] = useState(blogstructure) 
     const [texteditor,setTexteditor]=useState({isReady:false})
     return(
         <UseContext.Provider value={{blog,setBlog,texteditor,setTexteditor}}>{children}</UseContext.Provider>

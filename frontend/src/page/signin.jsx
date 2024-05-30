@@ -17,6 +17,7 @@ function Signin() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [file,setFile] = useState(null);
   
 
   const handelsubmit = useCallback(async (e)=>{
@@ -49,7 +50,8 @@ function Signin() {
     }
     
     
-    await axios.post("http://localhost:8000/user/signin",userInput)
+
+      await axios.post("http://localhost:8000/user/signin",userInput)
     .then((response)=>{
     console.log(response)
      if(Object.keys(response.data).includes("created" || "token")){
@@ -64,17 +66,14 @@ function Signin() {
       setPassword("")
       return toast.error("These Email already exists")
      }
-
      if(Object.keys(response.data).includes("Error")){
 
       setEmail("")
       setUsername("")
       setPassword("")
       return toast.error("An Error occured")
-
      }
 
-      
     }).catch((err)=>{
       toast.error("An error occured")
     setEmail("")
@@ -92,6 +91,8 @@ function Signin() {
     
     [username,email,password,schema],
   );
+
+  
    
   useEffect(()=>{
     if(logged){
@@ -142,6 +143,7 @@ function Signin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+               
               <div className="flex justify-between items-baseline">
                 <button
                   type="submit"

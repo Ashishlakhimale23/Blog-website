@@ -1,8 +1,8 @@
 import { useEffect,useContext } from "react";
-import { useNavigate} from "react-router-dom"; 
-import Header from "./header";
+import Header from "../component/header";
 import { Authcontext } from "../context/context";
 import axios from "axios";
+import Card from "../component/card";
 
 
 function Home () {
@@ -22,9 +22,14 @@ function Home () {
 
         
     },[setLogged]) 
-    return(
-        <>
+    return (
+      <>
         <Header />
-</>)
+        <div className="flex flex-row w-full px-80">
+          <Card></Card>
+          <div>hello</div>
+        </div>
+      </>
+    );
 }
 export default Home

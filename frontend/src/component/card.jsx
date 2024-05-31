@@ -1,37 +1,37 @@
 import { useState } from "react";
+import editorjs from "editorjs-html" 
 
 
-function Card({props}){
+function Card({banner,title,editorjs_data,author,activities}){
+  const {username,image} = author
+  
+  console.log(title)
 const handlebookmark = ()=>{
     setSaved(!saved)
 }
     const [saved,setSaved] = useState(false);
     return (
-      <div className="w-[750px] space-y-2 p-2 lg:justify-center lg:border lg:p-6 lg:rounded-2xl lg:shadow-md flex-shrink-0 h-fit">
-        <div className="flex items-center space-x-4">
+      <div className="w-full md:w-[700px] space-y-2 p-2 lg:justify-center lg:border lg:p-6 lg:rounded-2xl  flex-shrink-0 h-fit antialiased">
+        <div className="flex items-center space-x-2 ">
           <img
-            src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
-            alt=""
-            className="h-11 rounded-full lg:mr-7"
+            src={image}
+            className="h-11 rounded-full "
           />
-          <p className="font-medium text-lg">hello</p>
+          <p className="font-medium text-lg">{username}</p>
         </div>
 
         <div className="space-y-2 md:flex md:justify-between md:space-x-2">
           <div className="md:w-2/3 md:max-h-36 ellipsis-3">
-            <p className="text-2xl font-bold leading-7 mb-1">
-              Why Next.js is the Preferred Choice for Modern Web Development
+            <p className="text-xl font-bold leading-7 mb-1">
+              {title}
             </p>
             <p className=" hidden md:block leading-7">
-              Another weekend, another itch to scratch. Personally, I love
-              building things, regardless of the medium — whether it’s hardware,
-              software, or even mechanical woodworking projects. The challenge
-              for someone like me is sticking to one thing or one technology.
+              
             </p>
           </div>
           <div className="flex-shrink-0 md:w-1/3">
             <img
-              src="https://i.pinimg.com/564x/bc/8c/03/bc8c03ba12f286713f826efc3b908e0f.jpg"
+              src={banner}
               alt="Descriptive alt text"
               className="w-full h-full rounded-md md:h-36 object-cover"
             />
@@ -74,6 +74,7 @@ const handlebookmark = ()=>{
                 />
               </svg>
             )}
+            
           </div>
         </div>
       </div>

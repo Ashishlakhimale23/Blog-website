@@ -15,11 +15,7 @@ const blogs = new mongoose.Schema({
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
-    },
-    Published:{
-        type:Boolean,
-        required:true
+        ref:"User"
     },
     activities:{
         total_read:{
@@ -27,7 +23,12 @@ const blogs = new mongoose.Schema({
             default:0
         }
     },
-        
+    Published:{
+        type:Boolean,
+        required:true
+    },
+    
+    
 
 },{timestamps:{
     createdAt:"publishedOn",

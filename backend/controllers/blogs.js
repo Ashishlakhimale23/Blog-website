@@ -62,3 +62,15 @@ User.findByIdAndUpdate(
 
     ).catch(err=>{return res.status(500).json({error:"failed to upload the blog"})})
 }
+
+export const handlegetblogs=(req,res)=>{
+  const authorid = req.user;
+  console.log("helloblogs")
+  Blog.find({Published:true}).populate("author","username image")
+  .then((resp)=>{
+    console.log(resp);
+    return res.json({blogs:resp})
+  })
+
+
+}

@@ -1,6 +1,6 @@
 export function Sidebarhome(){
     return (
-      <div className="hidden xl:block w-[300px] space-y-8 h-fit">
+      <div className="hidden xl:block w-[350px] space-y-8 h-fit">
         <div className="w-full space-y-3 border px-6 py-6 rounded-2xl">
           <div className="flex justify-between">
             <p className="text-2xl font-bold text-gray-600  ">Draft</p>

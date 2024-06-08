@@ -2,10 +2,10 @@ import jwt from 'jsonwebtoken';
 
 export async function userverification(req,res,next){
      
-    const auth = req.headers.authorization || req.headers.Authorization;
+    const auth =req.headers.authorization || req.headers.Authorization;
 
     console.log(auth)
-if (!auth?.startsWith("Bearer ")) return res.json({ "status": "header not found" });
+if (!auth?.startsWith("Bearer")) return res.json({ "status": "header not found" });
 
 const Token = auth.split(' ')[1];
 try {

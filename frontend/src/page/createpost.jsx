@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs"
 import tool from "../utils/tools"
-import { UseContext } from "../context/context.js";
+import { Authcontext, UseContext } from "../context/context.js";
 import { Toaster, toast } from "react-hot-toast"
 import {useNavigate,useLocation} from "react-router-dom"
 import axios from "axios";
@@ -12,6 +12,7 @@ function CreatePost() {
 
   const { blog, setBlog, texteditor, setTexteditor } = useContext(UseContext);
   const { title, content,banner } = blog;
+  const {setAuthToken} = useContext(Authcontext)
   
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,9 +25,7 @@ function CreatePost() {
     e.preventDefault()
       }
   useEffect(() => {
-    const token = localStorage.getItem("authtoken")
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-     
+    setAuthToken(localStorage.getItem("authtoken")) 
 
     if(!texteditor.isReady){
      setTexteditor(new EditorJS({
@@ -100,7 +99,6 @@ function CreatePost() {
     
     if (!banner.length){
       return toast.error("upload the blog banner...")
-
     }
     if (!title.length) {
       return toast.error("upload the blog title...")

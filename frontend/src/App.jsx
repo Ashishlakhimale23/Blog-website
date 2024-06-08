@@ -1,34 +1,27 @@
-import './App.css'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
-import Home from "./page/home" 
-import CreatePost from './page/createpost'
 import BlogProvider from './context/blogcontent'
-import Signin from './page/signin'
-import Login from './page/login'
-import UserContext from './context/usercontext'
+import AuthProvider from './context/AuthProvider'
+import Popover from './context/popover'
+import Layout from './component/layout'
+
 
 
 
 function App() {
 
-  return( 
-  <>
-  <UserContext>
-  <BlogProvider>
-    
-  <Router>
-    <Routes>
-      <Route path='/signin' element={<Signin/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/home' element={<Home/>}/>    
-      <Route path='/createpost' element={<CreatePost/>}/>
-     
-    </Routes>
-  </Router>
-</BlogProvider>
-</UserContext>
-  </>
-  )
+  return (
+    <>
+      <Router>
+        <Popover>
+          <BlogProvider>
+            <AuthProvider>
+              <Layout />
+            </AuthProvider>
+          </BlogProvider>
+        </Popover>
+      </Router>
+    </>
+  );
 }
 
 export default App

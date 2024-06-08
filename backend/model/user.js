@@ -20,15 +20,36 @@ const user = new mongoose.Schema({
     type:String,
     default:"https://res.cloudinary.com/ddweepkue/image/upload/v1715528905/w7st3gwuluylghsal3ob.jpg"
   },
-  accountinfo:{
-    total_reads:{
-      type:Number,
-      default:0
+  about:{
+    type:String,
+  },
+  description:{
+    type:String,
+  },
+  techstack:{
+    type:[String]
+  },
+  sociallinks:{
+    twitter:{
+      type:String,
     },
-    total_post:{
-      type:Number,
-      default:0
+    facebook:{
+      type:String,
+    },
+    instagram:{
+      type:String
+    },
+    github:{
+      type:String
+    },
+    linkedin:{
+      type:String,
+    },
+    youtube:{
+      type:String,
     }
+
+
   }, 
   draft:[{
     type:mongoose.Schema.Types.ObjectId,
@@ -40,6 +61,8 @@ const user = new mongoose.Schema({
     ref:"Blog"
    } 
   ]
-});
+},{timestamps:{
+  createdAt:"joinedOn"
+}});
  const User = mongoose.model("User",user)
 export default User

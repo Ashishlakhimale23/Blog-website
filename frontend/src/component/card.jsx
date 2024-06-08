@@ -1,45 +1,52 @@
-import { useState } from "react";
-import editorjs from "editorjs-html" 
+import {  useState  } from "react";
+import {getdate} from "../utils/date"
+import {useNavigate} from "react-router-dom"
 
 
-function Card({banner,title,editorjs_data,author,activities}){
-  const {username,image} = author
-  
-  console.log(title)
+function Card({banner,title,content,author,activities,publishedOn}){
+  let navigate = useNavigate();
+
+  const {username,image} = author;
+  let date =  getdate(publishedOn);
+
+
+
 const handlebookmark = ()=>{
     setSaved(!saved)
 }
     const [saved,setSaved] = useState(false);
     return (
-      <div className="w-full md:w-[700px] space-y-2 p-2 lg:justify-center lg:border lg:p-6 lg:rounded-2xl  flex-shrink-0 h-fit antialiased">
-        <div className="flex items-center space-x-2 ">
+      <div className="w-full md:w-[728px]  space-y-4 p-2 lg:justify-center lg:border lg:p-6 lg:rounded-2xl  flex-shrink-0 h-fit antialiased font-display">
+      <div className="flex  space-x-2 w-fit" >
           <img
-            src={image}
-            className="h-11 rounded-full "
+            src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
+            className="h-11 rounded-full hover:opacity-80"
+            
           />
-          <p className="font-medium text-lg">{username}</p>
+          <div>
+          <p className="font-semibold">{username}</p>
+          <p className="text-sm  font-display ">{date}</p>
+</div>
         </div>
 
-        <div className="space-y-2 md:flex md:justify-between md:space-x-2">
-          <div className="md:w-2/3 md:max-h-36 ellipsis-3">
-            <p className="text-xl font-bold leading-7 mb-1">
-              {title}
+        <div className="space-y-2 md:flex md:justify-between  md:space-x-5 md:h-[108px]">
+          <div className="md:w-fit leading-6  line-clamp-4 overflow-ellipsis  ">
+            <p className="text-xl font-bold mb-1">
+             {title}
             </p>
-            <p className=" hidden md:block leading-7">
-              
+            <p className=" hidden md:block text-gray-400"> I was working on a web development project, building a 3D visualizer. This project required a lot of calculations and data processing. I used JavaScript, my go-to language for web development. At first, everything went well. But as I added more features, the website started to slow down. The rendering times increased, and the animations became choppy. 
             </p>
           </div>
-          <div className="flex-shrink-0 md:w-1/3">
+          <div className="flex-shrink-0 md:w-48">
             <img
               src={banner}
               alt="Descriptive alt text"
-              className="w-full h-full rounded-md md:h-36 object-cover"
+              className="w-full h-full rounded-md object-cover"
             />
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <p className="">date holder</p>
+        <div className="flex justify-between " >
           <div>
             {saved ? (
               <svg

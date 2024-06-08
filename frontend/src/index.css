@@ -2,19 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 /* Custom CSS for multiline ellipsis */
-.ellipsis-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow:hidden;
-  text-overflow: ellipsis;
-  
-}
-.ellipsis-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 0;
-  -webkit-box-orient: vertical;
-  overflow:hidden;
-  text-overflow: ellipsis;
-  
-}

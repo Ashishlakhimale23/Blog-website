@@ -1,4 +1,5 @@
 import { createContext } from "react";
 
-export const UseContext = createContext();
+export const BlogContext = createContext();
 export const Authcontext = createContext();
+export const UserContext = createContext();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {UseContext} from "./context.js"
+import {BlogContext} from "./context.js"
 function BlogProvider({children}){
     const blogstructure = {
         content:[ ],
@@ -9,7 +9,7 @@ function BlogProvider({children}){
     const [blog,setBlog] = useState(blogstructure) 
     const [texteditor,setTexteditor]=useState({isReady:false})
     return(
-        <UseContext.Provider value={{blog,setBlog,texteditor,setTexteditor}}>{children}</UseContext.Provider>
+        <BlogContext.Provider value={{blog,setBlog,texteditor,setTexteditor}}>{children}</BlogContext.Provider>
     )
 }
 export default BlogProvider;

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs"
 import tool from "../utils/tools"
-import { Authcontext, UseContext } from "../context/context.js";
+import { Authcontext, BlogContext } from "../context/context.js";
 import { Toaster, toast } from "react-hot-toast"
 import {useNavigate,useLocation} from "react-router-dom"
 import axios from "axios";
@@ -10,7 +10,7 @@ import deafultbanner from "../img/blog banner.png"
 
 function CreatePost() {
   
-  const { blog, setBlog, texteditor, setTexteditor } = useContext(UseContext);
+  const { blog, setBlog, texteditor, setTexteditor } = useContext(BlogContext);
   const { title, content,banner } = blog;
   const {setAuthToken} = useContext(Authcontext)
   

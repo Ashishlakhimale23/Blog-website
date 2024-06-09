@@ -1,12 +1,11 @@
-import  {useEffect} from 'react';
+import  {useEffect, useState} from 'react';
 import { useNavigate} from 'react-router-dom';
-import  { Authcontext, Openornot } from "../context/context.js";
+import  { Authcontext} from "../context/context.js";
 import { useContext} from "react";
-import axios from 'axios';
 function Header() {
   
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
-const {open,setOpen} = useContext(Openornot); 
+const [open,setOpen] = useState(false) 
 
   const navigate = useNavigate();
   useEffect(()=>{

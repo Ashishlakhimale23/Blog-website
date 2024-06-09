@@ -1,37 +1,182 @@
-import { useRef, useState } from "react";
+import { useRef, useState , useEffect} from "react";
 import deafultpfp from "../img/deafultpfp.jpg"
 import techStack from "../utils/suggestion";
 function Usersinfo(){
-    const [predicated,setPredicated]= useState([])
-    const [finaltechstack,setFinaltechstack] = useState([])
-    const [techstack,setTechstack] = useState("")
-    const stackRef = useRef();
+  const [pfplink, setPfplink] = useState(() => {
+    const saved = localStorage.getItem("pfplink");
+    return saved ? saved : "";
+  });
 
-    const getpredicatedvalue = (value)=>{
-        const flitered = techStack.filter(item => item.toLowerCase().indexOf(value.toLowerCase())!==-1)
-        setPredicated(flitered.slice(0,5))
+  const [aboutyou, setAboutyou] = useState(() => {
+    const saved = localStorage.getItem("aboutyou");
+    return saved ? saved : "";
+  });
+
+  const [available, setAvailable] = useState(() => {
+    const saved = localStorage.getItem("available");
+    return saved ? saved : "";
+  });
+
+  const [twitter, setTwitter] = useState(() => {
+    const saved = localStorage.getItem("twitter");
+    return saved ? saved : "";
+  });
+
+  const [github, setGithub] = useState(() => {
+    const saved = localStorage.getItem("github");
+    return saved ? saved : "";
+  });
+
+  const [youtube, setYoutube] = useState(() => {
+    const saved = localStorage.getItem("youtube");
+    return saved ? saved : "";
+  });
+  const [linkedin, setLinkedin] = useState(() => {
+    const saved = localStorage.getItem("linkedin");
+    return saved ? saved : "";
+  });
+
+  const [facebook, setFacebook] = useState(() => {
+    const saved = localStorage.getItem("facebook");
+    return saved ? saved : "";
+  });
+
+  const [instagram, setInstagram] = useState(() => {
+    const saved = localStorage.getItem("instagram");
+    return saved ? saved : "";
+  });
+
+  const [stackoverflow, setStackoverflow] = useState(() => {
+    const saved = localStorage.getItem("stackoverflow");
+    return saved ? saved : "";
+  });
+
+  const [finaltechstack, setFinaltechstack] = useState(() => {
+    const saved = localStorage.getItem("finaltechstack");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [predicated, setPredicated] = useState([]);
+
+  const [techstack, setTechstack] = useState("");
+  const stackRef = useRef();
+  const pfpRef = useRef();
+
+  const getpredicatedvalue = (value) => {
+    const flitered = techStack.filter(
+      (item) => item.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    );
+    setPredicated(flitered.slice(0, 5));
+  };
+
+  const handletechstack = (e) => {
+    setTechstack(e.target.value);
+    getpredicatedvalue(e.target.value);
+  };
+
+  const handleOnClickOnTechstack = (e) => {
+    if (finaltechstack.length <= 5) {
+      setFinaltechstack([...finaltechstack, e.target.innerText]);
+      setTechstack("");
     }
-    
-    const handletechstack = (e) =>{
-        setTechstack(e.target.value)
-        getpredicatedvalue(e.target.value)
-        
+
+    stackRef.current.placeholder = "Only five allowed";
+  };
+
+  const handleOnClickDeleteTech = (e) => {
+    const updatedarray = finaltechstack.filter(
+      (item) => item != e.currentTarget.parentElement.firstChild.innerText
+    );
+    setFinaltechstack(updatedarray);
+  };
+
+  const handleKeyDownTechstack = (e) => {
+    if (e.code == "Enter") {
+      setFinaltechstack([...finaltechstack, e.target.value]);
+      setTechstack("");
     }
+  };
+
+  const handlepfpchange = async (e) => {
+    const filename = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", filename);
+    formData.append("upload_preset", "coursefiles");
+    formData.append("api_key", "993344952783557");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/ddweepkue/image/upload",
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setPfplink(data.secure_url);
+      pfpRef.current.src = data.secure_url;
+    } else {
+      throw new Error("Failed to upload image"); }
+  };
+
+  const handleChangeAvailable = (e) => {
+    setAvailable(e.target.value);
+  };
+
+  const handleChangeAbout = (e) => {
+    setAboutyou(e.target.value);
+  };
+
+const handlechangeTwitter= (e) => {
+    setTwitter(e.target.value);
+  };
+const handlechangeInstagram= (e) => {
+    setInstagram(e.target.value);
+  };
+const handlechangeGithub= (e) => {
+    setGithub(e.target.value);
+  };
+const handlechangeFacebook= (e) => {
+    setFacebook(e.target.value);
+  };
+const handlechangeStackoverflow= (e) => {
+    setStackoverflow(e.target.value);
+  }
+
+const handlechangeYoutube= (e) => {
+    setYoutube(e.target.value);
+  }
+const handlechangeLinkedIn= (e) => {
+    setLinkedin(e.target.value);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("finaltechstack", JSON.stringify(finaltechstack));
+    localStorage.setItem("pfplink", pfplink);
+    localStorage.setItem("aboutyou", aboutyou);
+    localStorage.setItem("available", available);
+
+    localStorage.setItem("github", github);
+    localStorage.setItem("facebook", facebook);
+    localStorage.setItem("linkedin", linkedin);
     
-    const handleOnClickOnTechstack =(e)=>{
-        if(finaltechstack.length<5){
-          setFinaltechstack([...finaltechstack,e.target.innerText])
-          setTechstack("")
-        }
-        if(finaltechstack.length==5){
-            stackRef.current.placeholder = "Only five allowed"
-        }
-    } 
-    return (
-      <>
-        <div className="w-full h-full space-y-5 ">
-         
-          <div className="w-3/4 h-full space-y-5 ">
+
+    localStorage.setItem("youtube", youtube);
+    localStorage.setItem("stackoverflow", stackoverflow);
+    localStorage.setItem("twitter",twitter );
+    localStorage.setItem("instagram",instagram);
+
+  }, [finaltechstack, pfplink, aboutyou, available,instagram,youtube,stackoverflow,linkedin,twitter,facebook,github]);
+
+  return (
+    <>
+      <div className="p-2 w-full h-screen space-y-5 sm:pr-10 sm:pl-10 lg:flex lg:justify-center lg:space-x-5 ">
+        <div className="lg:w-1/2 p-6">
+          <div className=" space-y-5 ">
             <p className="text-xl font-bold">Basic info</p>
             <div className="space-y-4">
               <div className="space-y-1">
@@ -46,25 +191,30 @@ function Usersinfo(){
                   ashishlakhimale23@gmail.com
                 </p>
               </div>
-              <div className="">
-                <p className="font-semibold">
+              <div>
+                <p className="font-semibold mb-1">
                   Profile Photo (click the pfp to change)
                 </p>
                 <label htmlFor="uploadprofile">
-                  <img src={deafultpfp} alt="" className="z-20 h-48" />
+                  <img
+                    src={pfplink.length != 0 ? pfplink : deafultpfp}
+                    ref={pfpRef}
+                    className="z-20 w-48 h-48 rounded-full"
+                  />
                   <input
                     type="file"
                     name=""
                     id="uploadprofile"
                     accept=".jpg, .png, .jepg"
                     hidden
+                    onChange={handlepfpchange}
                   />
                 </label>
               </div>
             </div>
           </div>
 
-          <div className="w-3/4 h-full space-y-5 ">
+          <div className="space-y-5 mt-10 ">
             <p className="text-xl font-bold">About You</p>
             <div className="space-y-4">
               <div className="space-y-1 ">
@@ -72,23 +222,26 @@ function Usersinfo(){
                   Profile Bio (About you)
                 </label>
                 <textarea
-                  className="w-full outline-none border rounded-lg bg-slate-100 p-4 hover:border-blue-500 hover:bg-white"
+                  className="w-full outline-none border rounded-lg bg-slate-100 p-4 hover:border-blue-500 hover:bg-white "
                   placeholder="I am a developer from ...."
+                  value={aboutyou}
                   rows={8}
+                  onChange={handleChangeAbout}
                 ></textarea>
               </div>
-              <div className="space-y-1">
+              <div className="relative space-y-1">
                 <label className="font-semibold block">Tech Stack</label>
                 <input
                   className="w-full p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white "
                   placeholder="Search for technologies, topics,more..."
                   value={techstack}
                   onChange={handletechstack}
+                  onKeyDown={handleKeyDownTechstack}
                   ref={stackRef}
                 />
 
-                <div className="p-1 bg-white opacity-100 absolute space-y-2 w-full">
-                  {!techstack.length || finaltechstack.length >=5
+                <div className=" bg-white rounded-xl shadow-md absolute space-y-2 z-10 w-full">
+                  {!techstack.length || finaltechstack.length >= 5
                     ? null
                     : predicated.map((tech, index) => (
                         <div
@@ -100,16 +253,32 @@ function Usersinfo(){
                         </div>
                       ))}
                 </div>
-                
-                <div className="flex flex-wrap">
-                  {!finaltechstack.length 
+
+                <div className="flex flex-wrap  items-center mt-2">
+                  {!finaltechstack.length
                     ? null
                     : finaltechstack.map((tech, index) => (
                         <div
                           key={index}
-                          className="p-1 "
+                          className="flex items-center p-1 pr-2 pl-2 ring-1 hover:bg-blue-100 ring-blue-700 m-1 text-blue-600 rounded-2xl  "
                         >
-                          {tech}
+                          <p>{tech} </p>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                            className="h-5 ml-1"
+                            onClick={handleOnClickDeleteTech}
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M6 18 18 6M6 6l12 12"
+                            />
+                          </svg>
                         </div>
                       ))}
                 </div>
@@ -120,13 +289,90 @@ function Usersinfo(){
                   className="w-full outline-none border rounded-lg bg-slate-100 p-4 hover:border-blue-500 hover:bg-white "
                   placeholder="I am available for mentoring ...."
                   rows={8}
+                  value={available}
+                  onChange={handleChangeAvailable}
                 ></textarea>
               </div>
             </div>
           </div>
-</div>
-        
-      </>
-    );
+        </div>
+        <div className="space-y-5 pr-6 pl-6 lg:pl-0 lg:pt-0 lg:pb-0 lg:pr-6 lg:w-1/2">
+          <p className="text-xl font-bold">Social</p>
+          <div className="w-full space-y-4">
+            <div className="space-y-1">
+              <label className="font-semibold">Twitter Profile</label>
+              <input
+                type="text"
+                className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+                placeholder="https://twitter.com/johndoe"
+                value={twitter}
+                onChange={handlechangeTwitter}
+              />
+            </div>
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">Instagram Profile</label>
+            <input
+              type="text"
+              className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://instagram.com/johndoe"
+              value={instagram}
+              onChange={handlechangeInstagram}
+            />
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">Github Profile</label>
+            <input
+              type="text"
+              className="  p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://github.com/johndoe"
+              value={github}
+              onChange={handlechangeGithub}
+            />
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">StackOverflow Profile</label>
+            <input
+              type="text"
+              className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://stackoverflow.com/johndoe"
+              value={stackoverflow}
+              onChange={handlechangeStackoverflow}
+            />
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">Facebook Profile</label>
+            <input
+              type="text"
+              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://facebook.com/johndoe"
+              value={facebook}
+              onChange={handlechangeFacebook}
+            />
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">Linekedin Profile</label>
+            <input
+              type="text"
+              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://linkedin.com/johndoe"
+              value={linkedin}
+              onChange={handlechangeLinkedIn}
+            />
+          </div>
+          <div className="space-y-1 w-full">
+            <label className="block font-semibold">Youtube Profile</label>
+            <input
+              type="text"
+              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
+              placeholder="https://youtube.com/johndoe"
+              value={youtube}
+              onChange={handlechangeYoutube}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 export default Usersinfo;

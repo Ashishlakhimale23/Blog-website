@@ -1,13 +1,11 @@
-import { useContext, useEffect,useState } from "react";
+import { useEffect,useState } from "react";
 import axios from "axios";
 import Card from "../component/card";
 import { Sidebarhome } from "../component/sidebarhome";
-import { Authcontext } from "../context/context";
 
 
 function Home () {
  const [blogs,setBlogs] = useState(null);
- const {setAuthToken} = useContext(Authcontext)
 useEffect(()=>{
 async function fetchdata(){
        await axios.get("http://localhost:8000/user/getblogs")

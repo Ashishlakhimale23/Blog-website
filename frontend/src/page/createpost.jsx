@@ -9,7 +9,7 @@ import deafultbanner from "../img/blog banner.png"
 
 
 function CreatePost() {
-
+  
   const { blog, setBlog, texteditor, setTexteditor } = useContext(UseContext);
   const { title, content,banner } = blog;
   const {setAuthToken} = useContext(Authcontext)

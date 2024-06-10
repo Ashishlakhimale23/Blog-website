@@ -3,11 +3,28 @@ import deafultpfp from "../img/deafultpfp.jpg"
 import techStack from "../utils/suggestion";
 import { UserContext } from "../context/context";
 function Usersinfo(){
- const {twitter,setTwitter,instagram,setInstagram,
-  github,setGithub,facebook,setFacebook,stackoverflow,setStackoverflow,
-  linkedin,setLinkedin,youtube,setYoutube,aboutyou,setAboutyou,available,setAvailable,
-  finaltechstack,setFinaltechstack,pfplink,setPfplink
- }  = useContext(UserContext)
+ const {
+   twitter,
+   setTwitter,
+   instagram,
+   setInstagram,
+   github,
+   setGithub,
+   facebook,
+   setFacebook,
+   linkedin,
+   setLinkedin,
+   youtube,
+   setYoutube,
+   aboutyou,
+   setAboutyou,
+   available,
+   setAvailable,
+   finaltechstack,
+   setFinaltechstack,
+   pfplink,
+   setPfplink,
+ } = useContext(UserContext);
 
   const [predicated, setPredicated] = useState([]);
 
@@ -96,9 +113,7 @@ const handlechangeGithub= (e) => {
 const handlechangeFacebook= (e) => {
     setFacebook(e.target.value);
   };
-const handlechangeStackoverflow= (e) => {
-    setStackoverflow(e.target.value);
-  }
+
 
 const handlechangeYoutube= (e) => {
     setYoutube(e.target.value);
@@ -119,11 +134,10 @@ const handlechangeLinkedIn= (e) => {
     
 
     localStorage.setItem("youtube", youtube);
-    localStorage.setItem("stackoverflow", stackoverflow);
     localStorage.setItem("twitter",twitter );
     localStorage.setItem("instagram",instagram);
 
-  }, [finaltechstack, pfplink, aboutyou, available,instagram,youtube,stackoverflow,linkedin,twitter,facebook,github]);
+  }, [finaltechstack, pfplink, aboutyou, available,instagram,youtube,linkedin,twitter,facebook,github]);
 
   return (
     <>
@@ -283,16 +297,7 @@ const handlechangeLinkedIn= (e) => {
               onChange={handlechangeGithub}
             />
           </div>
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">StackOverflow Profile</label>
-            <input
-              type="text"
-              className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://stackoverflow.com/johndoe"
-              value={stackoverflow}
-              onChange={handlechangeStackoverflow}
-            />
-          </div>
+          
           <div className="space-y-1 w-full">
             <label className="block font-semibold">Facebook Profile</label>
             <input
@@ -308,7 +313,7 @@ const handlechangeLinkedIn= (e) => {
             <input
               type="text"
               className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://linkedin.com/johndoe"
+              placeholder="https://linkedin.com/in/johndoe"
               value={linkedin}
               onChange={handlechangeLinkedIn}
             />

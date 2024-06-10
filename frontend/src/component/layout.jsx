@@ -12,7 +12,7 @@ import Usersinfo from '../page/usersinfo'
 function Layout() {
   const authtoken = localStorage.getItem("authtoken");
   const location = useLocation();
-  const noheader = ["/","/signin","/login","/createpost"]
+  const noheader = ["/signin","/login","/createpost"]
 
   return (
     <>

@@ -16,36 +16,34 @@ function CreatePost() {
   
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const BlogbannerRef = useRef();
-  
+useEffect(()=>{
+  localStorage.setItem("blog",JSON.stringify(blog))
 
-  const handleBeforeUnload = async(e) =>{
-    e.preventDefault()
-      }
+},[blog])  
   useEffect(() => {
     setAuthToken(localStorage.getItem("authtoken")) 
 
     if(!texteditor.isReady){
-     setTexteditor(new EditorJS({
+     const editor = new EditorJS({
       holder: "texteditor",
-      data:"",
+      data:{blocks:content.length!=0?content:""},
       tools: tool,
       placeholder: "Write some stories....",
-    }));
+      onChange:async ()=>{
+        const savedBlock = await editor.save();
+        setBlog((prevBlog)=>({
+          ...prevBlog,content:savedBlock.blocks 
+        }))
+      }
+    });
+setTexteditor(editor)
     }
 
-     window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      setTexteditor(!texteditor.isReady)
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-
-    };
     
 
-  }, [location.pathname,setTexteditor]);
+  }, [setTexteditor]);
 
   const handletitlechange = (e) => {
     setBlog({ ...blog, title: e.target.value })
@@ -183,7 +181,7 @@ function CreatePost() {
             <div className="hover:opacity-80 aspect-video lg:h-[575px]  bg-white border-4 border-grey">
               <label htmlFor="uploadbanner">
                 <img
-                  src={deafultbanner}
+                  src={banner.length!=0 ?banner:deafultbanner}
                   ref={BlogbannerRef}
                   alt=""
                   className="z-20 w-full h-full"

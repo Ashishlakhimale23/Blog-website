@@ -49,11 +49,6 @@ const [pfplink, setPfplink] = useState(() => {
     return saved ? saved : "";
   });
 
-  const [stackoverflow, setStackoverflow] = useState(() => {
-    const saved = localStorage.getItem("stackoverflow");
-    return saved ? saved : "";
-  });
-
   const [finaltechstack, setFinaltechstack] = useState(() => {
     const saved = localStorage.getItem("finaltechstack");
     return saved ? JSON.parse(saved) : [];
@@ -75,8 +70,6 @@ const [pfplink, setPfplink] = useState(() => {
           setGithub,
           facebook,
           setFacebook,
-          stackoverflow,
-          setStackoverflow,
           youtube,
           setYoutube,
           linkedin,

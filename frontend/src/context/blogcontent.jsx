@@ -10,7 +10,7 @@ function BlogProvider({children}){
     const [blog,setBlog] = useState(()=>{
         const saved = localStorage.getItem("blog")
         return saved ? JSON.parse(saved) : blogstructure}) 
-    const [texteditor,setTexteditor]=useState({isReady:false})
+    const [texteditor,setTexteditor]=useState({isReady:false,instance:null})
     return(
         <BlogContext.Provider value={{blog,setBlog,texteditor,setTexteditor}}>{children}</BlogContext.Provider>
     )

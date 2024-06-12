@@ -18,36 +18,45 @@ function CreatePost() {
   const navigate = useNavigate();
 
   const BlogbannerRef = useRef();
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("authtoken"));
+    console.log("header set");
+  const initializeEditor = () => {
+      if (!texteditor.isReady) {
+        const editor = new EditorJS({
+          holder: "texteditor",
+          data: { blocks: content.length ? content : [] },
+          tools: tool, // Define your tools configuration
+          placeholder: "Write some stories....",
+          onChange: async () => {
+            const savedBlock = await editor.save();
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              content: savedBlock.blocks
+            }));
+          }
+        });
+
+        editor.isReady.then(() => {
+          setTexteditor({ isReady: true, instance: editor });
+        });
+      }
+    };
+
+    initializeEditor();
+
+    return () => {
+      if (texteditor.instance) {
+        texteditor.instance.destroy();
+        setTexteditor({ isReady: false, instance: null });
+      }
+    };
+  }, [setAuthToken, setBlog, texteditor.isReady, texteditor.instance]);
 useEffect(()=>{
   localStorage.setItem("blog",JSON.stringify(blog))
 
-},[blog])  
-  useEffect(() => {
-    setAuthToken(localStorage.getItem("authtoken")) 
-
-    if(!texteditor.isReady){
-     let editor = new EditorJS({
-      holder: "texteditor",
-      data:{blocks:content.length?content:""},
-      tools: tool,
-      placeholder: "Write some stories....",
-      onReady:()=>{
-        console.log("helo")
-      },
-      onChange:async ()=>{
-        const savedBlock = await editor.save();
-        setBlog((prevBlog)=>({
-          ...prevBlog,content:savedBlock.blocks 
-        }))
-      }
-    });
-    
-    console.log("editor is setting")
-    setTexteditor(editor)
-    }
-
-  }, [setTexteditor]);
-
+},[blog]) 
   const handletitlechange = (e) => {
     setBlog({ ...blog, title: e.target.value })
   
@@ -108,17 +117,17 @@ useEffect(()=>{
     if (texteditor.isReady) {
       try {
         setLoading(true);
-        const savedData = await texteditor.save();
+        const savedData = await texteditor.instance.save();
         console.log(savedData)
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
           await axios.post("http://localhost:8000/user/createblog", { title, content: savedData.blocks,result,banner})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
-           
+                        
               setTimeout(() => {
                 toast.dismiss('success');
-                setBlog({...blog,title:""})
+                setBlog({title:"",banner:"",content:[]})
                navigate("/home") 
               }, 500);
             })
@@ -168,11 +177,7 @@ useEffect(()=>{
             >
               Save draft
             </button>
-            <img
-              src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
-              alt=""
-              className="h-12 rounded-full lg:mr-7  "
-            />
+            
           </div>
         </header>
 

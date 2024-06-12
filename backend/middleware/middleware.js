@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-
+import { config } from "dotenv";
+config()
 export async function userverification(req,res,next){
      
     const auth =req.headers.authorization || req.headers.Authorization;
@@ -9,9 +10,8 @@ if (!auth?.startsWith("Bearer")) return res.json({ "status": "header not found" 
 
 const Token = auth.split(' ')[1];
 try {
-    const decoded = jwt.verify(Token,"23032004");
+    const decoded = jwt.verify(Token,process.env.SECRET_KEY);
     console.log(decoded)
-    console.log(decoded.id)
 req.user = decoded.id;
     next();
      

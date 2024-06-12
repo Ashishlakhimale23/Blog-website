@@ -63,14 +63,19 @@ User.findByIdAndUpdate(
     ).catch(err=>{return res.status(500).json({error:"failed to upload the blog"})})
 }
 
-export const handlegetblogs=(req,res)=>{
-  const authorid = req.user;
-  console.log("helloblogs")
-  Blog.find({Published:true}).populate("author","username image")
+export const handlegetblogs=async(req,res)=>{
+  await Blog.find({Published:true}).populate("author","username image")
   .then((resp)=>{
     console.log(resp);
     return res.json({blogs:resp})
   })
 
+}
 
+export const handlegetuserinfo = async (req,res)=>{
+  const userid = req.user
+  await User.findById(userid).select("username email pfplink available about twitter instagram github facebook linkedin youtube techstack blogs draft joinedOn")
+  .then((resp)=>{
+  return res.json({userinfo:resp})
+  }).catch(error=>console.log(error))
 }

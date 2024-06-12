@@ -3,32 +3,25 @@ import deafultpfp from "../img/deafultpfp.jpg"
 import techStack from "../utils/suggestion";
 import { UserContext } from "../context/context";
 function Usersinfo(){
+  const {info,setInfo} = useContext(UserContext);
  const {
    twitter,
-   setTwitter,
    instagram,
-   setInstagram,
    github,
-   setGithub,
    facebook,
-   setFacebook,
    linkedin,
-   setLinkedin,
    youtube,
-   setYoutube,
    aboutyou,
-   setAboutyou,
    available,
-   setAvailable,
    finaltechstack,
-   setFinaltechstack,
    pfplink,
-   setPfplink,
- } = useContext(UserContext);
+   username,
+   email
+ } =info;
 
   const [predicated, setPredicated] = useState([]);
 
-  const [techstack, setTechstack] = useState("");
+  const [temptechstack, setTemptechstack] = useState("");
   const stackRef = useRef();
   const pfpRef = useRef();
 
@@ -40,14 +33,14 @@ function Usersinfo(){
   };
 
   const handletechstack = (e) => {
-    setTechstack(e.target.value);
+    setTemptechstack(e.target.value);
     getpredicatedvalue(e.target.value);
   };
 
   const handleOnClickOnTechstack = (e) => {
     if (finaltechstack.length <= 5) {
-      setFinaltechstack([...finaltechstack, e.target.innerText]);
-      setTechstack("");
+      setInfo((prevInfo)=>({...prevInfo,finaltechstack:[...finaltechstack,e.target.innerText]}));
+      setTemptechstack("");
     }
 
     stackRef.current.placeholder = "Only five allowed";
@@ -57,13 +50,15 @@ function Usersinfo(){
     const updatedarray = finaltechstack.filter(
       (item) => item != e.currentTarget.parentElement.firstChild.innerText
     );
-    setFinaltechstack(updatedarray);
+setInfo((prevInfo)=>({...prevInfo,finaltechstack:updatedarray}));
+
   };
 
   const handleKeyDownTechstack = (e) => {
-    if (e.code == "Enter") {
-      setFinaltechstack([...finaltechstack, e.target.value]);
-      setTechstack("");
+    if (e.code == "Enter" && finaltechstack.length<=4) {
+      
+setInfo((prevInfo)=>({...prevInfo,finaltechstack:[...finaltechstack,e.target.value]}))
+      setTemptechstack("");
     }
   };
 
@@ -87,57 +82,44 @@ function Usersinfo(){
 
     if (response.ok) {
       const data = await response.json();
-      setPfplink(data.secure_url);
+      setInfo((prevInfo)=>({...prevInfo,pfplink:data.secure_url}));
       pfpRef.current.src = data.secure_url;
     } else {
       throw new Error("Failed to upload image"); }
   };
 
   const handleChangeAvailable = (e) => {
-    setAvailable(e.target.value);
+    setInfo((prevInfo) => ({ ...prevInfo, available: e.target.value }));
   };
 
   const handleChangeAbout = (e) => {
-    setAboutyou(e.target.value);
+    setInfo((prevInfo) => ({ ...prevInfo, aboutyou: e.target.value }));
   };
 
-const handlechangeTwitter= (e) => {
-    setTwitter(e.target.value);
-  };
-const handlechangeInstagram= (e) => {
-    setInstagram(e.target.value);
-  };
-const handlechangeGithub= (e) => {
-    setGithub(e.target.value);
-  };
-const handlechangeFacebook= (e) => {
-    setFacebook(e.target.value);
-  };
-
-
-const handlechangeYoutube= (e) => {
-    setYoutube(e.target.value);
-  }
+const handlechangeTwitter = (e) => {
+  setInfo((prevInfo) => ({ ...prevInfo, twitter: e.target.value }));
+};
+const handlechangeInstagram = (e) => {
+  setInfo((prevInfo) => ({ ...prevInfo, instagram: e.target.value }));
+};
+const handlechangeGithub = (e) => {
+  setInfo((prevInfo) => ({ ...prevInfo, github: e.target.value }));
+};
+const handlechangeFacebook = (e) => {
+  setInfo((prevInfo) => ({ ...prevInfo, facebook: e.target.value }));
+};
+const handlechangeYoutube = (e) => {
+  setInfo((prevInfo) => ({ ...prevInfo, youtube: e.target.value }));
+};
 const handlechangeLinkedIn= (e) => {
-    setLinkedin(e.target.value);
+setInfo((prevInfo) => ({ ...prevInfo, linkedin: e.target.value }));
+
   }
 
   useEffect(() => {
-    localStorage.setItem("finaltechstack", JSON.stringify(finaltechstack));
-    localStorage.setItem("pfplink", pfplink);
-    localStorage.setItem("aboutyou", aboutyou);
-    localStorage.setItem("available", available);
+   localStorage.setItem("info",JSON.stringify(info)) 
 
-    localStorage.setItem("github", github);
-    localStorage.setItem("facebook", facebook);
-    localStorage.setItem("linkedin", linkedin);
-    
-
-    localStorage.setItem("youtube", youtube);
-    localStorage.setItem("twitter",twitter );
-    localStorage.setItem("instagram",instagram);
-
-  }, [finaltechstack, pfplink, aboutyou, available,instagram,youtube,linkedin,twitter,facebook,github]);
+  }, [info]);
 
   return (
     <>
@@ -201,14 +183,14 @@ const handlechangeLinkedIn= (e) => {
                 <input
                   className="w-full p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white "
                   placeholder="Search for technologies, topics,more..."
-                  value={techstack}
+                  value={temptechstack}
                   onChange={handletechstack}
                   onKeyDown={handleKeyDownTechstack}
                   ref={stackRef}
                 />
 
                 <div className=" bg-white rounded-xl shadow-md absolute space-y-2 z-10 w-full">
-                  {!techstack.length || finaltechstack.length >= 5
+                  {!temptechstack.length || finaltechstack.length >= 5
                     ? null
                     : predicated.map((tech, index) => (
                         <div

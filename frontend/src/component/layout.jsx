@@ -6,6 +6,7 @@ import Signin from '../page/signin'
 import Login from '../page/login'
 import Header from './header'
 import Usersinfo from '../page/usersinfo'
+import { UserProfile } from '../page/userprofile'
 
 
 
@@ -24,6 +25,7 @@ function Layout() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/createpost" element={<CreatePost />} />
                 <Route path='/username' element={<Usersinfo/>}/>  
+                <Route path='/userprofile' element={<UserProfile/>}></Route>
               </Routes>
            
     </>

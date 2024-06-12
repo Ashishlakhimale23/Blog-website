@@ -24,23 +24,18 @@ const [open,setOpen] = useState(false)
   },[open])
   return (
     <>
-      <div className=" lg:flex-grow ">
-        <header className="flex bg-white text-white items-center px-3 shadow-md h-16 justify-between">
-          <div className="text-xl font-bold flex items-center lg:pl-28 space-x-6 grow justify-center md:justify-center md:grow-0 ">
-            <div>
-              <span className="text-black">Get</span>
-              <span className="text-orange-600">better</span>
-              <span className="text-gray-400">*</span>
+      <div className=" ">
+        <header className="flex w-full px-2 font-display bg-silver text-black justify-between border-b-4 border-black lg:px-32 md:px-24 sm:px-10 fixed top-0  ">
+          <div className="font-bold flex items-center">
+            <div className='text-xl md:text-[28px]'>
+              <span >Get</span>
+              <span >better</span>
+              <span >*</span>
             </div>
           </div>
 
-          <div className="space-x-2 lg:space-x-10 lg:pr-28 flex ">
-            <div className="space-x-2 flex md:justify-center">
-              <input
-                type="search"
-                placeholder="Search..."
-                className="hidden md:flex text-black bg-gray-100 p-2 rounded-md outline-none text-base font-normal placeholder:text-black w-96 "
-              />
+          <div className="space-x-2 flex items-center">
+           
               <button>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +43,7 @@ const [open,setOpen] = useState(false)
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  className="w-6 h-9 text-gray-400 "
+                  className="w-6 h-9 text-black font-display font-bold"
                 >
                   <path
                     stroke-linecap="round"
@@ -57,12 +52,12 @@ const [open,setOpen] = useState(false)
                   />
                 </svg>
               </button>
-            </div>
+            
             <button
-              className="hidden md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2"
+              className="hidden p-4 font-bold text-xl items-center hover:bg-black hover:text-white"
               style={{ display: logged ? "block" : "none" }}
               onClick={() => {
-                console.log(logged);
+                
                 navigate("/createpost");
               }}
             >
@@ -70,7 +65,7 @@ const [open,setOpen] = useState(false)
             </button>
 
             <button
-              className="hidden md:flex text-gray-600 p-1 md:p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2"
+              className="hidden p-4 font-bold text-xl items-center hover:bg-black hover:text-white"
               style={{ display: logged ? "none" : "block" }}
               onClick={() => {
                 navigate("/login");
@@ -79,7 +74,7 @@ const [open,setOpen] = useState(false)
               Login
             </button>
             <button
-              className="hidden md:flex text-gray-600 p-2 font-medium items-center bg-gray-100  rounded-md hover:ring-gray-300 hover:ring-2"
+              className="hidden p-4 font-bold text-xl items-center hover:bg-black hover:text-white"
               style={{ display: logged ? "none" : "block" }}
               onClick={() => {
                 navigate("/signin");
@@ -90,7 +85,7 @@ const [open,setOpen] = useState(false)
             <img
               src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
               alt=""
-              className="h-12 rounded-full lg:mr-7 "
+              className="h-12 rounded-full  "
               style={{ display: logged ? "block" : "none" }}
               onClick={() => {
                 setOpen(!open);
@@ -100,12 +95,12 @@ const [open,setOpen] = useState(false)
         </header>
 
         <div
-          className={ `w-11/12 ml-6 mt-4 mb-4 flex-col fixed bottom-0 right-0 left-0 space-y-4 bg-white shadow-md  p-4  rounded-lg font-display sm:w-80  sm:left-auto sm:right-4 sm:bottom-auto`}
+          className={ `w-11/12 ml-6 mt-4 mb-4 flex-col fixed bottom-0 right-0 left-0  bg-silver  shadow-md  rounded-lg font-display sm:w-80  sm:left-auto sm:right-4 sm:bottom-auto`}
           style={{ display: open ? "block" : "none" }}
           
         >
-          <div className="flex space-x-2 hover:bg-gray-200 p-1" onClick={()=>{
-            navigate("/username")
+          <div className="flex space-x-2 hover:bg-black rounded-t-lg hover:text-white p-4 border-b-4 border-black" onClick={()=>{
+            navigate("/userprofile")
             setOpen(false)}
         }>
             <img
@@ -117,8 +112,8 @@ const [open,setOpen] = useState(false)
               <p className="text-sm  font-display ">@ashishlakhimale23</p>
             </div>
           </div>
-          <hr />
-          <div className="flex space-x-2 hover:bg-gray-200 p-1 ">
+       
+          <div className="flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -126,7 +121,7 @@ const [open,setOpen] = useState(false)
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
-              className="h-5 text-gray-500 "
+              className="h-5 "
             >
               <path
                 stroke-linecap="round"
@@ -134,9 +129,9 @@ const [open,setOpen] = useState(false)
                 d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
               />
             </svg>
-            <p className="text-gray-500 ">My draft</p>
+            <p className="">My draft</p>
           </div>
-          <div className="flex space-x-2 hover:bg-gray-200 p-1 ">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -144,7 +139,7 @@ const [open,setOpen] = useState(false)
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
-              className="h-5 text-gray-500"
+              className="h-5 "
             >
               <path
                 stroke-linecap="round"
@@ -153,9 +148,9 @@ const [open,setOpen] = useState(false)
               />
             </svg>
 
-            <p className="text-gray-500 ">Bookmarks</p>
+            <p className=" ">Bookmarks</p>
           </div>
-          <div className="flex space-x-2 hover:bg-gray-200 p-1 ">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -163,7 +158,7 @@ const [open,setOpen] = useState(false)
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
-              className="h-5 text-gray-500"
+              className="h-5 "
             >
               <path
                 stroke-linecap="round"
@@ -172,9 +167,9 @@ const [open,setOpen] = useState(false)
               />
             </svg>
 
-            <p className="text-gray-500 ">Manage blogs</p>
+            <p className=" ">Manage blogs</p>
           </div>
-          <div className="flex space-x-2 hover:bg-gray-200 p-1 ">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -182,7 +177,7 @@ const [open,setOpen] = useState(false)
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
-              className="h-5 text-gray-500"
+              className="h-5 "
             >
               <path
                 stroke-linecap="round"
@@ -191,10 +186,9 @@ const [open,setOpen] = useState(false)
               />
             </svg>
 
-            <p className="text-gray-500 ">Reading history</p>
+            <p className=" ">Reading history</p>
           </div>
-          <hr />
-          <div className="flex space-x-2 hover:bg-gray-200 p-1 " onClick={()=>{
+          <div className="rounded-b-lg  flex space-x-2 hover:bg-black hover:text-white p-4" onClick={()=>{
             localStorage.removeItem("authtoken")
             setLogged(false);
             setOpen(false);
@@ -207,7 +201,7 @@ const [open,setOpen] = useState(false)
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
-              className="h-5 text-gray-500"
+              className="h-5 "
             >
               <path
                 stroke-linecap="round"
@@ -216,7 +210,7 @@ const [open,setOpen] = useState(false)
               />
             </svg>
 
-            <p className="font-display text-gray-500 hover:text-red-500">
+            <p className="font-display ">
               Log out
             </p>
           </div>

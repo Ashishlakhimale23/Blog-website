@@ -9,6 +9,7 @@ function Header() {
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
 const [open,setOpen] = useState(false) 
 const {initialinfo,setInitialinfo} = useContext(UserContext)
+const {username,pfplink} =initialinfo
 
 
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ useEffect(()=>{
               Create Account
             </button>
             <img
-              src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
+              src={pfplink}
               alt=""
               className="h-12 rounded-full  "
               style={{ display: logged ? "block" : "none" }}
@@ -133,12 +134,11 @@ useEffect(()=>{
             setOpen(false)}
         }>
             <img
-              src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
+              src={pfplink}
               className="h-11 rounded-full hover:opacity-80"
             />
             <div>
-              <p className="font-semibold">Ashishlakhimale</p>
-              <p className="text-sm  font-display ">@ashishlakhimale23</p>
+              <p className="font-semibold">{username}</p>
             </div>
           </div>
        

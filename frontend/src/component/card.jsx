@@ -3,9 +3,9 @@ import {getdate} from "../utils/date"
 import {useNavigate} from "react-router-dom"
 
 
-function Card({banner,title,content,author,activities,publishedOn}){
+function Card({banner,title,content,author,activities,publishedOn,id}){
   let navigate = useNavigate();
-
+ 
   const {username,image} = author;
   let date =  getdate(publishedOn);
 
@@ -17,6 +17,7 @@ const handlebookmark = ()=>{
     const [saved,setSaved] = useState(false);
     return (
       <div className="w-full space-y-4 flex-shrink-0 antialiased font-display border-black border-4 shadow-custom max-w-[600px]">
+        <div onClick={()=>{navigate(`/blog/${title}`,{state:{data:{id}}})}}>
         <div className="flex-shrink-0 ">
           <img
             src={banner}
@@ -25,7 +26,7 @@ const handlebookmark = ()=>{
           />
         </div>
 
-        <div className="pl-2 pr-2">
+        <div className="pl-2 pr-2" >
           <div className=" leading-6  line-clamp-4 overflow-ellipsis  ">
             <p className="text-2xl font-bold mb-1">{title}</p>
             <p className=" text-black font-medium">
@@ -38,7 +39,7 @@ const handlebookmark = ()=>{
             </p>
           </div>
         </div>
-
+</div>
         <div className="flex  justify-between pl-2 pr-2 pb-2">
           <div className="flex space-x-2">
             <img

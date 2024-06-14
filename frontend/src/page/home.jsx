@@ -37,6 +37,7 @@ async function fetchdata(){
                   editorjs_data={blog.content}
                   author={blog.author}
                   publishedOn={blog.publishedOn}
+                  id={blog._id}
                 ></Card>
               ))
             )}

@@ -37,42 +37,28 @@ const {
                   }}>
                     Edit
                   </button>
-                  <button className="align-middle p-2 rounded-full border ">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
-                      className="h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
-                      />
-                    </svg>
-                  </button>
+                  
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="w-full border-4 border-black  rounded-lg p-6 space-y-3">
+          <div className="w-full border-4 border-black  rounded-lg p-6 space-y-3 ">
             <div
-              className="space-x-2"
+              className="space-x-2 "
               style={{
                 display:
                   github.length ||
                   twitter.length
-                    ? "block"
+                    ? "flex"
                     : "none",
               }}
             >
-              <a href={twitter}>
+              <div className="w-fit ">
+              <a href={twitter} >
+
                 <button
-                  className="rounded-full p-2 hover:bg-gray-300"
+                  className="rounded-full p-2  hover:bg-gray-300 "
                   style={{ display: twitter ? "block" : "none" }}
                 >
                   <svg
@@ -90,6 +76,8 @@ const {
                   </svg>
                 </button>
               </a>
+</div>
+<div className="w-fit">
               <a href={github}>
                 <button
                   className="rounded-full p-2 hover:bg-gray-300"
@@ -105,6 +93,7 @@ const {
                   </svg>
                 </button>
               </a>
+</div>
             </div>
             <div className="space-x-2 p-1 flex">
               <svg
@@ -127,7 +116,7 @@ const {
           <div className="wfull h-fit ">
             <div className="border-4 border-black p-6 mb-3 rounded-lg min-h-44">
               <p className="text-xl font-bold mb-2">About Me</p>
-              <p className="font-display text-gray-400">
+              <p className="font-display text-black">
                 {aboutyou
                   ? aboutyou
                   : "Your bio is empty. Tell the world who you are by writing a short description about you."}
@@ -135,11 +124,18 @@ const {
             </div>
             <div className="border-4 border-black p-6 mb-3 rounded-lg min-h-44">
               <p className="text-xl font-bold mb-2">My Tech Stack</p>
-              <p className="font-display text-gray-400">
-                {aboutyou
-                  ? aboutyou
-                  : "Your bio is empty. Tell the world who you are by writing a short description about you."}
-              </p>
+              <div className="flex font-display text-gray-400">
+                {!techstack
+                    ? null
+                    : techstack.map((tech, index) => (
+                        <div
+                          key={index}
+                          className="w-fit  items-center p-1 pr-2 pl-2 ring-1 hover:bg-blue-100 ring-blue-700 m-1 text-blue-600 rounded-2xl  "
+                        >
+                          <p>{tech} </p>
+                          </div> ))
+                  }
+              </div>
             </div>
 </div>
           </div>

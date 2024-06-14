@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {BlogContext} from "./context.js"
+//these is the home and create blog context 
 function BlogProvider({children}){
     
     const blogstructure = {

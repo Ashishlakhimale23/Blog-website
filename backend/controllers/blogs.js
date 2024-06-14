@@ -64,7 +64,7 @@ User.findByIdAndUpdate(
 }
 
 export const handlegetblogs=async(req,res)=>{
-  await Blog.find({Published:true}).populate("author","username image")
+  await Blog.find({Published:true}).populate("author","username pfplink")
   .then((resp)=>{
     console.log(resp);
     return res.json({blogs:resp})
@@ -78,4 +78,15 @@ export const handlegetuserinfo = async (req,res)=>{
   .then((resp)=>{
   return res.json({userinfo:resp})
   }).catch(error=>console.log(error))
+}
+
+export const handlegetpraticularblog=async (req,res)=>{
+  const {id,title} = req.body;
+  console.log(id,title)
+  await Blog.find({_id:id,title:title}).populate("author","username pfplink").select("title content banner publishedOn")
+  .then((resp)=>{
+    return res.json({blog:resp})
+  }).catch(err=>{
+    return res.json({error:err})
+  })
 }

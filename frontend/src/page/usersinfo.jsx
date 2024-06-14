@@ -146,7 +146,7 @@ function Usersinfo(){
 }
 
   useEffect(() => {
-  console.log(initialinfo.pfplink) 
+ 
     setInfo({
       ...info,
       username: initialinfo.username,

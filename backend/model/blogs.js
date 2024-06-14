@@ -17,12 +17,7 @@ const blogs = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
-    activities:{
-        total_read:{
-            type:Number,
-            default:0
-        }
-    },
+    
     Published:{
         type:Boolean,
         required:true

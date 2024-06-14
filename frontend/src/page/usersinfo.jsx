@@ -2,22 +2,20 @@ import { useRef, useState , useEffect, useContext} from "react";
 import deafultpfp from "../img/deafultpfp.jpg"
 import techStack from "../utils/suggestion";
 import { UserContext } from "../context/context";
+import Joi, { object } from "joi";
+import axios from "axios";
+import {Toaster,toast} from "react-hot-toast"
 function Usersinfo(){
-  const {info,setInfo} = useContext(UserContext);
- const {
-   twitter,
-   instagram,
-   github,
-   facebook,
-   linkedin,
-   youtube,
-   aboutyou,
-   available,
-   finaltechstack,
-   pfplink,
-   username,
-   email
- } =info;
+  const twittervalidation = Joi.string().pattern(/^https:\/\/twitter\.com\/[A-Za-z0-9_]+$/).required() 
+   const xvalidation =  Joi.string().pattern(/^https:\/\/x\.com\/[A-Za-z0-9_]+$/).required()  
+   const githubvalidation= Joi.string().pattern(/^https:\/\/github\.com\/[A-Za-z0-9_]+$/).required()
+
+  
+
+  const { info, setInfo, initialinfo, setInitialinfo } =
+    useContext(UserContext);
+  const { email, username, twitter, github, aboutyou, techstack, pfplink } =
+    info;
 
   const [predicated, setPredicated] = useState([]);
 
@@ -38,8 +36,11 @@ function Usersinfo(){
   };
 
   const handleOnClickOnTechstack = (e) => {
-    if (finaltechstack.length <= 5) {
-      setInfo((prevInfo)=>({...prevInfo,finaltechstack:[...finaltechstack,e.target.innerText]}));
+    if (techstack.length <= 5) {
+      setInfo((prevInfo) => ({
+        ...prevInfo,
+        techstack: [...techstack, e.target.innerText],
+      }));
       setTemptechstack("");
     }
 
@@ -47,17 +48,18 @@ function Usersinfo(){
   };
 
   const handleOnClickDeleteTech = (e) => {
-    const updatedarray = finaltechstack.filter(
+    const updatedarray = techstack.filter(
       (item) => item != e.currentTarget.parentElement.firstChild.innerText
     );
-setInfo((prevInfo)=>({...prevInfo,finaltechstack:updatedarray}));
-
+    setInfo((prevInfo) => ({ ...prevInfo, techstack: updatedarray }));
   };
 
   const handleKeyDownTechstack = (e) => {
-    if (e.code == "Enter" && finaltechstack.length<=4) {
-      
-setInfo((prevInfo)=>({...prevInfo,finaltechstack:[...finaltechstack,e.target.value]}))
+    if (e.code == "Enter" && techstack.length <= 4) {
+      setInfo((prevInfo) => ({
+        ...prevInfo,
+        techstack: [...techstack, e.target.value],
+      }));
       setTemptechstack("");
     }
   };
@@ -82,106 +84,156 @@ setInfo((prevInfo)=>({...prevInfo,finaltechstack:[...finaltechstack,e.target.val
 
     if (response.ok) {
       const data = await response.json();
-      setInfo((prevInfo)=>({...prevInfo,pfplink:data.secure_url}));
+      setInfo((prevInfo) => ({ ...prevInfo, pfplink: data.secure_url }));
       pfpRef.current.src = data.secure_url;
     } else {
-      throw new Error("Failed to upload image"); }
-  };
-
-  const handleChangeAvailable = (e) => {
-    setInfo((prevInfo) => ({ ...prevInfo, available: e.target.value }));
+      throw new Error("Failed to upload image");
+    }
   };
 
   const handleChangeAbout = (e) => {
     setInfo((prevInfo) => ({ ...prevInfo, aboutyou: e.target.value }));
   };
 
-const handlechangeTwitter = (e) => {
-  setInfo((prevInfo) => ({ ...prevInfo, twitter: e.target.value }));
-};
-const handlechangeInstagram = (e) => {
-  setInfo((prevInfo) => ({ ...prevInfo, instagram: e.target.value }));
-};
-const handlechangeGithub = (e) => {
-  setInfo((prevInfo) => ({ ...prevInfo, github: e.target.value }));
-};
-const handlechangeFacebook = (e) => {
-  setInfo((prevInfo) => ({ ...prevInfo, facebook: e.target.value }));
-};
-const handlechangeYoutube = (e) => {
-  setInfo((prevInfo) => ({ ...prevInfo, youtube: e.target.value }));
-};
-const handlechangeLinkedIn= (e) => {
-setInfo((prevInfo) => ({ ...prevInfo, linkedin: e.target.value }));
+  const handlechangeTwitter = (e) => {
+    setInfo((prevInfo) => ({ ...prevInfo, twitter: e.target.value }));
+  };
 
-  }
+  const handlechangeGithub = (e) => {
+    setInfo((prevInfo) => ({ ...prevInfo, github: e.target.value }));
+  };
+  const handleupdate = async() => {
+    const formdata ={} 
+    formdata.techstack= techstack;
+    if(pfplink!=initialinfo.pfplink){
+      formdata.pfplink = pfplink
+    }
+    if (aboutyou != initialinfo.aboutyou) {
+      formdata.about= aboutyou;
+    }
+    
+    if (twitter != initialinfo.twitter) {
+      const resulttwitter = twittervalidation.validate(twitter.toLowerCase())
+      const resultx = xvalidation.validate(twitter.toLowerCase()) 
+     //toast leaks 
+    if(!Object.keys(resultx || resulttwitter).includes("error")){
+      formdata.twitter=twitter;
+    }
+    else if(Object.keys(resultx && resulttwitter).includes("error")){
+      return toast.error("check the input field")
+    }
+      
+    }
+    if(github!=initialinfo.github){
+    const result = githubvalidation.validate(github.toLowerCase())
+    if(!Object.keys(result).includes("error")){
+      formdata.github=github;
+    }
+    else if(Object.keys(result).includes("error")){
+      return toast.error("check the input field")
+    }
+
+      }
+
+  await axios.put("http://localhost:8000/user/updateuserinfo",formdata).then((resp)=>{
+    if(resp.data.task==="completed"){
+      window.location.reload()
+    return toast.success("Profile updated")}
+    else{
+      return toast.error("Profile update failed")
+    }
+  }).catch(err=>console.error(err))
+}
 
   useEffect(() => {
-   localStorage.setItem("info",JSON.stringify(info)) 
-
+  console.log(initialinfo.pfplink) 
+    setInfo({
+      ...info,
+      username: initialinfo.username,
+      email: initialinfo.email,
+      twitter: initialinfo.twitter,
+      github: initialinfo.github,
+      pfplink: initialinfo.pfplink,
+      techstack: initialinfo.techstack,
+      aboutyou: initialinfo.aboutyou,
+    });
+  }, [initialinfo]);
+  useEffect(() => {
+    localStorage.setItem("info", JSON.stringify(info));
   }, [info]);
 
   return (
     <>
-      <div className="p-2 w-full h-screen space-y-5 sm:pr-10 sm:pl-10 lg:flex lg:justify-center lg:space-x-5 ">
-        <div className="lg:w-1/2 p-6">
+      <div className="p-2 w-full h-full space-y-5 sm:pr-10 sm:pl-10 lg:flex lg:justify-center lg:space-x-5 mt-20 font-display">
+        <div className="lg:w-1/2 p-6 pb-0">
           <div className=" space-y-5 ">
-            <p className="text-xl font-bold">Basic info</p>
             <div className="space-y-4">
               <div className="space-y-1">
-                <label className="font-semibold">User name</label>
-                <p className="p-4 border hover:border-blue-500 rounded-lg ">
-                  Ashishlakhimale
+                <div>
+                  <p className="font-bold  text-lg">
+                    Profile Photo (click the pfp to change)
+                  </p>
+                  <div className="w-48  rounded-full">
+                    <label htmlFor="uploadprofile">
+                      <img
+                        src={pfplink}
+                        ref={pfpRef}
+                        className="z-20 w-48 h-48 rounded-full"
+                      />
+                      <input
+                        type="file"
+                        name=""
+                        id="uploadprofile"
+                        accept=".jpg, .png, .jepg"
+                        hidden
+                        onChange={handlepfpchange}
+                      />
+                    </label>
+                  </div>
+                </div>
+                <label className="font-bold text-lg">User name</label>
+                <p className="p-4 border-4 border-black rounded-md text-lg">
+                  {username}
                 </p>
               </div>
               <div className="space-y-1">
-                <label className="font-semibold">Email</label>
-                <p className="p-4 border hover:border-blue-500 rounded-lg ">
-                  ashishlakhimale23@gmail.com
+                <label className="font-bold text-lg">Email</label>
+                <p className="p-4  border-4 border-black rounded-md text-lg">
+                  {email}
                 </p>
               </div>
-              <div>
-                <p className="font-semibold mb-1">
-                  Profile Photo (click the pfp to change)
-                </p>
-                <label htmlFor="uploadprofile">
-                  <img
-                    src={pfplink.length != 0 ? pfplink : deafultpfp}
-                    ref={pfpRef}
-                    className="z-20 w-48 h-48 rounded-full"
-                  />
-                  <input
-                    type="file"
-                    name=""
-                    id="uploadprofile"
-                    accept=".jpg, .png, .jepg"
-                    hidden
-                    onChange={handlepfpchange}
-                  />
-                </label>
+              <div className="space-y-1">
+                <label className="font-bold text-lg">Twitter Profile</label>
+                <input
+                  type="text"
+                  className=" p-4 border-4 border-black text-lg outline-none  rounded-lg bg-slate-100 hover:bg-white w-full"
+                  placeholder="https://twitter.com/johndoe"
+                  value={twitter}
+                  onChange={handlechangeTwitter}
+                />
               </div>
             </div>
           </div>
-
-          <div className="space-y-5 mt-10 ">
-            <p className="text-xl font-bold">About You</p>
-            <div className="space-y-4">
-              <div className="space-y-1 ">
-                <label className="font-semibold block">
-                  Profile Bio (About you)
+        </div>
+        <div className="space-y-5 pr-6 pl-6 lg:pl-0 lg:pt-0 lg:pb-0 lg:pr-6 lg:w-1/2">
+          <div className="w-full space-y-4">
+            <div className="space-y-1">
+              <div className="space-y-1 w-full">
+                <label className="block font-bold text-lg">
+                  Github Profile
                 </label>
-                <textarea
-                  className="w-full outline-none border rounded-lg bg-slate-100 p-4 hover:border-blue-500 hover:bg-white "
-                  placeholder="I am a developer from ...."
-                  value={aboutyou}
-                  rows={8}
-                  onChange={handleChangeAbout}
-                ></textarea>
+                <input
+                  type="text"
+                  className="  p-4 border-4 outline-none border-black text-lg  rounded-lg bg-slate-100 hover:bg-white w-full"
+                  placeholder="https://github.com/johndoe"
+                  value={github}
+                  onChange={handlechangeGithub}
+                />
               </div>
               <div className="relative space-y-1">
-                <label className="font-semibold block">Tech Stack</label>
+                <label className="font-bold block text-lg">Tech Stack</label>
                 <input
-                  className="w-full p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white "
+                  className="w-full p-4 border-4 border-black text-lg outline-none  rounded-lg bg-slate-100 hover:bg-white "
                   placeholder="Search for technologies, topics,more..."
                   value={temptechstack}
                   onChange={handletechstack}
@@ -190,7 +242,7 @@ setInfo((prevInfo) => ({ ...prevInfo, linkedin: e.target.value }));
                 />
 
                 <div className=" bg-white rounded-xl shadow-md absolute space-y-2 z-10 w-full">
-                  {!temptechstack.length || finaltechstack.length >= 5
+                  {!temptechstack.length || techstack.length >= 5
                     ? null
                     : predicated.map((tech, index) => (
                         <div
@@ -204,9 +256,9 @@ setInfo((prevInfo) => ({ ...prevInfo, linkedin: e.target.value }));
                 </div>
 
                 <div className="flex flex-wrap  items-center mt-2">
-                  {!finaltechstack.length
+                  {!techstack
                     ? null
-                    : finaltechstack.map((tech, index) => (
+                    : techstack.map((tech, index) => (
                         <div
                           key={index}
                           className="flex items-center p-1 pr-2 pl-2 ring-1 hover:bg-blue-100 ring-blue-700 m-1 text-blue-600 rounded-2xl  "
@@ -232,87 +284,30 @@ setInfo((prevInfo) => ({ ...prevInfo, linkedin: e.target.value }));
                       ))}
                 </div>
               </div>
-              <div className="space-y-1 realtive">
-                <label className="font-semibold block">Available</label>
+              <div className="space-y-1 ">
+                <label className="font-bold block text-lg">
+                  Profile Bio (About you)
+                </label>
                 <textarea
-                  className="w-full outline-none border rounded-lg bg-slate-100 p-4 hover:border-blue-500 hover:bg-white "
-                  placeholder="I am available for mentoring ...."
+                  className="w-full outline-none rounded-lg bg-slate-100 p-4 border-4 border-black hover:bg-white text-lg"
+                  placeholder="I am a developer from ...."
+                  value={aboutyou}
                   rows={8}
-                  value={available}
-                  onChange={handleChangeAvailable}
+                  onChange={handleChangeAbout}
                 ></textarea>
               </div>
+              <button
+                className="p-2 pr-4 pl-4 font-bold bg-silver border-4 border-black hover:bg-black hover:text-white"
+                onClick={handleupdate}
+              >
+                Update
+              </button>
             </div>
-          </div>
-        </div>
-        <div className="space-y-5 pr-6 pl-6 lg:pl-0 lg:pt-0 lg:pb-0 lg:pr-6 lg:w-1/2">
-          <p className="text-xl font-bold">Social</p>
-          <div className="w-full space-y-4">
-            <div className="space-y-1">
-              <label className="font-semibold">Twitter Profile</label>
-              <input
-                type="text"
-                className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-                placeholder="https://twitter.com/johndoe"
-                value={twitter}
-                onChange={handlechangeTwitter}
-              />
-            </div>
-          </div>
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">Instagram Profile</label>
-            <input
-              type="text"
-              className=" p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://instagram.com/johndoe"
-              value={instagram}
-              onChange={handlechangeInstagram}
-            />
-          </div>
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">Github Profile</label>
-            <input
-              type="text"
-              className="  p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://github.com/johndoe"
-              value={github}
-              onChange={handlechangeGithub}
-            />
-          </div>
-          
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">Facebook Profile</label>
-            <input
-              type="text"
-              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://facebook.com/johndoe"
-              value={facebook}
-              onChange={handlechangeFacebook}
-            />
-          </div>
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">Linekedin Profile</label>
-            <input
-              type="text"
-              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://linkedin.com/in/johndoe"
-              value={linkedin}
-              onChange={handlechangeLinkedIn}
-            />
-          </div>
-          <div className="space-y-1 w-full">
-            <label className="block font-semibold">Youtube Profile</label>
-            <input
-              type="text"
-              className="p-4 border outline-none hover:border-blue-500 rounded-lg bg-slate-100 hover:bg-white w-full"
-              placeholder="https://youtube.com/johndoe"
-              value={youtube}
-              onChange={handlechangeYoutube}
-            />
           </div>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 }
-export default Usersinfo;
+export default Usersinfo

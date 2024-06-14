@@ -1,11 +1,15 @@
 import  {useEffect, useState} from 'react';
 import { useNavigate} from 'react-router-dom';
-import  { Authcontext} from "../context/context.js";
+import  { Authcontext, UserContext} from "../context/context.js";
 import { useContext} from "react";
+import { getdate } from '../utils/date.js';
+import axios from 'axios';
 function Header() {
   
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
 const [open,setOpen] = useState(false) 
+const {initialinfo,setInitialinfo} = useContext(UserContext)
+
 
   const navigate = useNavigate();
   useEffect(()=>{
@@ -22,6 +26,31 @@ const [open,setOpen] = useState(false)
       document.body.style.overflow='visible'
     }
   },[open])
+useEffect(()=>{
+    async function fetchuserinfo(){
+     await axios.get("http://localhost:8000/user/getuserinfo").then((response)=>{
+       console.log(response)
+      setInitialinfo({
+        ...initialinfo,
+        username: response.data.userinfo.username,
+        pfplink: response.data.userinfo.pfplink,
+        email: response.data.userinfo.email,
+        aboutyou: response.data.userinfo.about,
+        github: response.data.userinfo.github,
+        twitter: response.data.userinfo.twitter,
+        techstack: response.data.userinfo.techstack,
+        blogs: response.data.userinfo.blogs,
+        draft: response.data.userinfo.draft,
+        joinedOn:getdate(response.data.userinfo.joinedOn)
+      });
+
+    })
+
+    }
+    
+    fetchuserinfo()
+
+ },[])
   return (
     <>
       <div className=" ">

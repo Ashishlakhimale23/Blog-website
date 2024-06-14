@@ -26,10 +26,7 @@ const user = new mongoose.Schema(
       type: String,
       default: "",
     },
-    available: {
-      type: String,
-      default: "",
-    },
+    
     techstack: {
       type: [String],
     },
@@ -38,26 +35,11 @@ const user = new mongoose.Schema(
         type: String,
         default: "",
       },
-      facebook: {
-        type: String,
-        default: "",
-      },
-      instagram: {
-        type: String,
-        default: "",
-      },
       github: {
         type: String,
         default: "",
       },
-      linkedin: {
-        type: String,
-        default: "",
-      },
-      youtube: {
-        type: String,
-        default: "",
-      },
+      
     draft: [
       {
         type: mongoose.Schema.Types.ObjectId,

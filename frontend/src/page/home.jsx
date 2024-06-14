@@ -1,6 +1,8 @@
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import axios from "axios";
 import Card from "../component/card";
+import { getdate } from "../utils/date";
+import { UserContext } from "../context/context";
 
 
 
@@ -10,7 +12,6 @@ useEffect(()=>{
 async function fetchdata(){
        await axios.get("http://localhost:8000/user/getblogs")
           .then((resp)=>{console.log(resp);
-            console.log(resp.data.blogs)
             setBlogs(resp.data.blogs);
           })
           .catch((error)=>{console.error(error)})
@@ -18,6 +19,8 @@ async function fetchdata(){
       
       fetchdata();
 },[])
+
+
     return (
       <>
        

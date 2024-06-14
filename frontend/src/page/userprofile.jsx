@@ -2,21 +2,17 @@ import { useContext, useEffect, useState } from "react"
 import {UserContext} from "../context/context"
 import axios from "axios"
 import {getdate} from "../utils/date"
+import { useNavigate } from "react-router-dom"
 export function UserProfile(){
-
- const {info,setInfo,initialinfo,setInitialinfo} = useContext(UserContext);
+ const navigate = useNavigate() 
+ const {initialinfo,setInitialinfo} = useContext(UserContext);
  
 const {
   username,
   email,
   pfplink,
   aboutyou,
-  available,
   github,
-  instagram,
-  facebook,
-  linkedin,
-  youtube,
   twitter,
   techstack,
   blogs,
@@ -24,36 +20,7 @@ const {
   joinedOn
 }=initialinfo
 
- useEffect(()=>{
-    async function fetchuserinfo(){
-     await axios.get("http://localhost:8000/user/getuserinfo").then((response)=>{
-
-      setInitialinfo({
-        ...initialinfo,
-        username: response.data.userinfo.username,
-        pfplink: response.data.userinfo.pfplink,
-        email: response.data.userinfo.email,
-        aboutyou: response.data.userinfo.aboutyou,
-        available: response.data.userinfo.available,
-        github: response.data.userinfo.github,
-        instagram: response.data.userinfo.instagram,
-        facebook: response.data.userinfo.facebook,
-        linkedin: response.data.userinfo.linkedin,
-        youtube: response.data.userinfo.youtube,
-        twitter: response.data.userinfo.twitter,
-        techstack: response.data.userinfo.techstack,
-        blogs: response.data.userinfo.blogs,
-        draft: response.data.userinfo.draft,
-        joinedOn:getdate(response.data.userinfo.joinedOn)
-      });
-
-    })
-
-    }
-    
-    fetchuserinfo()
-
- },[])
+ 
 
     return (
       <>
@@ -65,7 +32,9 @@ const {
               <div className="lg:flex lg:justify-between w-full">
                 <p className="text-2xl font-display font-bold ">{username}</p>
                 <div>
-                  <button className="mr-3 pr-8 pl-8 p-2 align-middle  bg-silver  border-black border-4 text-black text-xl font-semibold hover:text-white hover:bg-black">
+                  <button className="mr-3 pr-8 pl-8 p-2 align-middle  bg-silver  border-black border-4 text-black text-xl font-semibold hover:text-white hover:bg-black" onClick={()=>{
+                    navigate("/username")
+                  }}>
                     Edit
                   </button>
                   <button className="align-middle p-2 rounded-full border ">
@@ -95,12 +64,8 @@ const {
               className="space-x-2"
               style={{
                 display:
-                  linkedin.length ||
-                  instagram.length ||
                   github.length ||
-                  facebook.length ||
-                  twitter.length ||
-                  youtube
+                  twitter.length
                     ? "block"
                     : "none",
               }}

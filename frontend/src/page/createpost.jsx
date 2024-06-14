@@ -3,7 +3,7 @@ import EditorJS from "@editorjs/editorjs"
 import tool from "../utils/tools"
 import { Authcontext, BlogContext } from "../context/context.js";
 import { Toaster, toast } from "react-hot-toast"
-import {useNavigate,useLocation} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import axios from "axios";
 import deafultbanner from "../img/blog banner.png"
 

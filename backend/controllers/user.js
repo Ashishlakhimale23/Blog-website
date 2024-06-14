@@ -60,3 +60,14 @@ export async function handlelogin(req,res) {
     return res.json({Error:err})
   }
 }
+
+export const handleupdateuserinfo=async (req,res)=>{
+  const formdata = req.body;
+  const user = req.user
+  await User.findByIdAndUpdate(user,formdata).then((resp)=>{
+    return res.json({task:"completed"})
+  }).catch(err=>{
+    return res.json({task:"failed"})
+ } )
+
+}

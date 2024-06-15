@@ -21,7 +21,7 @@ function BlogPage(){
         async function fetchblog(){
             await axios.post('http://localhost:8000/user/blog',{id,title}).
             then((resp)=>{
-                console.log(resp.data.blog[0].author.pfplink)
+                console.log(resp.data.blog[0])
                 setBlog((prevBlog)=>({
                     ...prevBlog,
                     blogtitle:resp.data.blog[0].title,
@@ -41,37 +41,36 @@ function BlogPage(){
         }
         fetchblog()
     },[])
-    return (
-      <div className="font-display w-full h-full mt-20 p-6">
+   return (
+    <div className="lg:flex lg:justify-center lg:items-center md:p-12 md:pt-0 min-h-screen mt-20">
+      <div className="font-display p-6 max-w-[900px]">
         <div className="space-y-3 mb-4">
-          
           <div className="w-full">
-            <img src={banner} alt="" className="aspect-video w-full" />
+            <img src={banner} alt="Banner" className="aspect-video w-full" />
           </div>
           <div>
             <p className="text-2xl font-bold">{blogtitle}</p>
           </div>
           <div className="flex">
             <div>
-              <img src={pfplink} className="mr-2 w-12 h-12 rounded-full" />
+              <img src={pfplink} alt="Profile" className="mr-2 w-12 h-12 rounded-full" />
             </div>
             <div>
-              <p className="font-semibold">{username}</p>
+              <p className="font-semibold">By {username}</p>
               <p className="font-semibold">Published on {pushlishedAt}</p>
             </div>
           </div>
         </div>
 
-        <div className="w-full ">
-           {
-            content.map((block,i)=>(
-               <BlogParser key={i} block={block} />
-            ))
-
-           } 
-
+        <div className="w-full">
+          {content.map((block, i) => (
+            <BlogParser key={i} block={block} />
+          ))}
         </div>
       </div>
-    );
-}
+    </div>
+  );
+};
+ 
+
 export default BlogPage;

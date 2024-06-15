@@ -1,8 +1,8 @@
 import { useRef, useState , useEffect, useContext} from "react";
-import deafultpfp from "../img/deafultpfp.jpg"
+
 import techStack from "../utils/suggestion";
 import { UserContext } from "../context/context";
-import Joi, { object } from "joi";
+import Joi from "joi";
 import axios from "axios";
 import {Toaster,toast} from "react-hot-toast"
 function Usersinfo(){

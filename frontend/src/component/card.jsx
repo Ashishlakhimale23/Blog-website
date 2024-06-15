@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom"
 function Card({banner,title,content,author,activities,publishedOn,id}){
   let navigate = useNavigate();
  
-  const {username,image} = author;
+  const {username,pfplink,_id:userid} = author;
   let date =  getdate(publishedOn);
 
 
@@ -41,9 +41,11 @@ const handlebookmark = ()=>{
         </div>
 </div>
         <div className="flex  justify-between pl-2 pr-2 pb-2">
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 " onClick={()=>{
+            navigate(`/${username}`,{state:{data:{userid}}})
+          }}>
             <img
-              src="https://i.pinimg.com/564x/0c/ec/fa/0cecfa5bd56a3a089467769c9ede571e.jpg"
+              src={pfplink}
               className="h-11 rounded-md hover:opacity-80"
             />
             <div>

@@ -74,7 +74,16 @@ export const handlegetblogs=async(req,res)=>{
 
 export const handlegetuserinfo = async (req,res)=>{
   const userid = req.user
-  await User.findById(userid).select("username email pfplink available about twitter instagram github facebook linkedin youtube techstack blogs draft joinedOn")
+  await User.findById(userid).select("username email pfplink  about twitter github techstack blogs draft joinedOn")
+  .then((resp)=>{
+  return res.json({userinfo:resp})
+  }).catch(error=>console.log(error))
+}
+
+export const handlegetotheruserinfo = async (req,res)=>{
+  const {userid,username} = req.body;
+  console.log(userid,username)
+  await User.find({_id:userid,username:username}).select("username email pfplink about twitter github techstack joinedOn").populate("blogs","title content banner pusblishedOn")
   .then((resp)=>{
   return res.json({userinfo:resp})
   }).catch(error=>console.log(error))

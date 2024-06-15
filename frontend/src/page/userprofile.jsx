@@ -1,24 +1,50 @@
 import { useContext, useEffect, useState } from "react"
 import {UserContext} from "../context/context"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import {getdate} from "../utils/date"
-import { useNavigate } from "react-router-dom"
 export function UserProfile(){
  const navigate = useNavigate() 
- const {initialinfo,setInitialinfo} = useContext(UserContext);
+ const {username:Username} = useParams()
+ const location = useLocation();
+ const {userid} = location.state.data
+ const {info,setInfo} = useContext(UserContext);
  
 const {
   username,
-  email,
   pfplink,
   aboutyou,
   github,
   twitter,
   techstack,
   blogs,
-  draft,
   joinedOn
-}=initialinfo
+}=info
+useEffect(()=>{
+    async function fetchuserinfo(){
+     await axios.post("http://localhost:8000/user/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
+      console.log(response.data.userinfo)
+      setInfo({
+        ...info,
+        username: response.data.userinfo[0].username,
+        pfplink: response.data.userinfo[0].pfplink,
+        email: response.data.userinfo[0].email,
+        aboutyou: response.data.userinfo[0].about,
+        github: response.data.userinfo[0].github,
+        twitter: response.data.userinfo[0].twitter,
+        techstack: response.data.userinfo[0].techstack,
+        blogs: response.data.userinfo[0].blogs,
+        joinedOn:getdate(response.data.userinfo[0].joinedOn)
+      });
+      console.log(info)
+
+    })
+
+    }
+    
+    fetchuserinfo()
+
+ },[])
 
  
 

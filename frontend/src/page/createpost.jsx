@@ -21,7 +21,6 @@ function CreatePost() {
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authtoken"));
-    console.log("header set");
   const initializeEditor = () => {
       if (!texteditor.isReady) {
         const editor = new EditorJS({
@@ -127,7 +126,8 @@ useEffect(()=>{
                         
               setTimeout(() => {
                 toast.dismiss('success');
-                setBlog({title:"",banner:"",content:[]})
+                setBlog((prevBlog)=>({title:"",banner:"",content:[]}))
+                localStorage.setItem("blog",)
                navigate("/home") 
               }, 500);
             })

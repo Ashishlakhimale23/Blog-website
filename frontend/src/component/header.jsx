@@ -9,7 +9,7 @@ function Header() {
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
 const [open,setOpen] = useState(false) 
 const {initialinfo,setInitialinfo} = useContext(UserContext)
-const {username,pfplink} =initialinfo
+const {username,pfplink,_id} =initialinfo
 
 
   const navigate = useNavigate();
@@ -30,9 +30,10 @@ const {username,pfplink} =initialinfo
 useEffect(()=>{
     async function fetchuserinfo(){
      await axios.get("http://localhost:8000/user/getuserinfo").then((response)=>{
-       console.log(response)
+      console.log(response)
       setInitialinfo({
         ...initialinfo,
+        _id:response.data.userinfo._id,
         username: response.data.userinfo.username,
         pfplink: response.data.userinfo.pfplink,
         email: response.data.userinfo.email,
@@ -129,20 +130,23 @@ useEffect(()=>{
           style={{ display: open ? "block" : "none" }}
           
         >
-          <div className="flex space-x-2 hover:bg-black rounded-t-lg hover:text-white p-4 border-b-4 border-black" onClick={()=>{
-            navigate("/userprofile")
+          <div className="flex space-x-2 hover:bg-black rounded-t-lg hover:text-white p-4 border-b-4 border-black cursor-pointer" onClick={()=>{
+            navigate(`/${username}`,{state:{data:{userid:_id}}})
             setOpen(false)}
         }>
             <img
               src={pfplink}
-              className="h-11 rounded-full hover:opacity-80"
+              className="h-11 rounded-md hover:opacity-80"
             />
-            <div>
-              <p className="font-semibold">{username}</p>
+            <div className='flex'>
+              <p className="font-semibold text-xl flex items-center ">{username}</p>
             </div>
           </div>
        
-          <div className="flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
+          <div className="flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer" onClick={()=>{
+            navigate("/draft")
+            setOpen(false)
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -160,7 +164,7 @@ useEffect(()=>{
             </svg>
             <p className="">My draft</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -179,7 +183,7 @@ useEffect(()=>{
 
             <p className=" ">Bookmarks</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -198,7 +202,7 @@ useEffect(()=>{
 
             <p className=" ">Manage blogs</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

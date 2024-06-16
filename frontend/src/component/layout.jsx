@@ -8,6 +8,7 @@ import Header from './header'
 import Usersinfo from '../page/edituserinfo'
 import BlogPage from '../page/BlogPage'
 import { UserProfile } from '../page/userprofile'
+import Draft from '../page/draft'
 
 
 
@@ -28,6 +29,7 @@ function Layout() {
                 <Route path='/username' element={<Usersinfo/>}/>  
                 <Route path='/:username' element={<UserProfile/>}></Route>
                 <Route path='/blog/:title' element={<BlogPage/>}/>
+                <Route path='/draft' element={<Draft/>} />
               </Routes>
            
     </>

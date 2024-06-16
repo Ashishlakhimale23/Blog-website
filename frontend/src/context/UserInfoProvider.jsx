@@ -4,6 +4,7 @@ import {UserContext} from '../context/context'
 export function UserInfoProvider({children}){
 
 const UserInfo ={
+  _id:"",
   username:"",
   email:"",
   pfplink:"",

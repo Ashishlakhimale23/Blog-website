@@ -26,7 +26,7 @@ function CreatePost() {
         const editor = new EditorJS({
           holder: "texteditor",
           data: { blocks: content.length ? content : [] },
-          tools: tool, // Define your tools configuration
+          tools: tool, 
           placeholder: "Write some stories....",
           onChange: async () => {
             const savedBlock = await editor.save();
@@ -127,7 +127,6 @@ useEffect(()=>{
               setTimeout(() => {
                 toast.dismiss('success');
                 setBlog((prevBlog)=>({title:"",banner:"",content:[]}))
-                localStorage.setItem("blog",)
                navigate("/home") 
               }, 500);
             })

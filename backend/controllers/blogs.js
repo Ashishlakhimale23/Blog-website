@@ -99,3 +99,17 @@ export const handlegetpraticularblog=async (req,res)=>{
     return res.json({error:err})
   })
 }
+
+export const handledraftdeletion=async(req,res)=>{
+  const {_id,title} = req.body;
+  console.log(_id,title)
+  const userid = req.user;
+  await Blog.findOneAndDelete({_id:_id,title:title}).then(async(resp)=>{
+    console.log(resp)
+    await User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then((result)=>{
+        return res.json({status:"deleted"})
+    }).catch((err)=>{
+      return res.json({status:"deleting failed"})
+    })
+  })
+}

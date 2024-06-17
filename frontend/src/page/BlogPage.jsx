@@ -44,9 +44,9 @@ function BlogPage(){
         fetchblog()
     },[])
    return (
-   <div className="lg:flex lg:justify-center lg:items-center md:p-12 md:pt-0 min-h-screen mt-20 overflow-hidden">
-  <div className="font-display p-6 max-w-[900px]">
-    <div className="space-y-3 mb-4">
+   <div className="lg:flex lg:justify-center lg:items-center md:p-12 md:pt-0 min-h-screen mt-20 overflow-hidden w-full">
+  <div className="font-display p-6 w-full max-w-[900px]">
+    <div className="space-y-3 mb-4 w-full">
       <div className="w-full bg-black">
         <img src={banner} alt="Banner" className="aspect-video w-full" />
       </div>

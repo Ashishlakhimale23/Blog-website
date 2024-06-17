@@ -11,7 +11,7 @@ import deafultbanner from "../img/blog banner.png"
 function CreatePost() {
   
   const { blog, setBlog, texteditor, setTexteditor } = useContext(BlogContext);
-  const { title, content,banner } = blog;
+  const { title, content,banner,_id,changed} = blog;
   const {setAuthToken} = useContext(Authcontext)
   
   const [loading, setLoading] = useState(false);
@@ -21,6 +21,8 @@ function CreatePost() {
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authtoken"));
+
+  
   const initializeEditor = () => {
       if (!texteditor.isReady) {
         const editor = new EditorJS({
@@ -56,6 +58,7 @@ useEffect(()=>{
   localStorage.setItem("blog",JSON.stringify(blog))
 
 },[blog]) 
+
   const handletitlechange = (e) => {
     setBlog({ ...blog, title: e.target.value })
   
@@ -121,12 +124,12 @@ useEffect(()=>{
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await axios.post("http://localhost:8000/user/createblog", { title, content: savedData.blocks,result,banner})
+          await axios.post("http://localhost:8000/user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
                         
               setTimeout(() => {
                 toast.dismiss('success');
-                setBlog((prevBlog)=>({title:"",banner:"",content:[]}))
+                setBlog((prevBlog)=>({title:"",banner:"",content:[],_id:"",changed:false}))
                navigate("/home") 
               }, 500);
             })

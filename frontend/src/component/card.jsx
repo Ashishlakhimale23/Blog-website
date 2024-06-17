@@ -55,7 +55,7 @@ const handlebookmark = ()=>{
           </div>
           <div className="flex items-center ">
             <div>
-              {saved ? (
+              {!saved ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

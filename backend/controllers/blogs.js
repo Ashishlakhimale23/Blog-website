@@ -1,12 +1,9 @@
 import Blog from "../model/blogs.js";
 import User from "../model/user.js";
 
-export const handlecreateblog=(req,res)=>{
-    const autherid = req.user;
-    console.log(autherid)
-    const {title,content,result,banner} = req.body;
-
-    console.log(req.body)
+export const handlecreateblog=async(req,res)=>{
+    const userid = req.user;
+    const {title,content,result,banner,_id,changed} = req.body;
     if(!banner.length){
         return res.status(403).json({error:'You must add banner to the blog'})
     }
@@ -16,17 +13,37 @@ export const handlecreateblog=(req,res)=>{
     if(!content.length){
         return res.status(403).json({error:"No content provided"})
     } 
-    
 
-    let blog = new Blog({
-        title,content,banner,author:autherid,Published:result
+    if(_id){
+      console.log(_id)
+      await Blog.findOneAndUpdate({_id:_id},{title,banner,content,Published:result}).then((resp)=>{
+        if(changed){
+      User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then(()=>{
+ User.findByIdAndUpdate(
+   { _id: userid },
+   {
+     $push: { blogs:_id },
+   }
+ ).then(()=>{
+  return res.json(
+  {id:_id}
+  ) })
+      })
+
+        }else{
+        return res.json({id:_id})}
+      }).catch(err=>{return res.json({error:err})})
+
+    }else{
+let blog = new Blog({
+        title,content,banner,author:userid,Published:result
     })
     blog.save().then((blogs)=>{
         if(result){
           User.findByIdAndUpdate(
-            { _id: autherid },
+            { _id: userid },
             {
-              $inc: { "accountinfo.total_post": 1 },
+          
               $push: { blogs: blogs._id },
             }
           )
@@ -42,7 +59,7 @@ export const handlecreateblog=(req,res)=>{
         }
         else{
 User.findByIdAndUpdate(
-            { _id: autherid },
+            { _id: userid },
             {
               $push: { draft: blogs._id },
             }
@@ -61,7 +78,11 @@ User.findByIdAndUpdate(
         }
 
     ).catch(err=>{return res.status(500).json({error:"failed to upload the blog"})})
-}
+
+    }
+    
+
+    }
 
 export const handlegetblogs=async(req,res)=>{
   await Blog.find({Published:true}).populate("author","username pfplink")
@@ -107,6 +128,19 @@ export const handledraftdeletion=async(req,res)=>{
   await Blog.findOneAndDelete({_id:_id,title:title}).then(async(resp)=>{
     console.log(resp)
     await User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then((result)=>{
+        return res.json({status:"deleted"})
+    }).catch((err)=>{
+      return res.json({status:"deleting failed"})
+    })
+  })
+}
+export const handleblogdeletion=async(req,res)=>{
+  const {_id,title} = req.body;
+  console.log(_id,title)
+  const userid = req.user;
+  await Blog.findOneAndDelete({_id:_id,title:title}).then(async(resp)=>{
+    console.log(resp)
+    await User.findOneAndUpdate({_id:userid},{$pull:{"blogs":_id}}).then((result)=>{
         return res.json({status:"deleted"})
     }).catch((err)=>{
       return res.json({status:"deleting failed"})

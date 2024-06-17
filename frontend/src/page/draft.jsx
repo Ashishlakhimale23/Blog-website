@@ -3,20 +3,16 @@ import { BlogContext, UserContext } from "../context/context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster,toast } from "react-hot-toast";
-import P from "@editorjs/image";
 
 function Draft(){
     const {initialinfo} = useContext(UserContext)
     const {setBlog} = useContext(BlogContext)
     const {draft} =initialinfo
     const navigate = useNavigate()
-    const handledeletedraft=async()=>{
-        
-        
-    }
+    
     return (
         <>
-      <div className="min-h-screen w-full mt-20 p-4  ">
+      <div className="min-h-screen w-full mt-20 p-4 font-display ">
         <div className="mx-auto max-w-[900px] md:justify-center ">
         <p className="font-bold text-2xl mb-3 ">Drafts</p>
         <div className=" border-black border-4 p-4 rounded-md">
@@ -31,8 +27,11 @@ function Draft(){
                 const blog ={
                     title:drafts.title,
                     content:drafts.content,
-                    banner:drafts.banner
+                    banner:drafts.banner,
+                    _id:drafts._id,
+                    changed:true
                 }
+                console.log(blog)
                 setBlog(blog)
                 navigate("/createpost")
               }}>Edit</button>

@@ -183,7 +183,9 @@ useEffect(()=>{
 
             <p className=" ">Bookmarks</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer">
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer" onClick={()=>{
+            navigate("/manageblogs")
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -4,9 +4,11 @@ import {BlogContext} from "./context.js"
 function BlogProvider({children}){
     
     const blogstructure = {
+        _id:"",
         content:[ ],
         title :"",
-        banner:" "
+        banner:" ",
+        changed:false,
         }
     const [blog,setBlog] = useState(()=>{
         const saved = localStorage.getItem("blog")

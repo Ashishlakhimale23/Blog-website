@@ -1,6 +1,6 @@
 import express from "express"
 import {handlesignin,handlelogin,handleupdateuserinfo} from "../controllers/user.js"
-import { handlecreateblog, handlegetblogs,handlegetuserinfo,handlegetpraticularblog,handlegetotheruserinfo,handledraftdeletion } from "../controllers/blogs.js"
+import { handlecreateblog, handlegetblogs,handlegetuserinfo,handlegetpraticularblog,handlegetotheruserinfo,handledraftdeletion, handleblogdeletion } from "../controllers/blogs.js"
 import {userverification} from "../middleware/middleware.js"
 export const router = express.Router()
 //users
@@ -14,5 +14,6 @@ router.post("/getotheruserinfo",userverification,handlegetotheruserinfo)
 router.put("/updateuserinfo",userverification,handleupdateuserinfo)
 router.post("/blog",userverification,handlegetpraticularblog)
 router.post("/deletedraft",userverification,handledraftdeletion)
+router.post("/deleteblog",userverification,handleblogdeletion)
 export default router
 

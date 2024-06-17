@@ -14,7 +14,8 @@ const UserInfo ={
   techstack:[],
   blogs:[],
   draft:[],
-  joinedOn:""
+  joinedOn:"",
+  bookmarks:[]
 }
 const [info,setInfo] = useState(UserInfo)
 const [initialinfo,setInitialinfo] = useState(UserInfo)

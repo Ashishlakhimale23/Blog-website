@@ -10,6 +10,7 @@ import BlogPage from '../page/BlogPage'
 import { UserProfile } from '../page/userprofile'
 import Draft from '../page/draft'
 import ManageBlogs from '../page/manageblogs'
+import Bookmark from '../page/bookmarks'
 
 
 
@@ -32,6 +33,7 @@ function Layout() {
                 <Route path='/blog/:title' element={<BlogPage/>}/>
                 <Route path='/draft' element={<Draft/>} />
                 <Route path='/manageblogs' element={<ManageBlogs/>}></Route>
+                <Route path='/bookmarks' element={<Bookmark/>}/>
               </Routes>
            
     </>

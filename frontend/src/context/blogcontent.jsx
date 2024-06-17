@@ -9,6 +9,7 @@ function BlogProvider({children}){
         title :"",
         banner:" ",
         changed:false,
+        
         }
     const [blog,setBlog] = useState(()=>{
         const saved = localStorage.getItem("blog")

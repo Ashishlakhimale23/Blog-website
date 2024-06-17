@@ -52,6 +52,12 @@ const user = new mongoose.Schema(
         ref: "Blog",
       },
     ],
+bookmarks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog",
+      },
+    ],
     
   },
   {

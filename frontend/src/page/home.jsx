@@ -8,6 +8,7 @@ import { UserContext } from "../context/context";
 
 function Home () {
  const [blogs,setBlogs] = useState(null);
+ const {initialinfo} = useContext(UserContext)
 useEffect(()=>{
 async function fetchdata(){
        await axios.get("http://localhost:8000/user/getblogs")
@@ -38,6 +39,8 @@ async function fetchdata(){
                   author={blog.author}
                   publishedOn={blog.publishedOn}
                   id={blog._id}
+                  bookmarks={initialinfo.bookmarks}
+                
                 ></Card>
               ))
             )}

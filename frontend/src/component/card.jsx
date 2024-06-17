@@ -1,6 +1,8 @@
-import {  useState  } from "react";
+import {  useContext, useState  } from "react";
 import {getdate} from "../utils/date"
 import {useNavigate} from "react-router-dom"
+import axios from "axios";
+import { UserContext } from "../context/context";
 
 
 function Card({banner,title,content,author,activities,publishedOn,id}){
@@ -8,13 +10,20 @@ function Card({banner,title,content,author,activities,publishedOn,id}){
  
   const {username,pfplink,_id:userid} = author;
   let date =  getdate(publishedOn);
+  const {initialinfo,setInitialinfo} = useContext(UserContext)
+  const {bookmarks}= initialinfo
 
 
 
-const handlebookmark = ()=>{
-    setSaved(!saved)
+const handlesavebookmark =async ()=>{
+  setInitialinfo((prevInfo)=>({...prevInfo,bookmarks:[...bookmarks,id]}))
+  await axios.post("http://localhost:8000/user/savebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
 }
-    const [saved,setSaved] = useState(false);
+const handleremovebookmark=async ()=>{
+  setInitialinfo((prevInfo)=>({...prevInfo,bookmarks:bookmarks.filter(saved=>saved!=id)}))
+  await axios.post("http://localhost:8000/user/removebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
+}
+
     return (
       <div className="w-full space-y-4 flex-shrink-0 antialiased font-display border-black border-4 shadow-custom max-w-[600px]">
         <div onClick={()=>{navigate(`/blog/${title}`,{state:{data:{id}}})}}>
@@ -55,7 +64,7 @@ const handlebookmark = ()=>{
           </div>
           <div className="flex items-center ">
             <div>
-              {!saved ? (
+              {!bookmarks.includes(id) ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -63,7 +72,7 @@ const handlebookmark = ()=>{
                   strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-6"
-                  onClick={handlebookmark}
+                  onClick={handlesavebookmark}
                 >
                   <path
                     strokeLinecap="round"
@@ -79,7 +88,7 @@ const handlebookmark = ()=>{
                   strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-6"
-                  onClick={handlebookmark}
+                  onClick={handleremovebookmark}
                 >
                   <path
                     strokeLinecap="round"

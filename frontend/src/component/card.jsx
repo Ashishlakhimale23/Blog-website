@@ -1,4 +1,4 @@
-import {  useContext, useState  } from "react";
+import {  useContext, useEffect, useState  } from "react";
 import {getdate} from "../utils/date"
 import {useNavigate} from "react-router-dom"
 import axios from "axios";
@@ -12,7 +12,8 @@ function Card({banner,title,content,author,activities,publishedOn,id}){
   let date =  getdate(publishedOn);
   const {initialinfo,setInitialinfo} = useContext(UserContext)
   const {bookmarks}= initialinfo
-
+  
+ 
 
 
 const handlesavebookmark =async ()=>{
@@ -64,7 +65,7 @@ const handleremovebookmark=async ()=>{
           </div>
           <div className="flex items-center ">
             <div>
-              {!bookmarks.includes(id) ? (
+              {!bookmarks.includes(id)? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

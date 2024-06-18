@@ -165,7 +165,9 @@ useEffect(()=>{
             </svg>
             <p className="">My draft</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer" onClick={()=>{navigate("/bookmarks")}}>
+          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer" onClick={()=>{navigate("/bookmarks")
+            setOpen(false)
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -205,25 +207,7 @@ useEffect(()=>{
 
             <p className=" ">Manage blogs</p>
           </div>
-          <div className=" flex space-x-2 hover:bg-black hover:text-white border-b-4 border-black p-4 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-              className="h-5 "
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-
-            <p className=" ">Reading history</p>
-          </div>
+        
           <div className="rounded-b-lg  flex space-x-2 hover:bg-black hover:text-white p-4" onClick={()=>{
             localStorage.removeItem("authtoken")
             setLogged(false);

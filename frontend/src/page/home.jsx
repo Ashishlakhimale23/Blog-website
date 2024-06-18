@@ -8,7 +8,7 @@ import { UserContext } from "../context/context";
 
 function Home () {
  const [blogs,setBlogs] = useState(null);
- const {initialinfo} = useContext(UserContext)
+ const {initialinfo,setInitialinfo} = useContext(UserContext)
 useEffect(()=>{
 async function fetchdata(){
        await axios.get("http://localhost:8000/user/getblogs")

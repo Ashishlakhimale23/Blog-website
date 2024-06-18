@@ -1,36 +1,47 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../context/context";
+import {  useState ,useEffect} from "react";
+
 import { getdate } from "../utils/date";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Bookmark(){
-    const {initialinfo,setInitialinfo} = useContext(UserContext)
-    const {bookmarks} = initialinfo
+    const navigate = useNavigate()
+  const [bookmark,setBookmark] = useState([])
+    useEffect(()=>{
+      const fetchbookmarks= async ()=>{
+        await axios.get("http://localhost:8000/user/getbookmarks").then((resp)=>{
+       
+          setBookmark(resp.data.bookmark.bookmarks)
+        })
+      }      
+      fetchbookmarks()
+    },[])
     return (
       <>
         <div className="min-h-screen w-full mt-20 p-4 font-display ">
           <div className="mx-auto max-w-[900px] md:justify-center ">
             <p className="font-bold text-2xl mb-3 ">Blogs</p>
             <div className=" border-black border-4 p-4 rounded-md">
-              {!bookmarks.length ? (
+              {!bookmark.length ? (
                 <p className="text-xl font-bold">You dont have any drafts</p>
               ) : (
-                bookmarks.map((bookmark, index) => (
+                bookmark.map((bookmarks, index) => (
                   <div className=" p-2 mb-2 rounded-md" key={index}>
                     <div className="flex ">
                       <div
                         className="flex-1 content-center cursor-pointer"
                         onClick={() => {
-                          navigate(`/blog/${bookmark.title}`, {
+                          navigate(`/blog/${bookmarks.title}`, {
 
-                            state: { data: { id: bookmark._id } },
+                            state: { data: { id: bookmarks._id } },
                           });
                         }}
                       >
                         <p className="text-lg font-bold hover:underline">
-                          {bookmark.title}
+                          {bookmarks.title}
                         </p>
                         <p className="text-lg font-bold  ">
-                          {getdate(bookmark.publishedOn)}
+                          {getdate(bookmarks.publishedOn)}
                         </p>
                       </div>
                     </div>

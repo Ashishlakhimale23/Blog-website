@@ -1,32 +1,37 @@
 import  {useEffect, useState} from 'react';
 import { useNavigate} from 'react-router-dom';
-import  { Authcontext, UserContext} from "../context/context.js";
+import  { Authcontext, UserContext, WholeBlogAndUser, searchpopover} from "../context/context.js";
 import { useContext} from "react";
 import { getdate } from '../utils/date.js';
 import axios from 'axios';
+import Search from './search.jsx';
 function Header() {
   
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
 const [open,setOpen] = useState(false) 
+const {search,setSearch} = useContext(searchpopover)
 const {initialinfo,setInitialinfo} = useContext(UserContext)
 const {username,pfplink,_id} =initialinfo
-
+const {searchcontent,setSearchcontent} = useContext(WholeBlogAndUser)
 
   const navigate = useNavigate();
+  
   useEffect(()=>{
 
        setAuthToken(localStorage.getItem("authtoken")) 
+
   })
   useEffect(()=>{
      
-    if(open){
-      console.log(open)
+    if(open || search){
       document.body.style.overflow='hidden'
     }
     else{
       document.body.style.overflow='visible'
     }
-  },[open])
+
+  },[open,search])
+
 useEffect(()=>{
     async function fetchuserinfo(){
      await axios.get("http://localhost:8000/user/getuserinfo").then((response)=>{
@@ -50,8 +55,25 @@ useEffect(()=>{
     })
 
     }
+
+async function fetchusersandblogs(){
+         await axios.get("http://localhost:8000/user/getallusersandblogs").then((resp)=>{
+          
+          setSearchcontent({
+            ...searchcontent,
+            blogs:resp.data.blogs,
+            users:resp.data.users
+          })
+         }).catch((err)=>{
+          console.log(err)
+         })
+      }
+      
+     
+
     
     fetchuserinfo()
+ fetchusersandblogs()
 
  },[])
   return (
@@ -68,7 +90,10 @@ useEffect(()=>{
 
           <div className="space-x-2 flex items-center">
            
-              <button>
+              <button onClick={()=>{
+                setSearch(!search)
+              }
+              }>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -235,7 +260,12 @@ useEffect(()=>{
             </p>
           </div>
         </div>
+
       </div>
+<div style={{display:search?"block":"none"}}>
+<Search />
+</div>
+
     </>
   );
 }

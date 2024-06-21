@@ -38,6 +38,7 @@ async function fetchdata(){
                   editorjs_data={blog.content}
                   author={blog.author}
                   publishedOn={blog.publishedOn}
+                  content={blog.content}
                   id={blog._id}
                   bookmarks={initialinfo.bookmarks}
                 

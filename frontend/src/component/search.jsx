@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect,useRef } from "react";
 import { getdate } from "../utils/date";
 import { WholeBlogAndUser, searchpopover } from "../context/context";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ function Search() {
   const { blogs, users } = searchcontent;
   const navigate = useNavigate();
   const { search, setSearch } = useContext(searchpopover);
+const popoverRef = useRef(null);
 
   function predictionforblogs(word) {
     const predicatedarray = blogs.filter(
@@ -26,22 +27,36 @@ function Search() {
     );
     setUserprediction(predicatedarray);
   }
-
+ const handleClickOutside = (event) => {
+    if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+      setSearch(false);
+    }
+  };
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
   }, []);
+  useEffect(() => {
+    if (search) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [search]);
 
   return (
     <div className="fixed w-full min-h-screen bg-black/30 flex justify-center font-display">
-      <div className="w-[700px] p-10 bg-white rounded-lg mt-3 h-fit max-h-screen overflow-y-scroll no-scrollbar">
+      <div className="w-[700px] p-10 bg-white rounded-lg mt-3 h-fit max-h-screen overflow-y-scroll no-scrollbar" ref={popoverRef}>
         <div className="sticky top-0 bg-white z-10 pb-3">
           <input
             type="text"
             value={searchvalue}
-            className="outline-none w-full p-4 border rounded-lg"
+            className="outline-none w-full p-4 border-4 border-black rounded-lg"
             onChange={(e) => {
               setSearchvalue(e.target.value);
               predictionforblogs(e.target.value);
@@ -119,8 +134,9 @@ function Search() {
                     className="flex space-x-2"
                     onClick={() => {
                       navigate(`/${user.username}`, {
-                        state: { data: { user: user._id } },
-                      });
+                        state: { data: { userid: user._id } },
+                      })
+                      setSearch(false)
                     }}
                   >
                     <img

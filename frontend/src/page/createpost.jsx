@@ -129,7 +129,7 @@ useEffect(()=>{
                         
               setTimeout(() => {
                 toast.dismiss('success');
-                setBlog((prevBlog)=>({title:"",banner:"",content:[],_id:"",changed:false}))
+                setBlog((prevBlog)=>({...prevBlog ,title:"",banner:"",content:[],_id:"",changed:false}))
                navigate("/home") 
               }, 500);
             })

@@ -18,6 +18,7 @@ function Layout() {
   const authtoken = localStorage.getItem("authtoken");
   const location = useLocation();
   const noheader = ["/signin","/login","/createpost"]
+  !authtoken?noheader.push("/"):null
 
   return (
     <>

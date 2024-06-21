@@ -18,12 +18,12 @@ function Bookmark(){
     },[])
     return (
       <>
-        <div className="min-h-screen w-full mt-20 p-4 font-display ">
+        <div className="min-h-screen w-full mt-16 p-4 font-display ">
           <div className="mx-auto max-w-[900px] md:justify-center ">
-            <p className="font-bold text-2xl mb-3 ">Blogs</p>
+            <p className="font-bold text-2xl mb-3 ">Bookmarks</p>
             <div className=" border-black border-4 p-4 rounded-md">
               {!bookmark.length ? (
-                <p className="text-xl font-bold">You dont have any drafts</p>
+                <p className="text-xl font-bold">You dont have any bookmarks</p>
               ) : (
                 bookmark.map((bookmarks, index) => (
                   <div className=" p-2 mb-2 rounded-md" key={index}>

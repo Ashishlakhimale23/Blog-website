@@ -9,6 +9,7 @@ export function UserProfile(){
  const {username:Username} = useParams()
  const location = useLocation();
  const {userid} = location.state.data
+ 
  const {info,setInfo,initialinfo} = useContext(UserContext);
  const {username:usersusername} = initialinfo;
  
@@ -24,9 +25,10 @@ const {
   joinedOn
 }=info
 useEffect(()=>{
+  console.log(userid)
     async function fetchuserinfo(){
      await axios.post("http://localhost:8000/user/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
-      console.log(response.data.userinfo)
+      console.log(response.data.userinfo[0])
       setInfo({
         ...info,
         username: response.data.userinfo[0].username,
@@ -53,7 +55,7 @@ useEffect(()=>{
 
     return (
       <>
-        <div className="w-full h-full p-10 pl-5 pr-5  font-display mt-10 md:p-16 ">
+        <div className="w-full h-full p-10 pl-5 pr-5  font-display mt-16 md:p-16 ">
           <div className="space-y-8 max-w-4xl  lg:flex-row lg:justify-center lg:items-center mx-auto ">
             <div className="w-full h-fit space-y-3 md:flex ">
               <div className="md:flex md:items-center  md:space-x-3 w-full">

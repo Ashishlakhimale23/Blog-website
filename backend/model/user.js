@@ -20,7 +20,7 @@ const user = new mongoose.Schema(
     pfplink: {
       type: String,
       default:
-        "https://res.cloudinary.com/ddweepkue/image/upload/v1715528905/w7st3gwuluylghsal3ob.jpg",
+        "https://play-lh.googleusercontent.com/ki_oNQS0vtmA2eah8qbnjEhQ_ZP_f6llQ5CkNhTqvVfxRV6wtQaAxQDmq2CkjHFbeUA=w526-h296-rw",
     },
     about: {
       type: String,

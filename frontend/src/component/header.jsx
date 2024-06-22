@@ -162,7 +162,7 @@ async function fetchusersandblogs(){
               onClick={() => {
                 setOpen(!open);
               }}
-              ref={popover}
+              
             />
           </div>
         </header>
@@ -170,6 +170,7 @@ async function fetchusersandblogs(){
         <div
           className={`w-11/12 ml-6 mt-4 mb-4 flex-col fixed bottom-0 right-0 left-0  bg-silver border-4 border-black font-display sm:w-80  sm:left-auto sm:right-4 sm:bottom-auto shadow-custom`}
           style={{ display: open ? "block" : "none" }}
+          ref={popover}
          
         >
           <div

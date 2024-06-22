@@ -62,15 +62,15 @@ useEffect(()=>{
 },[logged])
   return (
     <>
-    <div className="min-h-screen flex flex-col justify-center">
+    <div className="min-h-screen flex flex-col justify-center font-display">
       <form
         action=""
         className=" relative sm:w-96 mx-auto text-center"
         onSubmit={handelsubmit}
       >
         <label className="text-4xl font-bold block">Welcome back.</label>
-        <label htmlFor="">Dont have an account ? <a href="/signin" className="underline hover:text-purple-400 ">Sign up</a></label>
-        <div className="mt-4 bg-white shadow-md rounded-lg">
+        <label htmlFor="">Dont have an account ? <a href="/signin" className="underline hover:text-silver">Sign up</a></label>
+        <div className="mt-4 bg-white  rounded-lg border-4 border-black shadow-custom">
           <div className="px-3 py-4">
             <label className="block font-semibold text-left">
                Email
@@ -78,7 +78,7 @@ useEffect(()=>{
             <input
               type="email"
               placeholder="Email"
-              className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5"
+              className="mt-2  hover:outline-none focus:outline-none w-full bg-white border-2 border-black h-5 rounded-md px-4 py-5"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -91,7 +91,7 @@ useEffect(()=>{
             <input
               type="password"
               placeholder="Password"
-              className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5"
+              className="mt-2  hover:outline-none focus:outline-none w-full h-5 border-2 bg-white border-black rounded-md px-4 py-5"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -101,7 +101,7 @@ useEffect(()=>{
             <div className="flex justify-between items-baseline">
               <button
                 type="submit"
-                className="px-5 py-3 bg-indigo-500 mt-2 text-white rounded-md hover:bg-indigo-400"
+                className=" px-5 py-3 bg-white mt-2 text-black rounded-md  border-4 border-black hover:bg-black hover:text-white"
               >
                 Login
               </button>

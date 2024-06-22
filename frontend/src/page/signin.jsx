@@ -102,7 +102,7 @@ function Signin() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-center">
+      <div className="font-display min-h-screen flex flex-col justify-center">
         <form
           action=""
           onSubmit={handelsubmit}
@@ -110,18 +110,17 @@ function Signin() {
         >
           <div className="text-4xl font-bold mb-3">
             <span className="text-black">Get</span>
-            <span className="text-orange-600">better</span>
-            <span className="text-gray-400">*</span>
+            <span className="text-black">better</span>
           </div>
           <label className="text-4xl font-bold block">Join the Community</label>
-          <label htmlFor="">Already have an account ?  <a href="/login" className="underline hover:text-purple-400"> Log in</a></label>
-          <div className="mt-4  bg-white shadow-lg  rounded-lg ">
+          <label htmlFor="">Already have an account ?  <a href="/login" className="underline hover:text-silver"> Log in</a></label>
+          <div className="mt-4  bg-white rounded-lg border-4 border-black shadow-custom">
             <div className="px-3 py-4">
               <label className="block font-semibold text-left">Email</label>
               <input
                 type="email"
                 placeholder="Email"
-                className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5"
+                className="mt-2 focus:border-black border-2 w-full h-5  rounded-md px-4 py-5"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -129,7 +128,7 @@ function Signin() {
               <input
                 type="text"
                 placeholder="Username"
-                className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5"
+                className="mt-2  w-full h-5 focus:border-black border-2 bg-white rounded-md px-4 py-5"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -139,7 +138,7 @@ function Signin() {
               <input
                 type="password"
                 placeholder="Password"
-                className="mt-2 border hover:outline-none focus:outline-none w-full h-5 focus:ring-1 focus:ring-indigo-400 rounded-md px-4 py-5 mb-2"
+                className="mt-2 w-full h-5 border-2  focus:border-black rounded-md px-4 py-5 mb-2"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -147,7 +146,7 @@ function Signin() {
               <div className="flex justify-between items-baseline">
                 <button
                   type="submit"
-                  className="px-5 py-3 bg-indigo-500 mt-2 text-white rounded-md hover:bg-indigo-400"
+                  className="px-5 py-3 bg-white mt-2 text-black rounded-md  border-4 border-black hover:bg-black hover:text-white"
                 >
                   Signup
                 </button>

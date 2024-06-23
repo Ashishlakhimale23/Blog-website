@@ -39,8 +39,7 @@ const handleClickOutside=(event)=>{
 
 useEffect(()=>{
     async function fetchuserinfo(){
-     await axios.get("http://localhost:8000/user/getuserinfo").then((response)=>{
-      console.log(response)
+     await axios.get("/user/getuserinfo").then((response)=>{
       setInitialinfo({
         ...initialinfo,
         _id:response.data.userinfo._id,
@@ -62,7 +61,7 @@ useEffect(()=>{
     }
 
 async function fetchusersandblogs(){
-         await axios.get("http://localhost:8000/user/getallusersandblogs").then((resp)=>{
+         await axios.get("/user/getallusersandblogs").then((resp)=>{
           
           setSearchcontent({
             ...searchcontent,
@@ -107,7 +106,11 @@ async function fetchusersandblogs(){
           <div className="space-x-2 flex items-center">
             <button
               onClick={() => {
-                setSearch(!search);
+               if(search){
+                setSearch(false)
+               }else{
+                setSearch(true)
+               } 
               }}
             >
               <svg
@@ -154,25 +157,26 @@ async function fetchusersandblogs(){
             >
               Create Account
             </button>
-            <img
-              src={pfplink}
-              alt=""
-              className="h-12 rounded-full  "
-              style={{ display: logged ? "block" : "none" }}
-              onClick={() => {
-                setOpen(!open);
+            <button onClick={() => {
+               setOpen(!open) 
               }}
               
+              >
+            <img
+              src={pfplink}
+              className="h-12 rounded-full"
+              style={{ display: logged ? "block" : "none" }}  
             />
+</button >
           </div>
         </header>
 
         <div
           className={`w-11/12 ml-6 mt-4 mb-4 flex-col fixed bottom-0 right-0 left-0  bg-silver border-4 border-black font-display sm:w-80  sm:left-auto sm:right-4 sm:bottom-auto shadow-custom`}
           style={{ display: open ? "block" : "none" }}
-          ref={popover}
-         
+          
         >
+          <div ref={popover}>
           <div
             className="flex space-x-2 hover:bg-black hover:text-white p-4 border-b-2 border-black cursor-pointer"
             onClick={() => {
@@ -291,6 +295,7 @@ async function fetchusersandblogs(){
 
             <p className="font-display ">Log out</p>
           </div>
+</div>
         </div>
       </div>
       <div style={{ display: search ? "block" : "none" }}>

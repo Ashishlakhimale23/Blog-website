@@ -27,8 +27,7 @@ const {
 useEffect(()=>{
   console.log(userid)
     async function fetchuserinfo(){
-     await axios.post("http://localhost:8000/user/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
-      console.log(response.data.userinfo[0])
+     await axios.post("/user/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
       setInfo({
         ...info,
         username: response.data.userinfo[0].username,

@@ -20,9 +20,8 @@ function BlogPage(){
     const {title} = useParams()
     useEffect(()=>{
         async function fetchblog(){
-            await axios.post('http://localhost:8000/user/blog',{id,title}).
+            await axios.post('/user/blog',{id,title}).
             then((resp)=>{
-                console.log(resp.data.blog[0])
                 setBlog((prevBlog)=>({
                     ...prevBlog,
                     blogtitle:resp.data.blog[0].title,
@@ -37,7 +36,6 @@ function BlogPage(){
                   }}
 
                 }))
-                console.log(blog)
             })
             .catch(err=>console.log(err))
         }

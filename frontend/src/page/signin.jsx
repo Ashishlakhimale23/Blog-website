@@ -44,16 +44,14 @@ function Signin() {
     }
 
     const result = schema.validate(userInput,{abortEarly:false})
-    console.log(result)
     if(Object.keys(result).includes("error")){
       return toast.error("Validation error")
     }
     
     
 
-      await axios.post("http://localhost:8000/user/signin",userInput)
+      await axios.post("/user/signin",userInput)
     .then((response)=>{
-    console.log(response)
      if(Object.keys(response.data).includes("created" || "token")){
      
       localStorage.setItem("authtoken",response.data.token)

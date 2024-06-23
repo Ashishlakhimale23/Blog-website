@@ -68,11 +68,11 @@ function Usersinfo(){
     const filename = e.target.files[0];
     const formData = new FormData();
     formData.append("file", filename);
-    formData.append("upload_preset", "coursefiles");
-    formData.append("api_key", "993344952783557");
+    formData.append("upload_preset", process.env.UPLOAD_PRESET);
+     formData.append("api_key", process.env.API_KEY);
 
     const response = await fetch(
-      "https://api.cloudinary.com/v1_1/ddweepkue/image/upload",
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
       {
         method: "POST",
         body: formData,
@@ -135,7 +135,7 @@ function Usersinfo(){
 
       }
 
-  await axios.put("http://localhost:8000/user/updateuserinfo",formdata).then((resp)=>{
+  await axios.put("/user/updateuserinfo",formdata).then((resp)=>{
     if(resp.data.task==="completed"){
       window.location.reload()
     return toast.success("Profile updated")}

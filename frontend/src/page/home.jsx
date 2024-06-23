@@ -11,7 +11,7 @@ function Home () {
  const {initialinfo,setInitialinfo} = useContext(UserContext)
 useEffect(()=>{
 async function fetchdata(){
-       await axios.get("http://localhost:8000/user/getblogs")
+       await axios.get("/user/getblogs")
           .then((resp)=>{console.log(resp);
             setBlogs(resp.data.blogs);
           })

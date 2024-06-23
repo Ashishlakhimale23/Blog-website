@@ -47,13 +47,13 @@ function BlogParser({block}){
     }
     if(type=="header"){
         if(data.level == 2){
-            return <h2 dangerouslySetInnerHTML={{__html:data.text}} className="text-2xl font-bold mt-2"></h2>
+            return <h2 dangerouslySetInnerHTML={{__html:data.text}} className="text-2xl font-bold mt-6"></h2>
         }
         if(data.level == 3){
-            return <h3 dangerouslySetInnerHTML={{__html:data.text}} className="text-3xl font-bold"></h3>
+            return <h3 dangerouslySetInnerHTML={{__html:data.text}} className="text-3xl font-bold  mt-6"></h3>
         }
         if(data.level == 4){
-            return <h4 dangerouslySetInnerHTML={{__html:data.text}} className="text-4xl font-bold"></h4>
+            return <h4 dangerouslySetInnerHTML={{__html:data.text}} className="text-4xl font-bold  mt-6"></h4>
         }
     }
     if(type=="quote"){

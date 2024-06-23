@@ -20,11 +20,11 @@ function Card({banner,title,content:Content,author,activities,publishedOn,id}){
 
 const handlesavebookmark =async ()=>{
   setInitialinfo((prevInfo)=>({...prevInfo,bookmarks:[...bookmarks,id]}))
-  await axios.post("http://localhost:8000/user/savebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
+  await axios.post("/user/savebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
 }
 const handleremovebookmark=async ()=>{
   setInitialinfo((prevInfo)=>({...prevInfo,bookmarks:bookmarks.filter(saved=>saved!=id)}))
-  await axios.post("http://localhost:8000/user/removebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
+  await axios.post("/user/removebookmark",{blogid:id}).then(resp=>console.log(resp)).catch(err=>console.log(err))
 }
 
     return (

@@ -47,7 +47,7 @@ function Draft(){
                         onClick={async () => {
                           console.log(drafts._id);
                           await axios
-                            .post("http://localhost:8000/user/deleteblog", {
+                            .post("/user/deleteblog", {
                               _id: drafts._id,
                               title: drafts.title,
                             })

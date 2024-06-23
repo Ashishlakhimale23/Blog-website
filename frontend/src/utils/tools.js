@@ -26,13 +26,14 @@ const uploadByURL =async (e)=>{
 }
 
 const uploadImageByFile = async (file) => {
+    console.log(process.env.UPLOAD_PRESET)
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "coursefiles");
-    formData.append("api_key", "993344952783557");
+    formData.append("upload_preset", process.env.UPLOAD_PRESET);
+    formData.append("api_key", process.env.API_KEY);
 
     try {
-        const response = await fetch('https://api.cloudinary.com/v1_1/ddweepkue/image/upload', {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`, {
             method: 'POST',
             body: formData
         });

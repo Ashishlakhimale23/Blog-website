@@ -72,11 +72,11 @@ useEffect(()=>{
     const filename = e.target.files[0];
     const formData = new FormData();
     formData.append("file", filename);
-    formData.append("upload_preset", "coursefiles");
-    formData.append("api_key", "993344952783557");
+    formData.append("upload_preset", process.env.UPLOAD_PRESET);
+    formData.append("api_key",process.env.API_KEY);
  
    const response = await fetch(
-            "https://api.cloudinary.com/v1_1/ddweepkue/image/upload",
+            `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
             {
                 method: "POST",
                 body: formData,
@@ -124,7 +124,7 @@ useEffect(()=>{
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await axios.post("http://localhost:8000/user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
+          await axios.post("/user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
                         
               setTimeout(() => {

@@ -23,7 +23,6 @@ function Login() {
     password:password
    }
   const result =  schema.validate(userInput,{abortEarly:false})
-  console.log(result)
 if(Object.keys(result).includes("error")){
       return toast.error("Validation error")
     }
@@ -34,7 +33,7 @@ if(Object.keys(result).includes("error")){
     return toast.error("Enter the password")
   }
 
-  await axios.post("http://localhost:8000/user/login",userInput)
+  await axios.post("/user/login",userInput)
   .then((response)=>{
     if(Object.keys(response.data).includes("Notfound")){
       return toast.error(response.data.Notfound)

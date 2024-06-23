@@ -48,9 +48,8 @@ function ManageBlogs(){
                       <button
                         className="font-bold  pt-2 pb-2 pr-4 pl-4 rounded-md  hover:bg-black hover:text-white"
                         onClick={async () => {
-                          console.log(blog._id);
                           await axios
-                            .post("http://localhost:8000/user/deleteblog", {
+                            .post("/user/deleteblog", {
                               _id: blog._id,
                               title: blog.title,
                             })

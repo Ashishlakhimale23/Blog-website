@@ -39,7 +39,7 @@ const handleClickOutside=(event)=>{
 
 useEffect(()=>{
     async function fetchuserinfo(){
-     await axios.get("user/getuserinfo").then((response)=>{
+     await axios.get("/user/getuserinfo").then((response)=>{
       console.log(response)
       setInitialinfo({
         ...initialinfo,
@@ -62,7 +62,7 @@ useEffect(()=>{
     }
 
 async function fetchusersandblogs(){
-         await axios.get("user/getallusersandblogs").then((resp)=>{
+         await axios.get("/user/getallusersandblogs").then((resp)=>{
           
           setSearchcontent({
             ...searchcontent,

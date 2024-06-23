@@ -91,7 +91,7 @@ export const handlegetblogs=async(req,res)=>{
 
 export const handlegetuserinfo = async (req,res)=>{
   const userid = req.user
-  console.log("in user info ")
+ 
   await User.findById(userid).select("username email pfplink  about twitter github techstack blogs draft joinedOn bookmarks").populate("blogs","title content banner publishedOn").populate("draft","title content banner publishedOn")
   .then((resp)=>{
   return res.json({userinfo:resp})

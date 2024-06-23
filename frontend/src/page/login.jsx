@@ -33,7 +33,7 @@ if(Object.keys(result).includes("error")){
     return toast.error("Enter the password")
   }
 
-  await axios.post("user/login",userInput)
+  await axios.post("/user/login",userInput)
   .then((response)=>{
     if(Object.keys(response.data).includes("Notfound")){
       return toast.error(response.data.Notfound)

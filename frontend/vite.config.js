@@ -9,7 +9,7 @@ export default defineConfig({
   server:{
     proxy:{
     "/user":{
-      target:"http://localhost:8000",
+      target:"https://blog-website-o02e.onrender.com",
       changeOrigin:true,
       secure:false,
     }

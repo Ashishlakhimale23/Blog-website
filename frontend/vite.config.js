@@ -9,9 +9,9 @@ export default defineConfig({
   server:{
     proxy:{
     "/user":{
-      target:"https://blog-website-o02e.onrender.com",
+      target:"https://blog-website-vh4r.onrender.com",
       changeOrigin:true,
-      secure:false,
+      rewrite: (path) => path.replace(/^\/user/, ''), 
     }
     }
   },

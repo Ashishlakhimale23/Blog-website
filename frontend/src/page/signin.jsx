@@ -52,6 +52,7 @@ function Signin() {
 
       await axios.post("/user/signin",userInput)
     .then((response)=>{
+      console.log(response)
      if(Object.keys(response.data).includes("created" || "token")){
      
       localStorage.setItem("authtoken",response.data.token)

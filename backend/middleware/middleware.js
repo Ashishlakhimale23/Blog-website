@@ -11,7 +11,6 @@ if (!auth?.startsWith("Bearer")) return res.json({ "status": "header not found" 
 const Token = auth.split(' ')[1];
 try {
     const decoded = jwt.verify(Token,process.env.SECRET_KEY);
-    console.log(decoded)
 req.user = decoded.id;
     next();
      

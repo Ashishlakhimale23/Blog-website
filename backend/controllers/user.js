@@ -24,7 +24,6 @@ try{
           password:result, 
         })
         .then( (r)=>{
-          console.log(r)
        const token =  jwt.sign(
        { email: email, password: password ,id:r._id },
         process.env.SECRET_KEY)

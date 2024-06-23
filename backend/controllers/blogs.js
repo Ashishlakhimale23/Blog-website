@@ -15,7 +15,6 @@ export const handlecreateblog=async(req,res)=>{
     } 
 
     if(_id){
-      console.log(_id)
       await Blog.findOneAndUpdate({_id:_id},{title,banner,content,Published:result}).then((resp)=>{
         if(changed){
       User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then(()=>{
@@ -48,7 +47,6 @@ let blog = new Blog({
             }
           )
             .then((user) => {
-              console.log(user);
               return res.status(200).json({ status: "done" });
             })
             .catch((err) => {
@@ -65,7 +63,6 @@ User.findByIdAndUpdate(
             }
           )
             .then((user) => {
-              console.log(user);
               return res.status(200).json({ status: "done" });
             })
             .catch((err) => {
@@ -87,7 +84,6 @@ User.findByIdAndUpdate(
 export const handlegetblogs=async(req,res)=>{
   await Blog.find({Published:true}).populate("author","username pfplink")
   .then((resp)=>{
-    console.log(resp);
     return res.json({blogs:resp})
   })
 
@@ -103,7 +99,6 @@ export const handlegetuserinfo = async (req,res)=>{
 
 export const handlegetotheruserinfo = async (req,res)=>{
   const {userid,username} = req.body;
-  console.log(userid,username)
   await User.find({_id:userid,username:username}).select("username email pfplink about twitter github techstack joinedOn").populate("blogs","title publishedOn")
   .then((resp)=>{
   return res.json({userinfo:resp})
@@ -112,7 +107,6 @@ export const handlegetotheruserinfo = async (req,res)=>{
 
 export const handlegetpraticularblog=async (req,res)=>{
   const {id,title} = req.body;
-  console.log(id,title)
   await Blog.find({_id:id,title:title}).populate("author","username pfplink").select("title content banner publishedOn")
   .then((resp)=>{
     return res.json({blog:resp})
@@ -123,10 +117,8 @@ export const handlegetpraticularblog=async (req,res)=>{
 
 export const handledraftdeletion=async(req,res)=>{
   const {_id,title} = req.body;
-  console.log(_id,title)
   const userid = req.user;
   await Blog.findOneAndDelete({_id:_id,title:title}).then(async(resp)=>{
-    console.log(resp)
     await User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then((result)=>{
         return res.json({status:"deleted"})
     }).catch((err)=>{
@@ -136,10 +128,8 @@ export const handledraftdeletion=async(req,res)=>{
 }
 export const handleblogdeletion=async(req,res)=>{
   const {_id,title} = req.body;
-  console.log(_id,title)
   const userid = req.user;
   await Blog.findOneAndDelete({_id:_id,title:title}).then(async(resp)=>{
-    console.log(resp)
     await User.findOneAndUpdate({_id:userid},{$pull:{"blogs":_id}}).then((result)=>{
         return res.json({status:"deleted"})
     }).catch((err)=>{
@@ -151,7 +141,6 @@ export const handleblogdeletion=async(req,res)=>{
 export const handlegetbookmarks=async(req,res)=>{
   const userid=req.user;
   await User.findById({_id:userid}).select("bookmarks").populate("bookmarks","title banner content publishedOn").then((resp)=>{
-    console.log(resp)
     return res.json({bookmark:resp})
   })
 }
@@ -159,7 +148,6 @@ export const handlegetbookmarks=async(req,res)=>{
 export const handlesavebookmark=async(req,res)=>{
   const {blogid} = req.body;
   const userid = req.user
-  console.log(blogid)
 await User.findByIdAndUpdate({_id:userid},
     {
       $push:{"bookmarks":blogid}
@@ -167,7 +155,6 @@ await User.findByIdAndUpdate({_id:userid},
   ).then(()=>{
     return res.json({success:id})
   }).catch((err)=>{
-    console.log(err)
     return res.json({success:"failed"})
 
   })
@@ -176,7 +163,6 @@ await User.findByIdAndUpdate({_id:userid},
 export const handleremovebookmark=async(req,res)=>{
   const {blogid} = req.body;
   const userid = req.user
-  console.log(blogid)
 await User.findByIdAndUpdate({_id:userid},
     {
       $pull:{"bookmarks":blogid}

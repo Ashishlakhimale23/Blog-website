@@ -9,7 +9,7 @@ function Bookmark(){
   const [bookmark,setBookmark] = useState([])
     useEffect(()=>{
       const fetchbookmarks= async ()=>{
-        await axios.get("/user/getbookmarks").then((resp)=>{
+        await axios.get("user/getbookmarks").then((resp)=>{
        
           setBookmark(resp.data.bookmark.bookmarks)
         })

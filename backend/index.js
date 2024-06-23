@@ -11,5 +11,5 @@ app.use(express.json())
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 connection(process.env.DBURL,clientOptions).then(()=>console.log("server connected"))
-app.use("/",router)
+app.use("/user",router)
 app.listen(8000,()=>console.log("server started"))

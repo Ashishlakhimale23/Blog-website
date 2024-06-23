@@ -124,7 +124,7 @@ useEffect(()=>{
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await axios.post("/user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
+          await axios.post("user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
                         
               setTimeout(() => {

@@ -6,6 +6,7 @@ import { Toaster, toast } from "react-hot-toast"
 import {useNavigate} from "react-router-dom"
 import axios from "axios";
 import deafultbanner from "../img/blog banner.png"
+import { api } from "../utils/axiosroute.js";
 
 
 function CreatePost() {
@@ -124,7 +125,7 @@ useEffect(()=>{
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await axios.post("user/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
+          await api.post("/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
                         
               setTimeout(() => {

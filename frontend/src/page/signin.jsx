@@ -4,6 +4,7 @@ import {Toaster,toast} from "react-hot-toast"
 import joi from "joi"
 import axios from "axios";
 import {Authcontext} from "../context/context.js"
+import { api } from "../utils/axiosroute";
 function Signin() {
   const schema = joi.object({
     username: joi.string().alphanum().min(3).max(30).required(),
@@ -50,7 +51,7 @@ function Signin() {
     
     
 
-      await axios.post("/user/signin",userInput)
+      await api.post("/signin",userInput)
     .then((response)=>{
       console.log(response)
      if(Object.keys(response.data).includes("created" || "token")){

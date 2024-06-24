@@ -1,6 +1,7 @@
 import {  useState , useEffect} from "react"
 import  { Authcontext } from "./context.js" 
 import axios from "axios"
+import { api } from "../utils/axiosroute.js"
 function AuthProvider({children}){
     const [logged,setLogged] = useState(false)
     const [token,setToken] = useState(()=>localStorage.getItem("authtoken") || "")   
@@ -9,11 +10,11 @@ function AuthProvider({children}){
     if (token) {
         setToken(token)
       localStorage.setItem('authtoken', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setLogged(true)
     } else {
       localStorage.removeItem('authtoken');
-      delete axios.defaults.headers.common['Authorization'];
+      delete api.defaults.headers.common['Authorization'];
       setLogged(false)
     }
   };

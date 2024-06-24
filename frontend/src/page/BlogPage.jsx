@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BlogParser from "../component/blogparser";
 import { getdate } from "../utils/date";
+import { api } from "../utils/axiosroute";
 
 const blogstructure={
     blogtitle:"",
@@ -20,7 +21,7 @@ function BlogPage(){
     const {title} = useParams()
     useEffect(()=>{
         async function fetchblog(){
-            await axios.post('/user/blog',{id,title}).
+            await api.post('/blog',{id,title}).
             then((resp)=>{
                 setBlog((prevBlog)=>({
                     ...prevBlog,

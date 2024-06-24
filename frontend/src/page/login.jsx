@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Toaster,toast } from "react-hot-toast";
 import Joi from "joi";
 import { Authcontext } from "../context/context";
+import { api } from "../utils/axiosroute";
 
 
 function Login() {
+  
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,8 +35,9 @@ if(Object.keys(result).includes("error")){
     return toast.error("Enter the password")
   }
 
-  await axios.post("/user/login",userInput)
+  await api.post("/login",userInput)
   .then((response)=>{
+    
     if(Object.keys(response.data).includes("Notfound")){
       return toast.error(response.data.Notfound)
     }
@@ -48,7 +51,7 @@ if(Object.keys(result).includes("error")){
     if(Object.keys(response.data).includes("Error")){
       return toast.error("An Error occured")
     }
-  })
+  }).catch(err=>console.log(err))
 
 
 

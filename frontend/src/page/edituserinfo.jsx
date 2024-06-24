@@ -5,6 +5,7 @@ import { UserContext } from "../context/context";
 import Joi from "joi";
 import axios from "axios";
 import {Toaster,toast} from "react-hot-toast"
+import { api } from "../utils/axiosroute";
 function Usersinfo(){
   const twittervalidation = Joi.string().pattern(/^https:\/\/twitter\.com\/[A-Za-z0-9_]+$/).required() 
    const xvalidation =  Joi.string().pattern(/^https:\/\/x\.com\/[A-Za-z0-9_]+$/).required()  
@@ -135,7 +136,7 @@ function Usersinfo(){
 
       }
 
-  await axios.put("/user/updateuserinfo",formdata).then((resp)=>{
+  await api.put("/updateuserinfo",formdata).then((resp)=>{
     if(resp.data.task==="completed"){
       window.location.reload()
     return toast.success("Profile updated")}

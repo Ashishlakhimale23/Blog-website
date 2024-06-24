@@ -5,6 +5,7 @@ import { useContext} from "react";
 import { getdate } from '../utils/date.js';
 import axios from 'axios';
 import Search from './search.jsx';
+import { api } from '../utils/axiosroute.js';
 function Header() {
   
 const {logged,setLogged,setAuthToken} = useContext(Authcontext);
@@ -25,7 +26,7 @@ const handleClickOutside=(event)=>{
 
        setAuthToken(localStorage.getItem("authtoken")) 
 
-  })
+  },[])
   useEffect(()=>{
      
     if(open || search){
@@ -39,7 +40,7 @@ const handleClickOutside=(event)=>{
 
 useEffect(()=>{
     async function fetchuserinfo(){
-     await axios.get("/user/getuserinfo").then((response)=>{
+     await api.get("/getuserinfo").then((response)=>{
       console.log(response)
       setInitialinfo({
         ...initialinfo,
@@ -62,7 +63,7 @@ useEffect(()=>{
     }
 
 async function fetchusersandblogs(){
-         await axios.get("/user/getallusersandblogs").then((resp)=>{
+         await api.get("/getallusersandblogs").then((resp)=>{
           
           setSearchcontent({
             ...searchcontent,

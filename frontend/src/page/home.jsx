@@ -3,7 +3,7 @@ import axios from "axios";
 import Card from "../component/card";
 import { getdate } from "../utils/date";
 import { UserContext } from "../context/context";
-
+import { api } from "../utils/axiosroute";
 
 
 function Home () {
@@ -11,7 +11,7 @@ function Home () {
  const {initialinfo,setInitialinfo} = useContext(UserContext)
 useEffect(()=>{
 async function fetchdata(){
-       await axios.get("/user/getblogs")
+       await api.get("/getblogs")
           .then((resp)=>{console.log(resp);
             setBlogs(resp.data.blogs);
           })

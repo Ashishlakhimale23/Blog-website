@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { BlogContext, UserContext } from "../context/context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { api } from "../utils/axiosroute";
 import { Toaster,toast } from "react-hot-toast";
 import { getdate } from "../utils/date";
 function Draft(){
@@ -46,8 +47,8 @@ function Draft(){
                         className="font-bold  pt-2 pb-2 pr-4 pl-4 rounded-md  hover:bg-black hover:text-white"
                         onClick={async () => {
                           console.log(drafts._id);
-                          await axios
-                            .post("/user/deleteblog", {
+                          await api
+                            .post("/deleteblog", {
                               _id: drafts._id,
                               title: drafts.title,
                             })

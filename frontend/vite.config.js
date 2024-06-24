@@ -11,6 +11,7 @@ export default defineConfig({
     "/user":{
       target:"https://blog-website-vh4r.onrender.com",
       changeOrigin:true,
+    secure: false,
     }
     }
   },

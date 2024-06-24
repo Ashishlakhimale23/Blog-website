@@ -4,6 +4,7 @@ import { BlogContext, UserContext } from "../context/context"
 import { useNavigate } from "react-router-dom"
 import { getdate } from "../utils/date"
 import axios from "axios"
+import { api } from "../utils/axiosroute"
 
 function ManageBlogs(){
     const {initialinfo} = useContext(UserContext)
@@ -48,8 +49,8 @@ function ManageBlogs(){
                       <button
                         className="font-bold  pt-2 pb-2 pr-4 pl-4 rounded-md  hover:bg-black hover:text-white"
                         onClick={async () => {
-                          await axios
-                            .post("/user/deleteblog", {
+                          await api
+                            .post("/deleteblog", {
                               _id: blog._id,
                               title: blog.title,
                             })

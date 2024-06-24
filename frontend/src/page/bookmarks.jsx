@@ -3,13 +3,14 @@ import {  useState ,useEffect} from "react";
 import { getdate } from "../utils/date";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { api } from "../utils/axiosroute";
 
 function Bookmark(){
     const navigate = useNavigate()
   const [bookmark,setBookmark] = useState([])
     useEffect(()=>{
       const fetchbookmarks= async ()=>{
-        await axios.get("user/getbookmarks").then((resp)=>{
+        await api.get("/getbookmarks").then((resp)=>{
        
           setBookmark(resp.data.bookmark.bookmarks)
         })

@@ -108,7 +108,7 @@ export const handlegetotheruserinfo = async (req,res)=>{
 
 export const handlegetpraticularblog=async (req,res)=>{
   const {id,title} = req.body;
-  await Blog.find({_id:id,title:title}).populate("author","username pfplink").select("title content banner publishedOn")
+  await Blog.find({_id:id,title:title}).select("title content banner publishedOn").populate("author","username pfplink")
   .then((resp)=>{
     return res.json({blog:resp})
   }).catch(err=>{

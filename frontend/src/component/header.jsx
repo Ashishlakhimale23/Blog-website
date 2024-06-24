@@ -15,10 +15,16 @@ const {initialinfo,setInitialinfo} = useContext(UserContext)
 const {username,pfplink,_id} =initialinfo
 const {searchcontent,setSearchcontent} = useContext(WholeBlogAndUser)
 const popover = useRef(null)
+const image = useRef(null)
+const imagesearch = useRef(null)
 const handleClickOutside=(event)=>{
-  if(popover.current && !popover.current.contains(event.target)){
-    setOpen(false)
-  }
+    if(popover.current &&
+    !popover.current.contains(event.target) &&
+    image.current &&
+    !image.current.contains(event.target) ){
+    setOpen(false)}
+    
+ 
 }
   const navigate = useNavigate();
   
@@ -107,12 +113,11 @@ async function fetchusersandblogs(){
 
           <div className="space-x-2 flex items-center">
             <button
+             ref={imagesearch}
               onClick={() => {
-               if(search){
-                setSearch(false)
-               }else{
-                setSearch(true)
-               } 
+                             
+                setSearch(!search)
+                
               }}
             >
               <svg
@@ -159,7 +164,7 @@ async function fetchusersandblogs(){
             >
               Create Account
             </button>
-            <button onClick={() => {
+            <button ref={image} onClick={() => {
                setOpen(!open) 
               }}
               
@@ -301,7 +306,7 @@ async function fetchusersandblogs(){
         </div>
       </div>
       <div style={{ display: search ? "block" : "none" }}>
-        <Search />
+        <Search imagesearch={imagesearch} />
       </div>
     </>
   );

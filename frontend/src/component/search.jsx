@@ -3,7 +3,7 @@ import { getdate } from "../utils/date";
 import { WholeBlogAndUser, searchpopover } from "../context/context";
 import { useNavigate } from "react-router-dom";
 
-function Search() {
+function Search({imagesearch}) {
   const [searchvalue, setSearchvalue] = useState("");
   const [activetab, setActivetab] = useState("blogs");
   const [blogprediction, setBlogprediction] = useState([]);
@@ -28,7 +28,7 @@ const popoverRef = useRef(null);
     setUserprediction(predicatedarray);
   }
  const handleClickOutside = (event) => {
-    if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+    if (popoverRef.current && !popoverRef.current.contains(event.target) && imagesearch.current && !imagesearch.current.contains(event.target)) {
       setSearch(false);
     }
   };

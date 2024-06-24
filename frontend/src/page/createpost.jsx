@@ -4,7 +4,6 @@ import tool from "../utils/tools"
 import { Authcontext, BlogContext } from "../context/context.js";
 import { Toaster, toast } from "react-hot-toast"
 import {useNavigate} from "react-router-dom"
-import axios from "axios";
 import deafultbanner from "../img/blog banner.png"
 import { api } from "../utils/axiosroute.js";
 
@@ -192,9 +191,9 @@ useEffect(()=>{
             <div className="hover:opacity-80 aspect-video lg:h-[575px]  bg-white border-4 border-black">
               <label htmlFor="uploadbanner">
                 <img
-                  src={banner.length!=0 ?banner:deafultbanner}
+                  src={!banner?deafultbanner:banner}
                   ref={BlogbannerRef}
-                  alt=""
+                  
                   className="z-20 w-full h-full"
                 />
                 <input

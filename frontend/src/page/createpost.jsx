@@ -134,7 +134,6 @@ setBlog((prevBlog) => ({
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
           if(edited && _id.length){
-            console.log("continued to the editing path ")
             await api
               .post("/updateblog", {
                 _id,
@@ -163,7 +162,6 @@ setBlog((prevBlog) => ({
 
             }        
             else{    
-            console.log("continued to the normal path ")
 
            await api.post("/createblog", { title,content:savedData.blocks,result,banner})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})

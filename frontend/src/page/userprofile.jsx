@@ -25,7 +25,6 @@ const {
   joinedOn
 }=info
 useEffect(()=>{
-  console.log(userid)
     async function fetchuserinfo(){
      await api.post("/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
       setInfo({

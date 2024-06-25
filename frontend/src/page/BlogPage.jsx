@@ -24,7 +24,6 @@ function BlogPage(){
         async function fetchblog(){
             await api.post('/blog',{id,title}).
             then((resp)=>{
-              console.log(resp)
                 setBlog((prevBlog)=>({
                     ...prevBlog,
                     blogtitle:resp.data.blog[0].title,

@@ -87,7 +87,7 @@ export const handlegetotheruserinfo = async (req,res)=>{
 
 export const handlegetpraticularblog=async (req,res)=>{
   const {id,title} = req.body;
-  console.log(id,title) 
+  
   await Blog.find({
     _id:id,title:title
   }).populate("author","username pfplink")

@@ -3,7 +3,7 @@ import { Toaster,toast } from "react-hot-toast"
 import { BlogContext, UserContext } from "../context/context"
 import { useNavigate } from "react-router-dom"
 import { getdate } from "../utils/date"
-import axios from "axios"
+
 import { api } from "../utils/axiosroute"
 
 function ManageBlogs(){
@@ -24,7 +24,7 @@ function ManageBlogs(){
                   <div className=" p-2 mb-2 rounded-md" key={index}>
                     <div className="flex ">
                         <div className="flex-1 content-center cursor-pointer" onClick={()=>{
-                        navigate(`/blog/${blog.title}`,{state:{data:{id:blog._id}}})
+                        navigate(`/blog/${encodeURIComponent(blog.title)}`,{state:{data:{id:blog._id}}})
                       }}>
                       <p className="text-lg font-bold hover:underline" >{blog.title}</p>
                       <p className="text-lg font-bold  ">{getdate(blog.publishedOn)}</p>

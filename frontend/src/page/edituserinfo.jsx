@@ -117,9 +117,7 @@ console.log("its not setting the info ")
       const data = await response.json();
       setInfo((prevInfo) => ({ ...prevInfo, pfplink: data.secure_url }));
       pfpRef.current.src = data.secure_url;
-    } else {
-    console.log(response) 
-    }
+    } 
   };
 
   const handleChangeAbout = (e) => {

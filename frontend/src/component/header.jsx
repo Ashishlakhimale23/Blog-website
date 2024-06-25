@@ -47,7 +47,6 @@ const handleClickOutside=(event)=>{
 useEffect(()=>{
     async function fetchuserinfo(){
      await api.get("/getuserinfo").then((response)=>{
-      console.log(response)
       setInitialinfo({
         ...initialinfo,
         _id:response.data.userinfo._id,

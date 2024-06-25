@@ -11,7 +11,7 @@ import { api } from "../utils/axiosroute.js";
 function CreatePost() {
   
   const { blog, setBlog, texteditor, setTexteditor } = useContext(BlogContext);
-  const { title, content,banner,_id,changed} = blog;
+  const {title,content,banner,_id,edited} = blog;
   const {setAuthToken} = useContext(Authcontext)
   
   const [loading, setLoading] = useState(false);
@@ -51,12 +51,21 @@ function CreatePost() {
       if (texteditor.instance) {
         texteditor.instance.destroy();
         setTexteditor({ isReady: false, instance: null });
+        
       }
     };
   }, [setAuthToken, setBlog, texteditor.isReady, texteditor.instance]);
 useEffect(()=>{
-  localStorage.setItem("blog",JSON.stringify(blog))
-
+localStorage.setItem('blog', JSON.stringify(blog));
+   return ()=>{
+setBlog((prevBlog) => ({
+                    title: "",
+                    banner: "",
+                    content: [],
+                    _id: "",
+                    edited: false,
+                  }));
+   } 
 },[blog]) 
 
   const handletitlechange = (e) => {
@@ -124,17 +133,49 @@ useEffect(()=>{
         if (savedData.blocks.length > 0) {
           setBlog((prevBlog) => ({ ...prevBlog, content: savedData.blocks }));
           console.log(content);
-          await api.post("/createblog", { title,content:savedData.blocks,result,banner,_id,changed})
+          if(edited && _id.length){
+            console.log("continued to the editing path ")
+            await api
+              .post("/updateblog", {
+                _id,
+                title,
+                content: savedData.blocks,
+                result,
+                banner,
+              })
+              .then((response) => {
+                toast.success("Blog created successfully!", { id: "success" });
+
+                setTimeout(() => {
+                  toast.dismiss("success");
+                  setBlog((prevBlog) => ({
+                    ...prevBlog,
+                    title: "",
+                    banner: "",
+                    content: [],
+                    _id: "",
+                    edited: false,
+                  }));
+                  navigate("/home");
+                }, 500);
+              })
+              .catch((err) => console.log(err));
+
+            }        
+            else{    
+            console.log("continued to the normal path ")
+
+           await api.post("/createblog", { title,content:savedData.blocks,result,banner})
             .then((response) =>{ toast.success("Blog created successfully!",{id:"success"})
                         
               setTimeout(() => {
                 toast.dismiss('success');
-                setBlog((prevBlog)=>({...prevBlog ,title:"",banner:"",content:[],_id:"",changed:false}))
+                setBlog((prevBlog)=>({...prevBlog ,title:"",banner:"",content:[],_id:"",edited:false}))
                navigate("/home") 
               }, 500);
             })
             .catch(err => console.log(err));
-                     
+                  }   
         } else {
           return toast.error("Please write some content.");
         }

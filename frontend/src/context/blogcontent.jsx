@@ -8,7 +8,7 @@ function BlogProvider({children}){
         content:[ ],
         title :"",
         banner:" ",
-        changed:false,
+        edited:false,
         
         }
     const [blog,setBlog] = useState(()=>{

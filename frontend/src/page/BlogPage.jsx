@@ -18,7 +18,8 @@ function BlogPage(){
     const [blog,setBlog] = useState(blogstructure)
     const {blogtitle,content,banner,author:{perosnalinfo:{pfplink,username,userid}},pushlishedAt}=blog
     const {id} = location.state.data
-    const {title} = useParams()
+    const {title:encodeduri} = useParams()
+    const title = decodeURIComponent(encodeduri) 
     useEffect(()=>{
         async function fetchblog(){
             await api.post('/blog',{id,title}).

@@ -29,7 +29,7 @@ function Layout() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/createpost" element={<CreatePost />} />
-                <Route path='/username' element={<Usersinfo/>}/>  
+                <Route path='/edit/:username' element={<Usersinfo/>}/>  
                 <Route path='/:username' element={<UserProfile/>}></Route>
                 <Route path='/blog/:title' element={<BlogPage/>}/>
                 <Route path='/draft' element={<Draft/>} />

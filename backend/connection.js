@@ -1,7 +1,7 @@
 import mongoose from "mongoose" 
 
-export async function connection(url,clientoptions){
-    await mongoose.connect(url,clientoptions)
+export async function connection(url){
+    await mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true })
     await mongoose.connection.db.admin().command({ ping: 1 });
 
 }

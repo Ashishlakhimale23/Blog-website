@@ -32,7 +32,7 @@ function Bookmark(){
                       <div
                         className="flex-1 content-center cursor-pointer"
                         onClick={() => {
-                          navigate(`/blog/${bookmarks.title}`, {
+                          navigate(`/blog/${encodeURIComponent(bookmarks.title)}`, {
 
                             state: { data: { id: bookmarks._id } },
                           });

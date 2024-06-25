@@ -1,19 +1,17 @@
 import { useRef, useState , useEffect, useContext} from "react";
-
 import techStack from "../utils/suggestion";
 import { UserContext } from "../context/context";
 import Joi from "joi";
-import axios from "axios";
+import { getdate } from "../utils/date";
 import {Toaster,toast} from "react-hot-toast"
 import { api } from "../utils/axiosroute";
 function Usersinfo(){
   const twittervalidation = Joi.string().pattern(/^https:\/\/twitter\.com\/[A-Za-z0-9_]+$/).required() 
    const xvalidation =  Joi.string().pattern(/^https:\/\/x\.com\/[A-Za-z0-9_]+$/).required()  
    const githubvalidation= Joi.string().pattern(/^https:\/\/github\.com\/[A-Za-z0-9_]+$/).required()
+    
 
-  
-
-  const { info, setInfo, initialinfo, setInitialinfo } =
+  const { info, setInfo,initialinfo  } =
     useContext(UserContext);
   const { email, username, twitter, github, aboutyou, techstack, pfplink } =
     info;
@@ -24,6 +22,36 @@ function Usersinfo(){
   const stackRef = useRef();
   const pfpRef = useRef();
 
+  useEffect(() => {
+
+async function fetchuserinfo(){
+     await api.get("/getuserinfo").then((response)=>{
+      console.log(response)
+console.log("its not setting the info ")
+      setInfo({
+        
+        _id:response.data.userinfo._id,
+        username: response.data.userinfo.username,
+        pfplink: response.data.userinfo.pfplink,
+        email: response.data.userinfo.email,
+        aboutyou: response.data.userinfo.about,
+        github: response.data.userinfo.github,
+        twitter: response.data.userinfo.twitter,
+        techstack: response.data.userinfo.techstack,
+        draft: response.data.userinfo.draft,
+        joinedOn:getdate(response.data.userinfo.joinedOn)
+      });
+      
+
+    }).catch(err=>console.log(err))
+
+    }
+    fetchuserinfo()
+    },[])
+      
+  useEffect(() => {
+    localStorage.setItem("info", JSON.stringify(info));
+  }, [info]);
   const getpredicatedvalue = (value) => {
     const flitered = techStack.filter(
       (item) => item.toLowerCase().indexOf(value.toLowerCase()) !== -1
@@ -66,29 +94,31 @@ function Usersinfo(){
   };
 
   const handlepfpchange = async (e) => {
-    const filename = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", filename);
-    formData.append("upload_preset", process.env.UPLOAD_PRESET);
-     formData.append("api_key", process.env.API_KEY);
 
+    const filename = e.target.files[0];
+    console.log(filename)
+    const formData = new FormData();
+    formData.append("file",filename);
+    formData.append("upload_preset",process.env.UPLOAD_PRESET);
+     formData.append("api_key",process.env.API_KEY);
+    
+     
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`,
       {
         method: "POST",
         body: formData,
-        headers: {
-          Accept: "application/json",
-        },
+       
       }
-    );
-
+    )
+   console.log(response) 
     if (response.ok) {
+     
       const data = await response.json();
       setInfo((prevInfo) => ({ ...prevInfo, pfplink: data.secure_url }));
       pfpRef.current.src = data.secure_url;
     } else {
-      throw new Error("Failed to upload image");
+    console.log(response) 
     }
   };
 
@@ -135,8 +165,9 @@ function Usersinfo(){
     }
 
       }
+  console.log(formdata) 
 
-  await api.put("/updateuserinfo",formdata).then((resp)=>{
+  await api.post("/updateuserinfo",formdata).then((resp)=>{
     if(resp.data.task==="completed"){
       window.location.reload()
     return toast.success("Profile updated")}
@@ -146,22 +177,7 @@ function Usersinfo(){
   }).catch(err=>console.error(err))
 }
 
-  useEffect(() => {
- 
-    setInfo({
-      ...info,
-      username: initialinfo.username,
-      email: initialinfo.email,
-      twitter: initialinfo.twitter,
-      github: initialinfo.github,
-      pfplink: initialinfo.pfplink,
-      techstack: initialinfo.techstack,
-      aboutyou: initialinfo.aboutyou,
-    });
-  }, [initialinfo]);
-  useEffect(() => {
-    localStorage.setItem("info", JSON.stringify(info));
-  }, [info]);
+
 
   return (
     <>

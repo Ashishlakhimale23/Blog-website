@@ -1,9 +1,10 @@
+
 import Blog from "../model/blogs.js";
 import User from "../model/user.js";
 
 export const handlecreateblog=async(req,res)=>{
     const userid = req.user;
-    const {title,content,result,banner,_id,changed} = req.body;
+    const {title,content,result,banner} = req.body;
     if(!banner.length){
         return res.status(403).json({error:'You must add banner to the blog'})
     }
@@ -14,26 +15,6 @@ export const handlecreateblog=async(req,res)=>{
         return res.status(403).json({error:"No content provided"})
     } 
 
-    if(_id){
-      await Blog.findOneAndUpdate({_id:_id},{title,banner,content,Published:result}).then((resp)=>{
-        if(changed){
-      User.findOneAndUpdate({_id:userid},{$pull:{"draft":_id}}).then(()=>{
- User.findByIdAndUpdate(
-   { _id: userid },
-   {
-     $push: { blogs:_id },
-   }
- ).then(()=>{
-  return res.json(
-  {id:_id}
-  ) })
-      })
-
-        }else{
-        return res.json({id:_id})}
-      }).catch(err=>{return res.json({error:err})})
-
-    }else{
 let blog = new Blog({
         title,content,banner,author:userid,Published:result
     })
@@ -42,7 +23,6 @@ let blog = new Blog({
           User.findByIdAndUpdate(
             { _id: userid },
             {
-          
               $push: { blogs: blogs._id },
             }
           )
@@ -79,7 +59,6 @@ User.findByIdAndUpdate(
     }
     
 
-    }
 
 export const handlegetblogs=async(req,res)=>{
   await Blog.find({Published:true}).populate("author","username pfplink")
@@ -108,8 +87,12 @@ export const handlegetotheruserinfo = async (req,res)=>{
 
 export const handlegetpraticularblog=async (req,res)=>{
   const {id,title} = req.body;
-  await Blog.find({_id:id,title:title}).select("title content banner publishedOn").populate("author","username pfplink")
+  console.log(id,title) 
+  await Blog.find({
+    _id:id,title:title
+  }).populate("author","username pfplink")
   .then((resp)=>{
+    console.log(resp)
     return res.json({blog:resp})
   }).catch(err=>{
     return res.json({error:err})
@@ -184,4 +167,52 @@ export const handlegetallblogsanduser=async(req,res)=>{
     }).catch(err=>{return res.json({status:"failed to retrive the blogs"})})
   }).catch(err=>{return res.json({status:"failed to retrive the users"})})
 
+}
+
+export const handleblogupdate=async(req,res)=>{
+  const {title,_id,content,result,banner} = req.body
+  const userid = req.user
+  const blog = await Blog.findById({_id:_id})
+  if(result){
+    if(blog.Published){
+      blog.content = content,
+      blog.title=title,
+      blog.banner = banner
+    }
+    else{
+      blog.content = content,
+      blog.title=title,
+      blog.banner = banner
+      blog.Published = result
+      //put it in blogs
+      await User.findByIdAndUpdate({_id:userid},{
+        $pull:{"draft":_id},
+        $push:{'blogs':_id}
+      })
+
+    }
+  }
+  else{
+     if(blog.Published){
+      blog.Published = result
+      blog.content = content,
+      blog.title=title,
+      blog.banner = banner
+      //put it in draft 
+     await User.findByIdAndUpdate({_id:userid},{
+        $pull:{"blogs":_id},
+        $push:{'draft':_id}
+      })
+    }
+    else{
+      blog.content = content,
+      blog.title=title,
+      blog.banner = banner
+    }
+  }
+  await blog.save().then(()=>{
+   return res.json({blog:"Updated"})
+  }).catch(()=> {
+    return res.json({blog:"Update failed"})
+  })
 }

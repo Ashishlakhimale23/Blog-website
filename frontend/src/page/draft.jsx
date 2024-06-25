@@ -36,6 +36,7 @@ function Draft(){
                             title: drafts.title,
                             content: drafts.content,
                             banner: drafts.banner,
+                            edited:true
                           };
                           setBlog(blogbo);
                           navigate("/createpost");
@@ -61,6 +62,15 @@ function Draft(){
                                 });
                                 setTimeout(() => {
                                   toast.dismiss("success");
+                                  setBlog((prevBlog) => ({
+                    ...prevBlog,
+                    title: "",
+                    banner: "",
+                    content: [],
+                    _id: "",
+                    edited: false,
+                  }));
+                                  
                                   window.location.reload();
                                 }, 500);
                               }

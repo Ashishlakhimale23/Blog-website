@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import {UserContext} from "../context/context"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import axios from "axios"
 import {getdate} from "../utils/date"
+import { api } from "../utils/axiosroute"
 import UserBlogShow from "../component/userblogshow"
 export function UserProfile(){
  const navigate = useNavigate() 
@@ -27,7 +27,7 @@ const {
 useEffect(()=>{
   console.log(userid)
     async function fetchuserinfo(){
-     await axios.post("/user/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
+     await api.post("/getotheruserinfo",{username:Username,userid:userid}).then((response)=>{
       setInfo({
         ...info,
         username: response.data.userinfo[0].username,
@@ -42,7 +42,7 @@ useEffect(()=>{
       });
       
 
-    })
+    }).catch(err=>console.log(err))
 
     }
     
@@ -69,7 +69,7 @@ useEffect(()=>{
                     <button
                       className="mr-3 pr-8 pl-8 p-2 align-middle  bg-silver  border-black border-4 text-black text-xl font-semibold hover:text-white hover:bg-black"
                       onClick={() => {
-                        navigate("/username");
+                        navigate(`/edit/${username}`);
                       }}
                     >
                       Edit

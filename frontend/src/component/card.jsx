@@ -34,14 +34,14 @@ const handleremovebookmark=async ()=>{
       <img
         src={banner}
         alt="Descriptive alt text"
-        className="w-full lg:h-72 object-cover border-b-4 border-black"
+        className="w-full h-60 sm:h-72 object-cover border-b-4 border-black"
       />
     </div>
 
     <div className="pl-2 pr-2 cursor-pointer flex-grow">
-      <div className="leading-6 line-clamp-4 overflow-ellipsis min-h-[100px]">
+      <div className="leading-6 line-clamp-4 overflow-ellipsis md:min-h-[100px]">
         <p className="text-2xl font-bold mb-1">{title}</p>
-        <p className="text-black font-medium" dangerouslySetInnerHTML={{__html:des}}>
+        <p className="text-black font-medium hidden sm:block" dangerouslySetInnerHTML={{__html:des}} >
           
         </p>
       </div>

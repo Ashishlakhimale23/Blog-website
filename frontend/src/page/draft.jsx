@@ -27,7 +27,7 @@ function Draft(){
                       <p className="text-lg font-bold" >{drafts.title}</p>
                       <p className="text-lg font-bold  ">{getdate(drafts.publishedOn)}</p>
 </div>
-                    <div className="space-x-2 ">
+                    <div className="space-x-2 space-y-4 sm:space-y-0 flex flex-col sm:flex-row  ">
                       <button
                         className="font-bold pt-2 pb-2 pr-4 pl-4 rounded-md hover:bg-black hover:text-white"
                         onClick={() => {
@@ -62,14 +62,7 @@ function Draft(){
                                 });
                                 setTimeout(() => {
                                   toast.dismiss("success");
-                                  setBlog((prevBlog) => ({
-                    ...prevBlog,
-                    title: "",
-                    banner: "",
-                    content: [],
-                    _id: "",
-                    edited: false,
-                  }));
+                                  
                                   
                                   window.location.reload();
                                 }, 500);

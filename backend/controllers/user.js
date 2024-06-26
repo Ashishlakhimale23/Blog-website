@@ -4,61 +4,64 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 config()
 
-export async function handlesignin(req,res) {
+export async function handlesignin(req, res) {
+    const { username, email, password } = req.body;
 
-  const {username,email,password} = req.body;
-
-  let result ;
-  const alreadyin = await User.findOne({email:email})
-  if(alreadyin){
-    return res.json({Alreadysignedup:username})
-  }
-
-  const saltRounds = 10;
-
-    await bcrpty.hash(password, saltRounds).then(response=>result=response).catch(error=>{return res.json({Error:error})})
-try{      
-    await   User.create({
-          username,
-          email,
-          password:result, 
-        })
-        .then( (r)=>{
-       const token =  jwt.sign(
-       { email: email, password: password ,id:r._id },
-        process.env.SECRET_KEY)
-       return res.json({created:username,token:token})
-    })
-        .catch(error=>{return res.json({Error:error})})}
-        catch(err){
-          
-            return res.json({Error:err})
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Already signed up', email });
         }
-   
- }
 
-export async function handlelogin(req,res) {
-  const {email,password} = req.body;
- try{ 
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.json({ Notfound: 'User not found' });
-  } else {
-    const result = await bcrpty.compare(password, user.password);
+        const saltRounds = 10;
+        const hashedPassword = await bcrpty.hash(password, saltRounds);
 
-    if (result) {
-      const token = jwt.sign(
-        { email: email, password: user.password ,id:user._id },
-        process.env.SECRET_KEY,);
-      return res.json({"token": token});
+        const newUser = await User.create({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        const token = jwt.sign(
+            { email, id: newUser._id },
+            process.env.SECRET_KEY,
+            { expiresIn: '7h' } 
+        );
+
+        return res.status(201).json({"token": token });
+    } catch (error) {
+        console.error('Error during user sign up:', error);
+        return res.status(500).json({ message: 'Internal server error', error });
     }
-    else{
-    return res.json({ password: "Incorrect password" }).end();}
-  }}
-  catch(err){
-    return res.json({Error:err})
-  }
 }
+
+export async function handlelogin(req, res) {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const isPasswordValid = await bcrpty.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Incorrect password' });
+        }
+
+        const token = jwt.sign(
+            { email, id: user._id },
+            process.env.SECRET_KEY,
+            { expiresIn: '7h' } // Optional: set token expiration time
+        );
+
+        return res.status(200).json({"token": token });
+    } catch (error) {
+        console.error('Error during login:', error);
+        return res.status(500).json({ message: 'Internal server error', error });
+    }
+}
+
 
 export const handleupdateuserinfo=async (req,res)=>{
   const formdata = req.body;

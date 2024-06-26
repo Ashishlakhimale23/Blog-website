@@ -66,7 +66,7 @@ setBlog((prevBlog) => ({
                     edited: false,
                   }));
    } 
-},[blog]) 
+},[]) 
 
   const handletitlechange = (e) => {
     setBlog({ ...blog, title: e.target.value })
@@ -89,9 +89,6 @@ setBlog((prevBlog) => ({
             {
                 method: "POST",
                 body: formData,
-                headers: {
-                    Accept: "application/json",
-                },
             }
         );
 

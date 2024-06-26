@@ -28,7 +28,7 @@ const handleremovebookmark=async ()=>{
 }
 
     return (
-     <div className="w-full space-y-4 flex-shrink-0 antialiased font-display border-black border-4 shadow-custom max-w-[600px] flex flex-col h-full">
+     <div className="w-full space-y-4 flex-shrink-0 antialiased font-display border-black border-4 shadow-custom max-w-[600px] flex flex-col min-h-fit">
   <div className="flex-grow" onClick={() => { navigate(`/blog/${encodeURIComponent(title)}`, { state: { data: { id } } }) }}>
     <div className="flex-shrink-0">
       <img
@@ -38,14 +38,13 @@ const handleremovebookmark=async ()=>{
       />
     </div>
 
-    <div className="pl-2 pr-2 cursor-pointer flex-grow">
-      <div className="leading-6 line-clamp-4 overflow-ellipsis md:min-h-[100px]">
-        <p className="text-2xl font-bold mb-1">{title}</p>
-        <p className="text-black font-medium hidden sm:block" dangerouslySetInnerHTML={{__html:des}} >
-          
-        </p>
-      </div>
-    </div>
+   <div className="pl-2 pr-2 cursor-pointer flex-grow ">
+  <div className="leading-6 line-clamp-4 overflow-ellipsis md:min-h-[100px]">
+    <p className="text-2xl font-bold mb-1">{title}</p>
+    <p className="text-black font-medium hidden sm:block" dangerouslySetInnerHTML={{ __html: des }}></p>
+  </div>
+</div>
+ 
   </div>
 
   <div className="flex justify-between pl-2 pr-2 pb-2 mt-auto">

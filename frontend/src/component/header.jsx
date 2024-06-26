@@ -102,7 +102,9 @@ async function fetchusersandblogs(){
     <>
       <div className=" ">
         <header className="flex w-full px-2 font-display bg-silver text-black justify-between border-b-4 border-black lg:px-32 md:px-24 sm:px-10 fixed top-0  ">
-          <div className="font-bold flex items-center">
+          <div className="font-bold flex items-center cursor-pointer" onClick={()=>{
+            navigate("/home")
+          }}>
             <div className="text-xl md:text-[28px]">
               <span>Get</span>
               <span>better</span>

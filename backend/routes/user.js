@@ -1,11 +1,12 @@
 import express from "express"
-import {handlesignin,handlelogin,handleupdateuserinfo} from "../controllers/user.js"
+import {handlesignin,handlelogin,handleupdateuserinfo, handlerevokthetoken} from "../controllers/user.js"
 import { handlecreateblog, handlegetblogs,handlegetuserinfo,handlegetpraticularblog,handlegetotheruserinfo,handledraftdeletion, handleblogdeletion, handlesavebookmark, handleremovebookmark, handlegetbookmarks, handlegetallblogsanduser, handleblogupdate } from "../controllers/blogs.js"
 import {userverification} from "../middleware/middleware.js"
 export const router = express.Router()
 //users
 router.post("/signin",handlesignin)
 router.post("/login",handlelogin)
+router.post("/refresh",userverification,handlerevokthetoken)
 //blogs
 router.post("/createblog",userverification,handlecreateblog)
 router.get("/getblogs",userverification,handlegetblogs)

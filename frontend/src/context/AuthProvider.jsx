@@ -1,6 +1,5 @@
 import {  useState , useEffect} from "react"
 import  { Authcontext } from "./context.js" 
-import axios from "axios"
 import { api } from "../utils/axiosroute.js"
 function AuthProvider({children}){
     const [logged,setLogged] = useState(false)

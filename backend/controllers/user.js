@@ -27,8 +27,15 @@ export async function handlesignin(req, res) {
             process.env.SECRET_KEY,
             { expiresIn: '7h' } 
         );
+       const refreshtoken = jwt.sign(
+            { email, id: newUser._id },
+            process.env.SECRET_KEY,
+            { expiresIn: '7d' } 
+        );
 
-        return res.status(201).json({"token": token });
+        return res.status(201).json({"token": token,
+            "refreshtoken":refreshtoken
+         });
     } catch (error) {
         console.error('Error during user sign up:', error);
         return res.status(500).json({ message: 'Internal server error', error });
@@ -52,10 +59,18 @@ export async function handlelogin(req, res) {
         const token = jwt.sign(
             { email, id: user._id },
             process.env.SECRET_KEY,
-            { expiresIn: '7h' } // Optional: set token expiration time
+            { expiresIn: '7h' } 
         );
 
-        return res.status(200).json({"token": token });
+        const refreshtoken = jwt.sign(
+            { email, id: user._id },
+            process.env.SECRET_KEY,
+            { expiresIn: '7d' } 
+        );
+
+        return res.status(200).json({"token": token,
+            "refreshtoken":refreshtoken
+         });
     } catch (error) {
         console.error('Error during login:', error);
         return res.status(500).json({ message: 'Internal server error', error });
@@ -71,5 +86,19 @@ export const handleupdateuserinfo=async (req,res)=>{
   }).catch(err=>{
     return res.json({task:"failed"})
  } )
+
+}
+
+export const handlerevokthetoken =async(res,req)=>{
+    const {refreshtoken} = req.body;
+    jwt.verify(refreshtoken,process.env.REFERSH_SECRET_KEY,(err,resp)=>{
+        if(err){
+            return res.sendStatus(403)
+        }
+        const newauthtoken = jwt.sign({ email:resp.email, id:resp.id },
+            process.env.SECRET_KEY,
+            { expiresIn: '7h' })
+        return res.json({"token":newauthtoken})
+    })
 
 }

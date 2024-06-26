@@ -47,6 +47,7 @@ const handleClickOutside=(event)=>{
 useEffect(()=>{
     async function fetchuserinfo(){
      await api.get("/getuserinfo").then((response)=>{
+      console.log(response)
       setInitialinfo({
         ...initialinfo,
         _id:response.data.userinfo._id,
@@ -280,9 +281,10 @@ async function fetchusersandblogs(){
             className=" flex space-x-2 hover:bg-black hover:text-white p-4"
             onClick={() => {
               localStorage.removeItem("authtoken");
+              localStorage.removeItem("refreshtoken") 
               setLogged(false);
               setOpen(false);
-              navigate("/login ");
+              navigate("/login");
             }}
           >
             <svg

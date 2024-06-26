@@ -50,7 +50,7 @@ const popoverRef = useRef(null);
   }, [search]);
 
   return (
-    <div className="fixed w-full min-h-screen bg-black/30 flex justify-center font-display p-3">
+    <div className="fixed w-full min-h-screen bg-black/30 flex justify-center font-display p-3 pt-0">
       <div className="w-[700px] p-10 bg-white rounded-lg mt-3 h-fit max-h-screen overflow-y-scroll no-scrollbar" ref={popoverRef}>
         <div className="sticky top-0 bg-white z-10 pb-3">
           <input

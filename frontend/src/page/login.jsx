@@ -38,14 +38,17 @@ if(Object.keys(result).includes("error")){
   await api.post("/login",userInput)
   .then((response)=>{
     
-    if(Object.keys(response.data).includes("User not found")){
+    if(Object.values(response.data).includes("User not found")){
+      console.log(response.data.message)
       return toast.error(response.data.message)
     }
     if(Object.values(response.data).includes("Incorrect password")){
       return toast.error(response.data.message)
     }
     if(Object.keys(response.data).includes("token")){
+      
       localStorage.setItem("authtoken",response.data.token)
+      localStorage.setItem("refreshtoken",response.data.refreshtoken)
       setLogged(true)
     }
     if(Object.values(response.data).includes("Internal server error")){

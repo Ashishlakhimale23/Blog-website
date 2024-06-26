@@ -55,7 +55,7 @@ function Signin() {
     .then((response)=>{
       console.log(response)
      if(Object.keys(response.data).includes("token")){
-     
+      localStorage.setItem("refreshtoken",response.data.refreshtoken) 
       localStorage.setItem("authtoken",response.data.token)
       
       setLogged(true) 

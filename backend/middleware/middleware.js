@@ -11,7 +11,8 @@ const Token = auth.split(' ')[1];
 try {
     jwt.verify(Token,process.env.SECRET_KEY ,(err,user)=>{
      if(err){
-        return res.sendStatus(401)
+  
+        return res.status(401).end()
      }
      
      req.user = user.id;

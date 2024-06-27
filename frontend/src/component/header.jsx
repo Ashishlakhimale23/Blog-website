@@ -16,6 +16,7 @@ const {username,pfplink,_id} =initialinfo
 const {searchcontent,setSearchcontent} = useContext(WholeBlogAndUser)
 const popover = useRef(null)
 const image = useRef(null)
+const [loading,setLoading] = useState(true)
 const imagesearch = useRef(null)
 const handleClickOutside=(event)=>{
     if(popover.current &&
@@ -47,7 +48,7 @@ const handleClickOutside=(event)=>{
 useEffect(()=>{
     async function fetchuserinfo(){
      await api.get("/getuserinfo").then((response)=>{
-      console.log(response)
+
       setInitialinfo({
         ...initialinfo,
         _id:response.data.userinfo._id,
@@ -63,6 +64,7 @@ useEffect(()=>{
         bookmarks:response.data.userinfo.bookmarks,
         joinedOn:getdate(response.data.userinfo.joinedOn)
       });
+      setLoading(false)
 
     })
 
@@ -99,6 +101,13 @@ async function fetchusersandblogs(){
       document.removeEventListener("mousedown", handleClickOutside);
     };
  },[open])
+ if(loading){
+  return (
+    <div className="min-h-screen w-full flex justify-center items-center">
+      <p className='text-4xl font-display font-bold'>Loading ... </p>
+    </div>
+  )
+ }
   return (
     <>
       <div className=" ">

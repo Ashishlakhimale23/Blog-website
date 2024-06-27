@@ -53,28 +53,28 @@ function Signin() {
 
       await api.post("/signin",userInput)
     .then((response)=>{
-      console.log(response)
+      
      if(Object.keys(response.data).includes("token")){
       localStorage.setItem("refreshtoken",response.data.refreshtoken) 
       localStorage.setItem("authtoken",response.data.token)
-      
       setLogged(true) 
      }
-     if(Object.values(response.data).includes("Already signed up")){
+     
+
+    }).catch((err)=>{
+if(Object.values(err.response.data).includes("Already signed up")){
       setEmail("")
       setUsername("")
       setPassword("")
       return toast.error("These Email already exists")
      }
-     if(Object.values(response.data).includes("Internal server error")){
+     if(Object.values(err.response.data).includes("Internal server error")){
 
       setEmail("")
       setUsername("")
       setPassword("")
       return toast.error("An Error occured")
      }
-
-    }).catch((err)=>{
       toast.error("An error occured")
     setEmail("")
       setUsername("")

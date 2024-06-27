@@ -25,6 +25,7 @@ function Login() {
     password:password
    }
   const result =  schema.validate(userInput,{abortEarly:false})
+
 if(Object.keys(result).includes("error")){
       return toast.error("Validation error")
     }
@@ -37,24 +38,28 @@ if(Object.keys(result).includes("error")){
 
   await api.post("/login",userInput)
   .then((response)=>{
-    
-    if(Object.values(response.data).includes("User not found")){
-      console.log(response.data.message)
-      return toast.error(response.data.message)
-    }
-    if(Object.values(response.data).includes("Incorrect password")){
-      return toast.error(response.data.message)
-    }
+   
     if(Object.keys(response.data).includes("token")){
       
       localStorage.setItem("authtoken",response.data.token)
       localStorage.setItem("refreshtoken",response.data.refreshtoken)
       setLogged(true)
     }
-    if(Object.values(response.data).includes("Internal server error")){
+    
+  }).catch((error)=>{
+   const respdata = error.response.data;
+   const respkeys = Object.keys(respdata) 
+     
+    if(respkeys.includes("User not found")){
+      return toast.error("user not found")
+    }
+    if(respkeys.includes("Incorrect password")){
+      return toast.error("Incorrrect password")
+    }
+    if(respkeys.includes("Internal server error")){
       return toast.error("An Error occured")
     }
-  }).catch(err=>console.log(err))
+  })
 
 
 

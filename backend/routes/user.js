@@ -6,7 +6,7 @@ export const router = express.Router()
 //users
 router.post("/signin",handlesignin)
 router.post("/login",handlelogin)
-router.post("/refresh",userverification,handlerevokthetoken)
+router.post("/refresh",handlerevokthetoken)
 //blogs
 router.post("/createblog",userverification,handlecreateblog)
 router.get("/getblogs",userverification,handlegetblogs)

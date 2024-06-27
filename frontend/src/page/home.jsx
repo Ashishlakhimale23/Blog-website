@@ -1,9 +1,8 @@
 import { useContext, useEffect,useState } from "react";
-import axios from "axios";
 import Card from "../component/card";
-import { getdate } from "../utils/date";
 import { UserContext } from "../context/context";
 import { api } from "../utils/axiosroute";
+import {Toaster,toast} from "react-hot-toast"
 
 
 function Home () {

@@ -29,7 +29,7 @@ export async function handlesignin(req, res) {
         );
        const refreshtoken = jwt.sign(
             { email, id: newUser._id },
-            process.env.SECRET_KEY,
+            process.env.REFERSH_SECRET_KEY,
             { expiresIn: '7d' } 
         );
 
@@ -48,12 +48,12 @@ export async function handlelogin(req, res) {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ 'User not found' :email });
         }
 
         const isPasswordValid = await bcrpty.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Incorrect password' });
+            return res.status(401).json({ 'Incorrect password':email  });
         }
 
         const token = jwt.sign(
@@ -64,7 +64,7 @@ export async function handlelogin(req, res) {
 
         const refreshtoken = jwt.sign(
             { email, id: user._id },
-            process.env.SECRET_KEY,
+            process.env.REFERSH_SECRET_KEY,
             { expiresIn: '7d' } 
         );
 
@@ -89,16 +89,20 @@ export const handleupdateuserinfo=async (req,res)=>{
 
 }
 
-export const handlerevokthetoken =async(res,req)=>{
+export const handlerevokthetoken =async(req,res)=>{
+    
     const {refreshtoken} = req.body;
+
     jwt.verify(refreshtoken,process.env.REFERSH_SECRET_KEY,(err,resp)=>{
         if(err){
-            return res.sendStatus(403)
+            return res.status(403).end()
         }
         const newauthtoken = jwt.sign({ email:resp.email, id:resp.id },
             process.env.SECRET_KEY,
             { expiresIn: '7h' })
-        return res.json({"token":newauthtoken})
+
+        const newrefreshtoken = jwt.sign({ email:resp.email, id:resp.id },process.env.REFERSH_SECRET_KEY,{expiresIn:"7d"})
+        return res.json({"token":newauthtoken,"refreshtoken":newrefreshtoken})
     })
 
 }

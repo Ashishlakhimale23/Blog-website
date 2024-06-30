@@ -75,6 +75,7 @@ Welcome to the Blogging Website, a comprehensive platform designed for users to 
     ```env
     DBURL=your_mongo_db_uri
     SECRET_KEY=your_jwt_secret
+    REFRESH_KEY=your_refresh_secret
     ```
     
     Create a `.env` file in the `frontend` directory and add the following:
